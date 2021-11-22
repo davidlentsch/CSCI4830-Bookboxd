@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.csci4830.datamodel.*;
+import com.csci4830.bookboxd.Utility;
 
 /**
  * Servlet implementation class UserProfile

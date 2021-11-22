@@ -9,10 +9,11 @@
 		<div align="center">
 			<h1><b>${user.username}'s profile</b></h1>
 				<p> <b> ${user.username}'s description</b> <br> ${user.about_desc} <br><br></p>
-			<h2> ${user.username}'s lists </h2>
+			<h3> ${user.username}'s lists </h3>
 				<p> test <br><br></p>
 			<h3> ${user.username}'s friends </h3>
-				<p> ${friends.toString()} </p>
+				<p> ${friends.toString()} <br><br></p>
+				<p><br><a href=Logout>Logout</a>
 		</div>
 	</body>
 </html>
