@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -74,16 +77,17 @@ public class Utility {
 
 	/**
 	 * Returns a User object of the user with the corresponding user_id. If the user
-	 * is not found, then a NullPointerException is thrown.
+	 * is not found, then a NoResultException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param user_id The ID of the user
-	 * @throws NullPointerException
+	 * @throws NoResultException when there is no result.
+	 * @throws NonUniqueResultException when there is more than one result
 	 * @return The User object that was found.
 	 */
-	public static User getUserByUserID(Integer user_id) throws NullPointerException {
+	public static User getUserByUserID(Integer user_id) throws NoResultException, NonUniqueResultException {
 		User result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -91,12 +95,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> users = session.createQuery("FROM User WHERE user_id = '" + user_id + "'").list();
-
-			if (users.size() > 0) {
-				result = (User) users.get(0);
-			}
-
+			result = (User) session.createQuery("FROM User WHERE user_id = " + user_id).getSingleResult();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -111,16 +110,17 @@ public class Utility {
 
 	/**
 	 * Returns a User object of the user with the corresponding username. If the
-	 * user is not found, then a NullPointerException is thrown.
+	 * user is not found, then a NoResultException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param username The username of the User
-	 * @throws NullPointerException
+     * @throws NoResultException when there is no result.
+	 * @throws NonUniqueResultException when there is more than one result
 	 * @return The User object that was found.
 	 */
-	public static User getUserByUsername(String username) throws NullPointerException {
+	public static User getUserByUsername(String username) throws NoResultException, NonUniqueResultException {
 		User result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -128,10 +128,8 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> users = session.createQuery("FROM User WHERE username = '" + username + "'").list();
-			if (users.size() > 0) {
-				result = (User) users.get(0);
-			}
+			result = (User) session.createQuery("FROM User WHERE username = '" + username + "'").getSingleResult();
+
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -176,16 +174,17 @@ public class Utility {
 
 	/**
 	 * Returns a Books object of the book with the corresponding id. If the book is
-	 * not found, then a NullPointerException is thrown.
+	 * not found, then a NoResultException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param id The ID of the book
-	 * @throws NullPointerException
+	 * @throws NoResultException when there is no result.
+	 * @throws NonUniqueResultException when there is more than one result
 	 * @return The Books object that was found.
 	 */
-	public static Books getBookByBookID(Integer id) throws NullPointerException {
+	public static Books getBookByBookID(Integer id) throws NoResultException, NonUniqueResultException {
 		Books result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -193,10 +192,8 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE book_id = '" + id + "'").list();
-			if (books.size() > 0) {
-				result = (Books) books.get(0);
-			}
+			result = (Books) session.createQuery("FROM Books WHERE book_id = '" + id + "'").getSingleResult();
+
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -211,16 +208,17 @@ public class Utility {
 
 	/**
 	 * Returns a Books object of the book with the corresponding name. If the book
-	 * is not found, then a NullPointerException is thrown.
+	 * is not found, then a NoResultException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param name The exact name of the book
-	 * @throws NullPointerException
+	 * @throws NoResultException when there is no result.
+	 * @throws NonUniqueResultException when there is more than one result
 	 * @return The Books object that was found.
 	 */
-	public static Books getBookByName(String name) throws NullPointerException {
+	public static Books getBookByName(String name) throws NoResultException, NonUniqueResultException {
 		Books result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -228,10 +226,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE book_name = '" + name + "'").list();
-			if (books.size() > 0) {
-				result = (Books) books.get(0);
-			}
+			result = (Books) session.createQuery("FROM Books WHERE book_name = '" + name + "'").getSingleResult();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -490,16 +485,17 @@ public class Utility {
 	
 	/**
 	 * Returns a Lists object of the list with the corresponding list_id. If the list
-	 * is not found, then a NullPointerException is thrown.
+	 * is not found, then a NoResultException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param list_id The ID of the list
-	 * @throws NullPointerException
+	 * @throws NoResultException when there is no result.
+	 * @throws NonUniqueResultException when there is more than one result
 	 * @return The Lists object that was found.
 	 */
-	public static Lists getListByID(Integer list_id) throws NullPointerException {
+	public static Lists getListByID(Integer list_id) throws NoResultException, NonUniqueResultException {
 		Lists result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -507,11 +503,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> lists = session.createQuery("FROM Lists WHERE list_id = '" + list_id + "'").list();
-
-			if (lists.size() > 0) {
-				result = (Lists) lists.get(0);
-			}
+			result = (Lists) session.createQuery("FROM Lists WHERE list_id = '" + list_id + "'").getSingleResult();
 
 			tx.commit();
 		} catch (HibernateException e) {
@@ -563,10 +555,11 @@ public class Utility {
 	 * returned.
 	 * 
 	 * @param review_id The ID of the review
-	 * @throws NullPointerException
+	 * @throws NoResultException when there is no result.
+	 * @throws NonUniqueResultException when there is more than one result
 	 * @return The Reviews object that was found.
 	 */
-	public static Reviews getReviewByReviewID(Integer review_id) throws NullPointerException {
+	public static Reviews getReviewByReviewID(Integer review_id) throws NullPointerException, NonUniqueResultException {
 		Reviews result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -574,11 +567,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> reviews = session.createQuery("FROM Reviews WHERE review_id = '" + review_id + "'").list();
-
-			if (reviews.size() > 0) {
-				result = (Reviews) reviews.get(0);
-			}
+			result = (Reviews) session.createQuery("FROM Reviews WHERE review_id = '" + review_id + "'").getSingleResult();
 
 			tx.commit();
 		} catch (HibernateException e) {
@@ -650,5 +639,37 @@ public class Utility {
 		}
 
 		return resultList;
+	}
+	
+	
+	/**
+	 * Checks the login username and password in the database.
+	 * 
+	 * @param username The username to check
+	 * @param password The password to check
+	 * @return A User object if the username and password matches
+	 * @throws NoResultException If they do not match
+	 * @throws NonUniqueResultException If more than one matches... this should never happen.
+	 */
+	public static User checkLogin(String username, String password) throws NoResultException, NonUniqueResultException {
+		User u = null;
+
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+
+		try {
+			tx = session.beginTransaction();
+			u = (User) session.createQuery("FROM User WHERE username = '" + username +
+					"' AND password = '" + password + "'").getSingleResult();
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return u;
 	}
 }

@@ -28,8 +28,6 @@ public class UtilityTest {
 		User u = Utility.getUserByUserID(1);
 		assertTrue(u.getUsername().equals("ichiban"));
 		assertTrue(u.getUser_id() == 1);
-		
-		u = Utility.getUserByUserID(0);
 	}
 
 	@Test
@@ -221,6 +219,12 @@ public class UtilityTest {
 			Reviews r = reviews.get(i);
 			assertTrue(r.getBook_id() == 10);
 		}
+	}
+	
+	@Test
+	public void testCheckLogin() {
+		User u = Utility.checkLogin("ichiban", "8cb2237d0679ca88db6464eac60da96345513964");
+		assertTrue(u.getUsername().equals("ichiban"));
 	}
 
 }
