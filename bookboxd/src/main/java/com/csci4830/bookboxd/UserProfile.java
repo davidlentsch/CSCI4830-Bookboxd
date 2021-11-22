@@ -46,7 +46,9 @@ public class UserProfile extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		
-		response.getWriter().append("Username: ").append(request.getContextPath());
+		
+		
+		response.getWriter().append("Username: ").append(request.getParameter("username"));
 		response.getWriter().append("Lists: ").append(request.getContextPath());
 		response.getWriter().append("Friends: ").append(request.getContextPath());
 	}
