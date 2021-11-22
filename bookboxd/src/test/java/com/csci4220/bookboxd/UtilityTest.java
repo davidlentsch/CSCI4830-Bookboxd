@@ -13,97 +13,214 @@ public class UtilityTest {
 
 	@Test
 	public void testGetUsers() {
-		fail("Not yet implemented");		
+		List<User> users = Utility.getUsers();
+		assertTrue(users.size() > 0);
+		
+		for (int i = 0; i < users.size(); i++)
+		{
+			assertTrue(!users.get(i).getUsername().isEmpty());
+			assertTrue(users.get(i).getUser_id() > 0);
+		}
 	}
 
 	@Test
 	public void testGetUserByUserID() {
-		fail("Not yet implemented");
+		User u = Utility.getUserByUserID(1);
+		assertTrue(u.getUsername().equals("ichiban"));
+		assertTrue(u.getUser_id() == 1);
+		
+		u = Utility.getUserByUserID(0);
 	}
 
 	@Test
 	public void testGetUserByUsername() {
-		fail("Not yet implemented");
+		User u = Utility.getUserByUsername("ichiban");
+		assertTrue(u.getUsername().equals("ichiban"));
+		assertTrue(u.getUser_id() == 1);
 	}
 
 	@Test
 	public void testGetBooks() {
-		fail("Not yet implemented");
+		List<Books> books = Utility.getBooks();
+		assertTrue(books.size() > 0);
+		
+		for (int i = 0; i < books.size(); i++)
+		{
+			Books b = books.get(i);
+			assertTrue(b.getBook_id() > 0);
+			assertTrue(!b.getBook_name().isEmpty());
+			assertTrue(!b.getAuthor().isEmpty());
+		}
 	}
 
 	@Test
 	public void testGetBookByBookID() {
-		fail("Not yet implemented");
+		Books b = Utility.getBookByBookID(1);
+		assertTrue(b.getBook_name().equals("To Kill a Mockingbird"));
+		assertTrue(b.getBook_id() == 1);
+		assertTrue(b.getAuthor().equals("Harper Lee"));
 	}
 
 	@Test
-	public void testGetBookByName() {
-		fail("Not yet implemented");
+	public void testGetBookByName() {		
+		Books b = Utility.getBookByName("To Kill a Mockingbird");
+		assertTrue(b.getBook_name().equals("To Kill a Mockingbird"));
+		assertTrue(b.getBook_id() == 1);
+		assertTrue(b.getAuthor().equals("Harper Lee"));
 	}
 
 	@Test
 	public void testGetBooksByAuthor() {
-		fail("Not yet implemented");
+		List<Books> books = Utility.getBooksByAuthor("Harper Lee");
+		assertTrue(books.size() > 0);
+		
+		for (int i = 0; i < books.size(); i++)
+		{
+			Books b = books.get(i);
+			assertTrue(b.getAuthor().equals("Harper Lee"));
+		}
 	}
 
-	@Test
-	public void testGetBooksByGenre() {
-		fail("Not yet implemented");
-	}
+//	Currently, all books have a null genre, so this test is disabled.
+//	@Test
+//	public void testGetBooksByGenre() {
+//		fail("Not yet implemented");
+//	}
 
 	@Test
 	public void testGetBooksByNameSearch() {
-		fail("Not yet implemented");
+		List<Books> books = Utility.getBooksByNameSearch("Mocking");
+		assertTrue(books.size() > 0);
+		
+		for (int i = 0; i < books.size(); i++)
+		{
+			Books b = books.get(i);
+			assertTrue(b.getBook_name().contains("Mocking"));
+		}
 	}
 
 	@Test
 	public void testGetBooksByAuthorSearch() {
-		fail("Not yet implemented");
+		List<Books> books = Utility.getBooksByNameSearch("J.");
+		assertTrue(books.size() > 0);
+		
+		for (int i = 0; i < books.size(); i++)
+		{
+			Books b = books.get(i);
+			assertTrue(b.getAuthor().contains("J."));
+		}
 	}
 
 	@Test
 	public void testGetBooksByAverageRating() {
-		fail("Not yet implemented");
+		List<Books> books = Utility.getBooksByAverageRating(4, 5);
+		assertTrue(books.size() > 4);
+		
+		for (int i = 0; i < books.size(); i++)
+		{
+			Books b = books.get(i);
+			assertTrue(b.getAverage_rating() >= 4 && b.getAverage_rating() <= 5);
+		}
 	}
 
 	@Test
 	public void testGetBooksByListID() {
-		fail("Not yet implemented");
+		List<Books> books = Utility.getBooksByListID(26);
+		assertTrue(books.size() > 0);
+		
+		for (int i = 0; i < books.size(); i++)
+		{
+			Books b = books.get(i);
+			assertTrue(b.getBook_id() > 0);
+			assertTrue(!b.getBook_name().isEmpty());
+			assertTrue(!b.getAuthor().isEmpty());
+		}
 	}
 
 	@Test
 	public void testGetLists() {
-		fail("Not yet implemented");
+		List<Lists> lists = Utility.getLists();
+		assertTrue(lists.size() > 0);
+		
+		for (int i = 0; i < lists.size(); i++)
+		{
+			Lists l = lists.get(i);
+			assertTrue(l.getList_id() > 0);
+			assertTrue(!l.getList_name().isEmpty());
+			assertTrue(l.getUser_id() != null);
+		}
 	}
 
 	@Test
 	public void testGetListsByUserID() {
-		fail("Not yet implemented");
+		List<Lists> lists = Utility.getListsByUserID(1);
+		assertTrue(lists.size() > 0);
+		
+		for (int i = 0; i < lists.size(); i++)
+		{
+			Lists l = lists.get(i);
+			assertTrue(l.getList_id() > 0);
+			assertTrue(!l.getList_name().isEmpty());
+			assertTrue(l.getUser_id() == 1);
+		}
 	}
 
 	@Test
 	public void testGetListByID() {
-		fail("Not yet implemented");
+		Lists l = Utility.getListByID(1);
+		
+		assertTrue(l.getList_id() == 1);
+		assertTrue(l.getList_name().equals("Favorites"));
+		assertTrue(l.getUser_id() == 1);
 	}
 
 	@Test
 	public void testGetReviews() {
-		fail("Not yet implemented");
+		List<Reviews> reviews = Utility.getReviews();
+		assertTrue(reviews.size() > 0);
+		
+		for (int i = 0; i < reviews.size(); i++)
+		{
+			Reviews r = reviews.get(i);
+			assertTrue(r.getBook_id() > 0);
+			assertTrue(r.getUser_id() > 0);
+			assertTrue(r.getRating() > 0);
+			assertTrue(r.getReview_id() > 0);
+		}
 	}
 
 	@Test
 	public void testGetReviewByReviewID() {
-		fail("Not yet implemented");
+		Reviews r = Utility.getReviewByReviewID(1);
+		
+		assertTrue(r.getBook_id() == 1);
+		assertTrue(r.getRating() == 5);
+		assertTrue(r.getUser_id() == 1);
+		assertTrue(r.getReview_id() == 1);
 	}
 
 	@Test
 	public void testGetReviewsByUserID() {
-		fail("Not yet implemented");
+		List<Reviews> reviews = Utility.getReviewsByUserID(1);
+		assertTrue(reviews.size() > 0);
+		
+		for (int i = 0; i < reviews.size(); i++)
+		{
+			Reviews r = reviews.get(i);
+			assertTrue(r.getUser_id() == 1);
+		}
 	}
 
 	@Test
 	public void testGetReviewsByBookID() {
-		fail("Not yet implemented");
+		List<Reviews> reviews = Utility.getReviewsByBookID(10);
+		assertTrue(reviews.size() > 0);
+		
+		for (int i = 0; i < reviews.size(); i++)
+		{
+			Reviews r = reviews.get(i);
+			assertTrue(r.getBook_id() == 10);
+		}
 	}
 
 }

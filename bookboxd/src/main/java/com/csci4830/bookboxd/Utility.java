@@ -55,7 +55,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> users = session.createQuery("FROM user").list();
+			List<?> users = session.createQuery("FROM User").list();
 			for (Iterator<?> iterator = users.iterator(); iterator.hasNext();) {
 				User user = (User) iterator.next();
 				resultList.add(user);
@@ -74,15 +74,16 @@ public class Utility {
 
 	/**
 	 * Returns a User object of the user with the corresponding user_id. If the user
-	 * is not found, then null is returned.
+	 * is not found, then a NullPointerException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param user_id The ID of the user
+	 * @throws NullPointerException
 	 * @return The User object that was found.
 	 */
-	public static User getUserByUserID(Integer user_id) {
+	public static User getUserByUserID(Integer user_id) throws NullPointerException {
 		User result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -90,7 +91,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> users = session.createQuery("SELECT * FROM user WHERE user_id = '" + user_id + "'").list();
+			List<?> users = session.createQuery("FROM User WHERE user_id = '" + user_id + "'").list();
 
 			if (users.size() > 0) {
 				result = (User) users.get(0);
@@ -110,15 +111,16 @@ public class Utility {
 
 	/**
 	 * Returns a User object of the user with the corresponding username. If the
-	 * user is not found, then null is returned.
+	 * user is not found, then a NullPointerException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param username The username of the User
+	 * @throws NullPointerException
 	 * @return The User object that was found.
 	 */
-	public static User getUserByUsername(String username) {
+	public static User getUserByUsername(String username) throws NullPointerException {
 		User result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -126,7 +128,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> users = session.createQuery("SELECT * FROM user WHERE username = '" + username + "'").list();
+			List<?> users = session.createQuery("FROM User WHERE username = '" + username + "'").list();
 			if (users.size() > 0) {
 				result = (User) users.get(0);
 			}
@@ -155,7 +157,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM books").list();
+			List<?> books = session.createQuery("FROM Books").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);
@@ -174,15 +176,16 @@ public class Utility {
 
 	/**
 	 * Returns a Books object of the book with the corresponding id. If the book is
-	 * not found, then null is returned.
+	 * not found, then a NullPointerException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param id The ID of the book
+	 * @throws NullPointerException
 	 * @return The Books object that was found.
 	 */
-	public static Books getBookByBookID(Integer id) {
+	public static Books getBookByBookID(Integer id) throws NullPointerException {
 		Books result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -190,7 +193,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT * FROM books WHERE book_id = '" + id + "'").list();
+			List<?> books = session.createQuery("FROM Books WHERE book_id = '" + id + "'").list();
 			if (books.size() > 0) {
 				result = (Books) books.get(0);
 			}
@@ -208,15 +211,16 @@ public class Utility {
 
 	/**
 	 * Returns a Books object of the book with the corresponding name. If the book
-	 * is not found, then null is returned.
+	 * is not found, then a NullPointerException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param name The exact name of the book
+	 * @throws NullPointerException
 	 * @return The Books object that was found.
 	 */
-	public static Books getBookByName(String name) {
+	public static Books getBookByName(String name) throws NullPointerException {
 		Books result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -224,7 +228,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT * FROM books WHERE book_name = '" + name + "'").list();
+			List<?> books = session.createQuery("FROM Books WHERE book_name = '" + name + "'").list();
 			if (books.size() > 0) {
 				result = (Books) books.get(0);
 			}
@@ -239,8 +243,7 @@ public class Utility {
 
 		return result;
 	}
-	
-	
+		
 	/**
 	 * Returns a List of Books with the corresponding author.
 	 * @param name The exact name of the author.
@@ -254,7 +257,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT * FROM books WHERE author = '" + name + "'").list();
+			List<?> books = session.createQuery("FROM Books WHERE author = '" + name + "'").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);
@@ -284,7 +287,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT * FROM books WHERE genre = '" + genre + "'").list();
+			List<?> books = session.createQuery("FROM Books WHERE genre = '" + genre + "'").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);
@@ -300,8 +303,7 @@ public class Utility {
 
 		return resultList;
 	}
-	
-	
+		
 	/**
 	 * Returns a List of Books that match the title search query. Uses the LIKE
 	 * SQL operator.
@@ -316,7 +318,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT * FROM books WHERE book_name IS LIKE '%" + search + "%'").list();
+			List<?> books = session.createQuery("FROM Books WHERE book_name IS LIKE '%" + search + "%'").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);
@@ -347,7 +349,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT * FROM books WHERE author IS LIKE '%" + search + "%'").list();
+			List<?> books = session.createQuery("FROM Books WHERE author IS LIKE '%" + search + "%'").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);
@@ -363,8 +365,7 @@ public class Utility {
 
 		return resultList;
 	}
-	
-	
+		
 	/**
 	 * Performs a search for books between the min and max ratings. Returns the
 	 * results in a List.
@@ -380,7 +381,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT * FROM books WHERE average_rating IS BETWEEN " + min + "AND " + max).list();
+			List<?> books = session.createQuery("FROM Books WHERE average_rating IS BETWEEN " + min + "AND " + max).list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);
@@ -396,8 +397,7 @@ public class Utility {
 
 		return resultList;
 	}
-	
-	
+		
 	/**
 	 * Retrieves a list of books referenced by a list ID.
 	 * @param id The ID of the list.
@@ -411,7 +411,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT b.book_id,b.book_name,b.author,b.genre,b.description,b.average_rating FROM list_books l LEFT JOIN books b ON l.book_id = b.book_id WHERE l.list_id = '" + id + "'").list();
+			List<?> books = session.createQuery("SELECT b.book_id,b.book_name,b.author,b.genre,b.description,b.average_rating FROM List_Books l LEFT JOIN Books b ON l.book_id = b.book_id WHERE l.list_id = '" + id + "'").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);
@@ -427,8 +427,7 @@ public class Utility {
 
 		return resultList;
 	}
-	
-	
+		
 	/**
 	 * Returns a list of all lists in the database.
 	 * 
@@ -442,7 +441,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> lists = session.createQuery("FROM lists").list();
+			List<?> lists = session.createQuery("FROM Lists").list();
 			for (Iterator<?> iterator = lists.iterator(); iterator.hasNext();) {
 				Lists list = (Lists) iterator.next();
 				resultList.add(list);
@@ -458,8 +457,7 @@ public class Utility {
 
 		return resultList;
 	}
-	
-	
+		
 	/**
 	 * Retrieves a list of lists referenced by a user ID.
 	 * @param id The ID of the list.
@@ -473,7 +471,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> lists = session.createQuery("SELECT * from lists WHERE user_id = '" + id + "'").list();
+			List<?> lists = session.createQuery("from Lists WHERE user_id = '" + id + "'").list();
 			for (Iterator<?> iterator = lists.iterator(); iterator.hasNext();) {
 				Lists list = (Lists) iterator.next();
 				resultList.add(list);
@@ -492,15 +490,16 @@ public class Utility {
 	
 	/**
 	 * Returns a Lists object of the list with the corresponding list_id. If the list
-	 * is not found, then null is returned.
+	 * is not found, then a NullPointerException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param list_id The ID of the list
+	 * @throws NullPointerException
 	 * @return The Lists object that was found.
 	 */
-	public static Lists getListByID(Integer list_id) {
+	public static Lists getListByID(Integer list_id) throws NullPointerException {
 		Lists result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -508,7 +507,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> lists = session.createQuery("SELECT * FROM lists WHERE list_id = '" + list_id + "'").list();
+			List<?> lists = session.createQuery("FROM Lists WHERE list_id = '" + list_id + "'").list();
 
 			if (lists.size() > 0) {
 				result = (Lists) lists.get(0);
@@ -539,7 +538,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> reviews = session.createQuery("FROM reviews").list();
+			List<?> reviews = session.createQuery("FROM Reviews").list();
 			for (Iterator<?> iterator = reviews.iterator(); iterator.hasNext();) {
 				Reviews review = (Reviews) iterator.next();
 				resultList.add(review);
@@ -555,19 +554,19 @@ public class Utility {
 
 		return resultList;
 	}
-	
-	
+		
 	/**
 	 * Returns a Reviews object of the review with the corresponding review_id. If the review
-	 * is not found, then null is returned.
+	 * is not found, then a NullPointerException is thrown.
 	 * 
 	 * If for whatever reason that more than one is found, then the first result is
 	 * returned.
 	 * 
 	 * @param review_id The ID of the review
+	 * @throws NullPointerException
 	 * @return The Reviews object that was found.
 	 */
-	public static Reviews getReviewByReviewID(Integer review_id) {
+	public static Reviews getReviewByReviewID(Integer review_id) throws NullPointerException {
 		Reviews result = null;
 
 		Session session = getSessionFactory().openSession();
@@ -575,7 +574,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> reviews = session.createQuery("SELECT * FROM reviews WHERE review_id = '" + review_id + "'").list();
+			List<?> reviews = session.createQuery("FROM Reviews WHERE review_id = '" + review_id + "'").list();
 
 			if (reviews.size() > 0) {
 				result = (Reviews) reviews.get(0);
@@ -592,8 +591,7 @@ public class Utility {
 
 		return result;
 	}
-	
-	
+		
 	/**
 	 * Returns a List of Reviews with the corresponding user ID.
 	 * @param user_id The user ID.
@@ -607,7 +605,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT * FROM reviews WHERE user_id = '" + userID + "'").list();
+			List<?> books = session.createQuery("FROM Reviews WHERE user_id = '" + userID + "'").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Reviews review = (Reviews) iterator.next();
 				resultList.add(review);
@@ -637,7 +635,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT * FROM reviews WHERE book_id = '" + bookID + "'").list();
+			List<?> books = session.createQuery("FROM Reviews WHERE book_id = '" + bookID + "'").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Reviews review = (Reviews) iterator.next();
 				resultList.add(review);

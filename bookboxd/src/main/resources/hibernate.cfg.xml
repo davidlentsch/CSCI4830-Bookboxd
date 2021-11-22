@@ -11,6 +11,11 @@
 		<property name="hibernate.connection.password">jPK7MBcVKEhGGuXn</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="show_sql">false</property>
-		<mapping class="datamodel.MyEmployeeLarson" />
+		<mapping class="com.csci4830.datamodel.Books" />
+		<mapping class="com.csci4830.datamodel.Friends" />
+		<mapping class="com.csci4830.datamodel.List_Books" />
+		<mapping class="com.csci4830.datamodel.Lists" />
+		<mapping class="com.csci4830.datamodel.Reviews" />
+		<mapping class="com.csci4830.datamodel.User" />
 	</session-factory>
 </hibernate-configuration>

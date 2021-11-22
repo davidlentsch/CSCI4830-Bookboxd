@@ -1,5 +1,7 @@
 package com.csci4830.datamodel;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,7 +18,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "list_books")
-public class List_Books {
+public class List_Books implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "list_id")
 	private Integer list_id;
@@ -50,4 +54,34 @@ public class List_Books {
 		return "List_Books [list_id=" + list_id + ", book_id=" + book_id + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((book_id == null) ? 0 : book_id.hashCode());
+		result = prime * result + ((list_id == null) ? 0 : list_id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		List_Books other = (List_Books) obj;
+		if (book_id == null) {
+			if (other.book_id != null)
+				return false;
+		} else if (!book_id.equals(other.book_id))
+			return false;
+		if (list_id == null) {
+			if (other.list_id != null)
+				return false;
+		} else if (!list_id.equals(other.list_id))
+			return false;
+		return true;
+	}
 }
