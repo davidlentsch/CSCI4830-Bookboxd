@@ -641,7 +641,6 @@ public class Utility {
 		return resultList;
 	}
 	
-	
 	/**
 	 * Checks the login username and password in the database.
 	 * 
