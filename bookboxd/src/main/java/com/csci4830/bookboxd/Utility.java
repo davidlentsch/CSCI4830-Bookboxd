@@ -671,4 +671,43 @@ public class Utility {
 
 		return u;
 	}
+	
+	public static User createUser(String username, String password) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		User output = null;
+		try {
+			tx = session.beginTransaction();
+			output = new User(username, password);
+			session.save(output);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		}
+		
+		return output;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

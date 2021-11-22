@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.junit.Test;
 
 import com.csci4830.bookboxd.Utility;
@@ -226,5 +228,22 @@ public class UtilityTest {
 		User u = Utility.checkLogin("ichiban", "8cb2237d0679ca88db6464eac60da96345513964");
 		assertTrue(u.getUsername().equals("ichiban"));
 	}
-
+	
+	@Test
+	public void testCreateUser() {
+		User u = Utility.createUser("TestBob", "Bob, but backwards");
+		assertTrue(u.getUsername().equals("TestBob"));
+		assertTrue(u.getPassword().equals("Bob, but backwards"));
+	}
+	
+	@Test
+	public void testCreatedUserFromDatabase() {
+		User u = Utility.createUser("TestBob1", "Bob with two bs");
+		try {
+		User o = Utility.getUserByUserID(u.getUser_id());
+		assertTrue(u.getPassword().equals(o.getPassword()));
+		} catch (NoResultException e) {
+			assertTrue(false);
+		}
+	}
 }
