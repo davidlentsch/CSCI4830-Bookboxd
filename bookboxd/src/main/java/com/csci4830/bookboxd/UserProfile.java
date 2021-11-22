@@ -31,7 +31,7 @@ public class UserProfile extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		if (request.getSession().getAttribute("user") != null) {
-			response.sendRedirect("dashboard.jsp");
+			response.sendRedirect("UserProfile.jsp");
         } else {
 			response.sendRedirect("login.jsp");
         }
@@ -46,11 +46,13 @@ public class UserProfile extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		
+		//String username = request.getParameter("username");
 		
 		
-		response.getWriter().append("Username: ").append(request.getParameter("username"));
-		response.getWriter().append("Lists: ").append(request.getContextPath());
-		response.getWriter().append("Friends: ").append(request.getContextPath());
+		
+		//response.getWriter().append("Username: ").append(request.getParameter("username"));
+		//response.getWriter().append("Lists: ").append(request.getContextPath());
+		//response.getWriter().append("Friends: ").append(request.getContextPath());
 	}
 
 }
