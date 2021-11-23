@@ -2,6 +2,8 @@ package com.csci4830.datamodel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -23,6 +25,7 @@ public class Lists {
 	private Integer user_id;
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="list_id")
 	private Integer list_id;
 	

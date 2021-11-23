@@ -245,5 +245,11 @@ public class UtilityTest {
 		} catch (NoResultException e) {
 			assertTrue(false);
 		}
+		
+		// Test if the default lists were created
+		List<Lists> l = Utility.getListsByUserID(u.getUser_id());
+		for (Lists list : l) {
+			assertTrue(list.getUser_id() == u.getUser_id());
+		}
 	}
 }

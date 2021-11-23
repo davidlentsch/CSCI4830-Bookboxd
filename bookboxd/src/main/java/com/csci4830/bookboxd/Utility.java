@@ -672,6 +672,13 @@ public class Utility {
 		return u;
 	}
 	
+	/**
+	 * Adds a new user to the system. This does not add the default lists for 
+	 * the newly created user.
+	 * @param username The username
+	 * @param password The password
+	 * @return The user object of the newly created User.
+	 */
 	public static User createUser(String username, String password) {
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
@@ -688,26 +695,43 @@ public class Utility {
 			e.printStackTrace();
 		}
 		
+		if (output != null) {
+			createDefaultUserLists(output);
+		}
+		
 		return output;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Creates the default lists for a newly created user.
+	 * @param user A newly created User object
+	 * @return A List of the Lists that were created.
+	 */
+	private static List<Lists> createDefaultUserLists(User user) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		List<Lists> listsCreated = new ArrayList<Lists>();
+		
+		User output = null;
+		try {
+			tx = session.beginTransaction();
+			String[] listNames = {"Favorites","To Read","Finished","Reviewed"};
+			for (String string : listNames) {
+				Lists l = new Lists();
+				l.setList_name(string);
+				l.setUser_id(user.getUser_id());
+				session.save(l);
+				listsCreated.add(l);
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		}
+		
+		return listsCreated;
+	}
+
 }
