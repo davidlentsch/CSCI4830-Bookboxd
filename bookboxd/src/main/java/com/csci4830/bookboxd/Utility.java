@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -659,7 +660,7 @@ public class Utility {
 		try {
 			tx = session.beginTransaction();
 			u = (User) session.createQuery("FROM User WHERE username = '" + username +
-					"' AND password = '" + password + "'").getSingleResult();
+					"' AND password = '" + encryptSHA1(password) + "'").getSingleResult();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -733,5 +734,11 @@ public class Utility {
 		
 		return listsCreated;
 	}
+	
+	public static String encryptSHA1(String input)
+    {
+		DigestUtils du = new DigestUtils();
+		return du.digestAsHex(input);
+    }
 
 }
