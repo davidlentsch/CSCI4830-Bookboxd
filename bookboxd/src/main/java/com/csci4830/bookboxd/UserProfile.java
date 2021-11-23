@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.csci4830.datamodel.*;
+import com.csci4830.bookboxd.Utility;
 
 /**
  * Servlet implementation class UserProfile
@@ -31,7 +32,7 @@ public class UserProfile extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		if (request.getSession().getAttribute("user") != null) {
-			response.sendRedirect("dashboard.jsp");
+			response.sendRedirect("UserProfile.jsp");
         } else {
 			response.sendRedirect("login.jsp");
         }
@@ -46,9 +47,13 @@ public class UserProfile extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		
-		response.getWriter().append("Username: ").append(request.getContextPath());
-		response.getWriter().append("Lists: ").append(request.getContextPath());
-		response.getWriter().append("Friends: ").append(request.getContextPath());
+		//String username = request.getParameter("username");
+		
+		
+		
+		//response.getWriter().append("Username: ").append(request.getParameter("username"));
+		//response.getWriter().append("Lists: ").append(request.getContextPath());
+		//response.getWriter().append("Friends: ").append(request.getContextPath());
 	}
 
 }
