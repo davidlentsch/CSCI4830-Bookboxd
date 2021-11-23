@@ -2,7 +2,11 @@ package com.csci4830.datamodel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,10 +23,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "lists")
 public class Lists {
-	@Column(name="user_id")
-	private Integer user_id;
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="list_id")
 	private Integer list_id;
 	
@@ -33,12 +39,17 @@ public class Lists {
 		
 	}
 
-	public Integer getUser_id() {
-		return user_id;
+	public Lists(User user, String listName) {
+		this.user = user;
+		this.list_name = listName;
+	}
+	
+	public User getUser() {
+		return user;
 	}
 
-	public void setUser_id(Integer user_id) {
-		this.user_id = user_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Integer getList_id() {
@@ -59,7 +70,7 @@ public class Lists {
 
 	@Override
 	public String toString() {
-		return "Lists [user_id=" + user_id + ", list_id=" + list_id + ", list_name=" + list_name + "]";
+		return "Lists [user_id=" + user.getUser_id() + ", list_id=" + list_id + ", list_name=" + list_name + "]";
 	}
 	
 	

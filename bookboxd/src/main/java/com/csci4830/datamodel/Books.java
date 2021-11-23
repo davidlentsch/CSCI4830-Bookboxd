@@ -41,9 +41,18 @@ public class Books {
 	@Column(name = "average_rating")
 	private Double average_rating;
 
+	public static final Double DEFAULT_AVERAGE = 0.0;
 	public Books() {
 	}
 
+	public Books(String name, String author, String genre, String description) {
+		this.book_name = name;
+		this.author = author;
+		this.genre = genre;
+		this.description = description;
+		this.average_rating = DEFAULT_AVERAGE;
+	}
+	
 	public Integer getBook_id() {
 		return book_id;
 	}

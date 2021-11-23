@@ -641,6 +641,29 @@ public class Utility {
 		return resultList;
 	}
 	
+	public static boolean isFriends(Integer id1, Integer id2) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		boolean output = false;
+		
+		try {
+			tx = session.beginTransaction();
+			output = session.createQuery(
+					"FROM Friends WHERE (user_id_1 = '" + id1 + "' AND user_id_2 = '" +id2 + 
+					"') OR (user_id_1 = '" + id2 + "' AND user_id_2 = '" + id1 + "')" ).list().size() > 0;
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return output;
+	}
+	
 	/**
 	 * Checks the login username and password in the database.
 	 * 
@@ -691,23 +714,118 @@ public class Utility {
 		return output;
 	}
 	
+	public static User deleteUser(User user) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.delete(user);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		}
+		
+		return user;
+	}
+	/**
+	 * Deletes all users with the input username.
+	 * @param user Username to delete
+	 * @return User that was deleted
+	 */
+	public static User deleteUser(String user) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		User output = null;
+		try {
+			tx = session.beginTransaction();
+			List<?> users = session.createQuery("FROM User WHERE username = '" + user + "'").list();
+			for (Iterator<?> iterator = users.iterator(); iterator.hasNext();) {
+				session.delete((User)iterator.next());
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		}
+		
+		return output;
+	}
 	
+	public static Books createBook(String name, String author, String genre, String description) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		Books output = null;
+		try {
+			tx = session.beginTransaction();
+			output = new Books(name, author, genre, description);
+			session.save(output);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		}
+		
+		return output;
+	}
 	
+	public static Books deleteBook(Books book) {
+
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.delete(book);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		}
+		
+		return book;
+	}
 	
+	public static Lists createLists(User user, String name) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		Lists output = null;
+		try {
+			tx = session.beginTransaction();
+			output = new Lists(user, name);
+			session.save(output);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		}
+		
+		return output;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public static Lists deleteLists(Lists list) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.delete(list);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 }

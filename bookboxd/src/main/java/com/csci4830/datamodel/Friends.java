@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -20,32 +22,43 @@ import javax.persistence.Table;
 @Table(name = "friends")
 public class Friends implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@Column(name = "user_id_1")
-	private String user_id_1;
-
+	private Integer user_id_1;
+	
 	@Id
 	@Column(name = "user_id_2")
-	private String user_id_2;
+	private Integer user_id_2;
 
 	public Friends() {
 
 	}
-
-	public String getUser_id_1() {
+	public Friends(User user1, User user2) {
+		user_id_1 = user1.getUser_id();
+		user_id_2 = user2.getUser_id();
+	}
+	public Friends(Integer userID1, Integer userID2) {
+		user_id_1 = userID1;
+		user_id_2 = userID2;
+	}
+	
+	public void setFriend_id() {
+		
+	}
+	public Integer getUser_id_1() {
 		return user_id_1;
 	}
 
-	public void setUser_id_1(String user_id_1) {
+	public void setUser_id_1(Integer user_id_1) {
 		this.user_id_1 = user_id_1;
 	}
 
-	public String getUser_id_2() {
+	public Integer getUser_id_2() {
 		return user_id_2;
 	}
 
-	public void setUser_id_2(String user_id_2) {
+	public void setUser_id_2(Integer user_id_2) {
 		this.user_id_2 = user_id_2;
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 
 import com.csci4830.bookboxd.Utility;
@@ -137,7 +138,8 @@ public class UtilityTest {
 		}
 	}
 
-	@Test
+	//TODO do
+	/*@Test
 	public void testGetLists() {
 		List<Lists> lists = Utility.getLists();
 		assertTrue(lists.size() > 0);
@@ -172,7 +174,7 @@ public class UtilityTest {
 		assertTrue(l.getList_id() == 1);
 		assertTrue(l.getList_name().equals("Favorites"));
 		assertTrue(l.getUser_id() == 1);
-	}
+	}*/
 
 	@Test
 	public void testGetReviews() {
@@ -234,16 +236,49 @@ public class UtilityTest {
 		User u = Utility.createUser("TestBob", "Bob, but backwards");
 		assertTrue(u.getUsername().equals("TestBob"));
 		assertTrue(u.getPassword().equals("Bob, but backwards"));
+		Utility.deleteUser("TestBob");
 	}
 	
 	@Test
 	public void testCreatedUserFromDatabase() {
-		User u = Utility.createUser("TestBob1", "Bob with two bs");
+		User u = null;
 		try {
+		u = Utility.createUser("TestBob2", "Bob with two bs");
 		User o = Utility.getUserByUserID(u.getUser_id());
 		assertTrue(u.getPassword().equals(o.getPassword()));
-		} catch (NoResultException e) {
+		} catch (Exception e) {
 			assertTrue(false);
+			Utility.deleteUser("TestBob2");
+		}
+		Utility.deleteUser(u);
+	}
+	
+	@Test
+	public void testCreateBooks() {
+		Books testBook = null;
+		try {
+			testBook = Utility.createBook("Test-ing cannons", "Tester Bob", "Testing, Sci-fi", "Youm");
+			Books b = Utility.getBookByBookID(testBook.getBook_id());
+			assertTrue(testBook.getGenre().equals(b.getGenre()));
+		} finally {
+			Utility.deleteBook(testBook);
+		}
+	}
+	
+	@Test
+	public void testCreateList() {
+		User u = null;
+		Lists l = null;
+		try {
+			u = Utility.createUser("TestBob4", "Dio");
+			l = Utility.createLists(u, "ListName");
+			assertTrue(l.getUser().equals(u));
+			Lists test = Utility.getListByID(l.getList_id());
+			assertTrue(l.getList_name().equals(test.getList_name()));
+		}
+		finally {
+			Utility.deleteUser(u);
+			Utility.deleteLists(l);
 		}
 	}
 }
