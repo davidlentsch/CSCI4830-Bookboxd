@@ -740,4 +740,41 @@ public class Utility {
 		return DigestUtils.sha1Hex(input);
     }
 
+
+public static Books createBook(String name, String author, String genre, String description) {
+    Session session = getSessionFactory().openSession();
+    Transaction tx = null;
+    Books output = null;
+    try {
+        tx = session.beginTransaction();
+        output = new Books(name, author, genre, description);
+        session.save(output);
+        tx.commit();
+    } catch (HibernateException e) {
+        if (tx != null) {
+            tx.rollback();
+        }
+        e.printStackTrace();
+    }
+    
+    return output;
+}
+
+public static Books deleteBook(Books book) {
+
+    Session session = getSessionFactory().openSession();
+    Transaction tx = null;
+    try {
+        tx = session.beginTransaction();
+        session.delete(book);
+        tx.commit();
+    } catch (HibernateException e) {
+        if (tx != null) {
+            tx.rollback();
+        }
+        e.printStackTrace();
+    }
+    
+    return book;
+}
 }
