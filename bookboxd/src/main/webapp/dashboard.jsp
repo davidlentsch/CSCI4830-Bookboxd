@@ -6,6 +6,9 @@
 <title>Dashboard | Bookboxd</title>
 </head>
 <body>
+	<div align="right">
+		<p><a href=UserProfile.jsp>Profile</a>
+	</div>
     <div align="center">
         <h1>Welcome to Bookboxd</h1><br>
         <h3>Nice to see you again ${user.username}!</h3>

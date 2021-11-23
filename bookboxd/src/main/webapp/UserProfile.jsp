@@ -6,6 +6,9 @@
 		<title>User Profile | Bookboxd</title>
 	</head>
 	<body>
+		<div align="left">
+			<p><a href=dashboard.jsp>Dashboard</a>
+		</div>
 		<div align="center">
 			<h1><b>${user.username}'s profile</b></h1>
 				<p> <b> ${user.username}'s description</b> <br> ${user.about_desc} <br><br></p>
