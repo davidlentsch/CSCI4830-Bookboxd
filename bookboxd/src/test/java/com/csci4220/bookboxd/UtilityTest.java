@@ -225,7 +225,7 @@ public class UtilityTest {
 	
 	@Test
 	public void testCheckLogin() {
-		User u = Utility.checkLogin("ichiban", "8cb2237d0679ca88db6464eac60da96345513964");
+		User u = Utility.checkLogin("ichiban", "12345");
 		assertTrue(u.getUsername().equals("ichiban"));
 	}
 	
@@ -252,4 +252,5 @@ public class UtilityTest {
 			assertTrue(list.getUser_id() == u.getUser_id());
 		}
 	}
+		
 }

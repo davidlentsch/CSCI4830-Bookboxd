@@ -104,9 +104,8 @@ public class User {
 	}
 	
 	
-	public static String encryptSHA1(String input)
+	private static String encryptSHA1(String input)
     {
-		DigestUtils du = new DigestUtils();
-		return du.digestAsHex(input);
+		return DigestUtils.sha1Hex(input);
     }
 }
