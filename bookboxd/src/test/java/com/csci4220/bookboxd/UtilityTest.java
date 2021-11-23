@@ -238,7 +238,7 @@ public class UtilityTest {
 	
 	@Test
 	public void testCreatedUserFromDatabase() {
-		User u = Utility.createUser("TestBob1", "Bob with two bs");
+		User u = Utility.createUser("TestMaya1", "12345");
 		try {
 		User o = Utility.getUserByUserID(u.getUser_id());
 		assertTrue(u.getPassword().equals(o.getPassword()));
