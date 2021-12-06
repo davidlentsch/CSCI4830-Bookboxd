@@ -1,5 +1,8 @@
 package com.csci4830.datamodel;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.codec.digest.*;
 /**
  * @since J2SE-1.8 CREATE TABLE user ( 
  * 			user_id INT NOT NULL AUTO_INCREMENT,
@@ -38,10 +42,21 @@ public class User {
 	@Column(name="privacy_setting")
 	private Integer privacy_setting;
 	
+	public static final String DEFAULT_DESC = "";
+	public static final Integer DEFAULT_PRIVACY = 0;
+	
 	public User() {
 		
 	}
-
+	
+	public User(String username, String password) {
+		super();
+		this.username = username;
+		setPassword(password);
+		this.about_desc = DEFAULT_DESC;
+		this.privacy_setting = DEFAULT_PRIVACY;
+	}
+	
 	public Integer getUser_id() {
 		return user_id;
 	}
@@ -63,7 +78,7 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = encryptSHA1(password);
 	}
 
 	public String getAbout_desc() {
@@ -87,4 +102,10 @@ public class User {
 		return "User [user_id=" + user_id + ", username=" + username + ", password=" + password + ", about_desc="
 				+ about_desc + ", privacy_setting=" + privacy_setting + "]";
 	}
+	
+	
+	private static String encryptSHA1(String input)
+    {
+		return DigestUtils.sha1Hex(input);
+    }
 }
