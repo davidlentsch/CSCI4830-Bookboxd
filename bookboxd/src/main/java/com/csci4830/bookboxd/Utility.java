@@ -142,6 +142,16 @@ public class Utility {
 
 		return result;
 	}
+	
+	/**
+	 * TODO: Returns a list of a user's friends.
+	 * 
+	 * @param user_id The ID of the user
+	 * @return A list of user IDs
+	 */
+	public static List<Integer> getFriendsByUserID(Integer user_id) {
+		return null;
+	}
 
 	/**
 	 * Returns a list of all books from the database.
@@ -519,6 +529,15 @@ public class Utility {
 	}
 	
 	/**
+	 * TODO: get all lists from a user that are marked as public
+	 * @param user_id
+	 * @return
+	 */
+	public static List<Lists> getPublicListsByUserID(Integer user_id) {
+		return null;
+	}
+	
+	/**
 	 * Returns a list of all lists in the database.
 	 * 
 	 * @return A List containing all Lists.
@@ -735,46 +754,79 @@ public class Utility {
 		return listsCreated;
 	}
 	
+	/**
+	 * TODO: create custom list
+	 * @param user_id The user creating the list
+	 * @param name List name
+	 * @param privacy_setting The user set privacy setting
+	 * @return The new list
+	 */
+	public static Lists createCustomList(Integer user_id, String name, Integer privacy_setting) {
+		return null;
+	}
+	
+	/**
+	 * TODO: create Review
+	 * @param user_id
+	 * @param book_id
+	 * @param rating
+	 * @param comments
+	 * @param privacy_setting
+	 * @return the created review
+	 */
+	public static Reviews createReview(Integer user_id, Integer book_id, Double rating, String comments, Integer privacy_setting) {
+		return null;
+	}
+	
+	/**
+	 * TODO: delete Review
+	 * @param review The review to be deleted
+	 */
+	public static void deleteReview(Reviews review) {
+		
+	}
+	
+	
 	public static String encryptSHA1(String input)
     {
 		return DigestUtils.sha1Hex(input);
     }
 
 
-public static Books createBook(String name, String author, String genre, String description) {
-    Session session = getSessionFactory().openSession();
-    Transaction tx = null;
-    Books output = null;
-    try {
-        tx = session.beginTransaction();
-        output = new Books(name, author, genre, description);
-        session.save(output);
-        tx.commit();
-    } catch (HibernateException e) {
-        if (tx != null) {
-            tx.rollback();
-        }
-        e.printStackTrace();
-    }
-    
-    return output;
-}
+	public static Books createBook(String name, String author, String genre, String description) {
+	    Session session = getSessionFactory().openSession();
+	    Transaction tx = null;
+	    Books output = null;
+	    try {
+	        tx = session.beginTransaction();
+	        output = new Books(name, author, genre, description);
+	        session.save(output);
+	        tx.commit();
+	    } catch (HibernateException e) {
+	        if (tx != null) {
+	            tx.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    
+	    return output;
+	}
 
-public static Books deleteBook(Books book) {
-
-    Session session = getSessionFactory().openSession();
-    Transaction tx = null;
-    try {
-        tx = session.beginTransaction();
-        session.delete(book);
-        tx.commit();
-    } catch (HibernateException e) {
-        if (tx != null) {
-            tx.rollback();
-        }
-        e.printStackTrace();
-    }
+	public static Books deleteBook(Books book) {
+	
+	    Session session = getSessionFactory().openSession();
+	    Transaction tx = null;
+	    try {
+	        tx = session.beginTransaction();
+	        session.delete(book);
+	        tx.commit();
+	    } catch (HibernateException e) {
+	        if (tx != null) {
+	            tx.rollback();
+	        }
+	        e.printStackTrace();
+	    }
     
-    return book;
-}
+	    return book;
+	}
 }
