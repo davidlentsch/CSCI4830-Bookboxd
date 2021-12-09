@@ -324,7 +324,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE book_name IS LIKE '%" + search + "%'").list();
+			List<?> books = session.createQuery("FROM Books WHERE book_name LIKE '%" + search + "%'").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);
@@ -355,7 +355,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE author IS LIKE '%" + search + "%'").list();
+			List<?> books = session.createQuery("FROM Books WHERE author LIKE '%" + search + "%'").list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);
@@ -387,7 +387,7 @@ public class Utility {
 
 		try {
 			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE average_rating IS BETWEEN " + min + "AND " + max).list();
+			List<?> books = session.createQuery("FROM Books WHERE average_rating BETWEEN " + min + " AND " + max).list();
 			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
 				Books book = (Books) iterator.next();
 				resultList.add(book);

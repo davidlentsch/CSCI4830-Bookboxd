@@ -114,7 +114,7 @@ public class UtilityTest {
 	@Test
 	public void testGetBooksByAverageRating() {
 		List<Books> books = Utility.getBooksByAverageRating(4, 5);
-		assertTrue(books.size() > 4);
+		assertTrue(books.size() >= 4);
 		
 		for (int i = 0; i < books.size(); i++)
 		{
