@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.LockTimeoutException;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.PersistenceException;
+import javax.persistence.PessimisticLockException;
+import javax.persistence.QueryTimeoutException;
+import javax.persistence.TransactionRequiredException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.HibernateException;
@@ -45,102 +50,145 @@ public class Utility {
 
 		return metadata.getSessionFactoryBuilder().build();
 	}
+	
+	/**
+	 * A generic method for running SQL queries that return lists.
+	 * @param <T> The generic type
+	 * @param sqlQuery The Hibernate compatible query you would like to use
+	 * @param clazz The class you want your data casted to.
+	 * @return A generic list with the objects requested inside.
+	 */
+	public static <T> List<T> getDataList(String sqlQuery, Class<T> clazz) {
+		List<T> resultList = new ArrayList<T>();
+		
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			List<?> objects = session.createQuery(sqlQuery).list();
+			for (Iterator<?> iterator = objects.iterator(); iterator.hasNext();) {
+				T object = clazz.cast(iterator.next());
+				resultList.add(object);
+			}
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		}
+		catch (ClassCastException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		}
+		
+		return resultList;
+	}
+	
+	/**
+	 * A generic method for running SQL queries that return single objects.
+	 * @param <T> The generic type
+	 * @param sqlQuery The Hibernate compatible query you would like to run.
+	 * @param clazz The class you want the data casted to.
+	 * @return The object that is requested. If an error occurs, null is returned.
+	 */
+	public static <T> T getDataObject(String sqlQuery, Class<T> clazz) {
+		T result = null;
 
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+
+		try {
+			tx = session.beginTransaction();
+			result = clazz.cast(session.createQuery(sqlQuery).getSingleResult());
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} catch (NoResultException e) {
+			if (tx != null)
+				tx.rollback();
+			System.err.printf("ERR: no result found for query: %s\n", sqlQuery);
+			e.printStackTrace();
+		} catch (NonUniqueResultException e) {
+			if (tx != null)
+				tx.rollback();
+			System.err.printf("ERR: more than one result found for query: %s\n", sqlQuery);
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			if (tx != null)
+				tx.rollback();
+			System.err.printf("ERR: more than one result found for query: %s\n", sqlQuery);
+			e.printStackTrace();
+		} catch (QueryTimeoutException e) {
+			if (tx != null)
+				tx.rollback();
+			System.err.printf("ERR: the query timed out for query. Only the query was rolled back. query: %s\n", sqlQuery);
+			e.printStackTrace();
+		} catch (TransactionRequiredException e) {
+			if (tx != null)
+				tx.rollback();
+			System.err.printf("ERR: This should never happen... query: %s\n", sqlQuery);
+			e.printStackTrace();
+		} catch (PessimisticLockException e) {
+			if (tx != null)
+				tx.rollback();
+			System.err.printf("ERR: Pessimistic locking failed... transaction rolled back. query: %s\n", sqlQuery);
+			e.printStackTrace();
+		} catch (LockTimeoutException e) {
+			if (tx != null)
+				tx.rollback();
+			System.err.printf("ERR: Pessimistic locking failed... query rolled back. query: %s\n", sqlQuery);
+			e.printStackTrace();
+		} catch (PersistenceException e) {
+			if (tx != null)
+				tx.rollback();
+			System.err.printf("ERR: the query timed out for query. The transaction was rolled back. query: %s\n", sqlQuery);
+			e.printStackTrace();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			System.err.printf("ERR: some other exception happened... see stack trace.");
+			e.printStackTrace();
+		}
+		finally {
+			session.close();
+		}
+
+		return result;
+	}
+	
 	/**
 	 * Returns a list of all users in the database.
 	 * 
 	 * @return A List containing all Users.
 	 */
 	public static List<User> getUsers() {
-		List<User> resultList = new ArrayList<User>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> users = session.createQuery("FROM User").list();
-			for (Iterator<?> iterator = users.iterator(); iterator.hasNext();) {
-				User user = (User) iterator.next();
-				resultList.add(user);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<User>) getDataList("FROM User", User.class);
 	}
-
+	
+	
 	/**
-	 * Returns a User object of the user with the corresponding user_id. If the user
-	 * is not found, then a NoResultException is thrown.
-	 * 
-	 * If for whatever reason that more than one is found, then the first result is
-	 * returned.
+	 * Returns a User object of the user with the corresponding user_id. If an 
+	 * error occurs while retrieving the object, null is returned.
 	 * 
 	 * @param user_id The ID of the user
-	 * @throws NoResultException when there is no result.
-	 * @throws NonUniqueResultException when there is more than one result
-	 * @return The User object that was found.
+	 * @return The User object that was found. null if there is an error.
 	 */
-	public static User getUserByUserID(Integer user_id) throws NoResultException, NonUniqueResultException {
-		User result = null;
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			result = (User) session.createQuery("FROM User WHERE user_id = " + user_id).getSingleResult();
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return result;
+	public static User getUserByUserID(Integer user_id) {
+		return (User) getDataObject("FROM User WHERE user_id = " + user_id, User.class);
 	}
 
 	/**
-	 * Returns a User object of the user with the corresponding username. If the
-	 * user is not found, then a NoResultException is thrown.
-	 * 
-	 * If for whatever reason that more than one is found, then the first result is
-	 * returned.
+	 * Returns a User object of the user with the corresponding username. If an 
+	 * error occurs while retrieving the object, null is returned.
 	 * 
 	 * @param username The username of the User
-     * @throws NoResultException when there is no result.
-	 * @throws NonUniqueResultException when there is more than one result
-	 * @return The User object that was found.
+	 * @return The User object that was found. null if there is an error.
 	 */
-	public static User getUserByUsername(String username) throws NoResultException, NonUniqueResultException {
-		User result = null;
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			result = (User) session.createQuery("FROM User WHERE username = '" + username + "'").getSingleResult();
-
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return result;
+	public static User getUserByUsername(String username) {
+		return (User) getDataObject("FROM User WHERE username = '" + username + "'", User.class);
 	}
 
 	/**
@@ -149,95 +197,29 @@ public class Utility {
 	 * @return A List of all Books.
 	 */
 	public static List<Books> getBooks() {
-		List<Books> resultList = new ArrayList<Books>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books").list();
-			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
-				Books book = (Books) iterator.next();
-				resultList.add(book);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Books>) getDataList("FROM Books", Books.class);
 	}
 
 	/**
-	 * Returns a Books object of the book with the corresponding id. If the book is
-	 * not found, then a NoResultException is thrown.
-	 * 
-	 * If for whatever reason that more than one is found, then the first result is
-	 * returned.
+	 * Returns a Books object of the book with the corresponding id. If an 
+	 * error occurs while retrieving the object, null is returned.
 	 * 
 	 * @param id The ID of the book
-	 * @throws NoResultException when there is no result.
-	 * @throws NonUniqueResultException when there is more than one result
-	 * @return The Books object that was found.
+	 * @return The Books object that was found. null if there is an error.
 	 */
-	public static Books getBookByBookID(Integer id) throws NoResultException, NonUniqueResultException {
-		Books result = null;
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			result = (Books) session.createQuery("FROM Books WHERE book_id = '" + id + "'").getSingleResult();
-
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return result;
+	public static Books getBookByBookID(Integer id) {
+		return (Books) getDataObject("FROM Books WHERE book_id = '" + id + "'", Books.class);
 	}
 
 	/**
-	 * Returns a Books object of the book with the corresponding name. If the book
-	 * is not found, then a NoResultException is thrown.
-	 * 
-	 * If for whatever reason that more than one is found, then the first result is
-	 * returned.
+	 * Returns a Books object of the book with the corresponding name. If an 
+	 * error occurs while retrieving the object, null is returned.
 	 * 
 	 * @param name The exact name of the book
-	 * @throws NoResultException when there is no result.
-	 * @throws NonUniqueResultException when there is more than one result
-	 * @return The Books object that was found.
+	 * @return The Books object that was found. null if there is an error.
 	 */
-	public static Books getBookByName(String name) throws NoResultException, NonUniqueResultException {
-		Books result = null;
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			result = (Books) session.createQuery("FROM Books WHERE book_name = '" + name + "'").getSingleResult();
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return result;
+	public static Books getBookByName(String name) {
+		return (Books) getDataObject("FROM Books WHERE book_name = '" + name + "'", Books.class);
 	}
 		
 	/**
@@ -246,28 +228,7 @@ public class Utility {
 	 * @return The List of books that were found.
 	 */
 	public static List<Books> getBooksByAuthor(String name) {
-		List<Books> resultList = new ArrayList<Books>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE author = '" + name + "'").list();
-			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
-				Books book = (Books) iterator.next();
-				resultList.add(book);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Books>) getDataList("FROM Books WHERE author = '" + name + "'", Books.class);
 	}
 
 	/**
@@ -276,28 +237,7 @@ public class Utility {
 	 * @return The List of books that were found.
 	 */
 	public static List<Books> getBooksByGenre(String genre) {
-		List<Books> resultList = new ArrayList<Books>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE genre = '" + genre + "'").list();
-			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
-				Books book = (Books) iterator.next();
-				resultList.add(book);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Books>) getDataList("FROM Books WHERE genre = '" + genre + "'", Books.class);
 	}
 		
 	/**
@@ -307,28 +247,7 @@ public class Utility {
 	 * @return The List of books that were found.
 	 */
 	public static List<Books> getBooksByNameSearch(String search) {
-		List<Books> resultList = new ArrayList<Books>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE book_name IS LIKE '%" + search + "%'").list();
-			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
-				Books book = (Books) iterator.next();
-				resultList.add(book);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Books>) getDataList("FROM Books WHERE book_name IS LIKE '%" + search + "%'", Books.class);
 	}
 	
 	/**
@@ -338,28 +257,7 @@ public class Utility {
 	 * @return The List of books that were found.
 	 */
 	public static List<Books> getBooksByAuthorSearch(String search) {
-		List<Books> resultList = new ArrayList<Books>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE author IS LIKE '%" + search + "%'").list();
-			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
-				Books book = (Books) iterator.next();
-				resultList.add(book);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Books>) getDataList("FROM Books WHERE author IS LIKE '%" + search + "%'", Books.class);
 	}
 		
 	/**
@@ -370,28 +268,7 @@ public class Utility {
 	 * @return The results found.
 	 */
 	public static List<Books> getBooksByAverageRating(Integer min, Integer max) {
-		List<Books> resultList = new ArrayList<Books>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Books WHERE average_rating IS BETWEEN " + min + "AND " + max).list();
-			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
-				Books book = (Books) iterator.next();
-				resultList.add(book);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Books>) getDataList("FROM Books WHERE average_rating IS BETWEEN " + min + " AND " + max, Books.class);
 	}
 		
 	/**
@@ -400,29 +277,7 @@ public class Utility {
 	 * @return The results found.
 	 */
 	public static List<Books> getBooksByListID(Integer id) {
-		List<Books> resultList = new ArrayList<Books>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> books = session.createQuery("SELECT b.book_id,b.book_name,b.author,b.genre,b.description,b.average_rating FROM List_Books l LEFT JOIN Books b ON l.book_id = b.book_id WHERE l.list_id = '" + id + "'").list();
-			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
-				Books book = (Books) iterator.next();
-				resultList.add(book);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
-	}
+		return (List<Books>) getDataList("SELECT b.book_id,b.book_name,b.author,b.genre,b.description,b.average_rating FROM List_Books l LEFT JOIN Books b ON l.book_id = b.book_id WHERE l.list_id = '" + id + "'", Books.class);	}
 		
 	/**
 	 * Returns a list of all lists in the database.
@@ -430,28 +285,7 @@ public class Utility {
 	 * @return A List containing all Lists.
 	 */
 	public static List<Lists> getLists() {
-		List<Lists> resultList = new ArrayList<Lists>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> lists = session.createQuery("FROM Lists").list();
-			for (Iterator<?> iterator = lists.iterator(); iterator.hasNext();) {
-				Lists list = (Lists) iterator.next();
-				resultList.add(list);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Lists>) getDataList("FROM Lists", Lists.class);
 	}
 		
 	/**
@@ -460,62 +294,18 @@ public class Utility {
 	 * @return The results found.
 	 */
 	public static List<Lists> getListsByUserID(Integer id) {
-		List<Lists> resultList = new ArrayList<Lists>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> lists = session.createQuery("from Lists WHERE user_id = '" + id + "'").list();
-			for (Iterator<?> iterator = lists.iterator(); iterator.hasNext();) {
-				Lists list = (Lists) iterator.next();
-				resultList.add(list);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Lists>) getDataList("from Lists WHERE user_id = '" + id + "'", Lists.class);
 	}
 	
 	/**
-	 * Returns a Lists object of the list with the corresponding list_id. If the list
-	 * is not found, then a NoResultException is thrown.
-	 * 
-	 * If for whatever reason that more than one is found, then the first result is
-	 * returned.
+	 * Returns a Lists object of the list with the corresponding list_id. If an 
+	 * error occurs while retrieving the object, null is returned.
 	 * 
 	 * @param list_id The ID of the list
-	 * @throws NoResultException when there is no result.
-	 * @throws NonUniqueResultException when there is more than one result
-	 * @return The Lists object that was found.
+	 * @return The Lists object that was found. null if there is an error
 	 */
-	public static Lists getListByID(Integer list_id) throws NoResultException, NonUniqueResultException {
-		Lists result = null;
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			result = (Lists) session.createQuery("FROM Lists WHERE list_id = '" + list_id + "'").getSingleResult();
-
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return result;
+	public static Lists getListByID(Integer list_id) {
+		return (Lists) getDataObject("FROM Lists WHERE list_id = '" + list_id + "'", Lists.class);
 	}
 	
 	/**
@@ -524,62 +314,18 @@ public class Utility {
 	 * @return A List containing all Lists.
 	 */
 	public static List<Reviews> getReviews() {
-		List<Reviews> resultList = new ArrayList<Reviews>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> reviews = session.createQuery("FROM Reviews").list();
-			for (Iterator<?> iterator = reviews.iterator(); iterator.hasNext();) {
-				Reviews review = (Reviews) iterator.next();
-				resultList.add(review);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Reviews>) getDataList("FROM Reviews", Reviews.class);
 	}
 		
 	/**
-	 * Returns a Reviews object of the review with the corresponding review_id. If the review
-	 * is not found, then a NullPointerException is thrown.
-	 * 
-	 * If for whatever reason that more than one is found, then the first result is
-	 * returned.
+	 * Returns a Reviews object of the review with the corresponding review_id. If an 
+	 * error occurs while retrieving the object, null is returned.
 	 * 
 	 * @param review_id The ID of the review
-	 * @throws NoResultException when there is no result.
-	 * @throws NonUniqueResultException when there is more than one result
-	 * @return The Reviews object that was found.
+	 * @return The Reviews object that was found. null if there is an error
 	 */
-	public static Reviews getReviewByReviewID(Integer review_id) throws NullPointerException, NonUniqueResultException {
-		Reviews result = null;
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			result = (Reviews) session.createQuery("FROM Reviews WHERE review_id = '" + review_id + "'").getSingleResult();
-
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return result;
+	public static Reviews getReviewByReviewID(Integer review_id) {
+		return (Reviews) getDataObject("FROM Reviews WHERE review_id = '" + review_id + "'", Reviews.class);
 	}
 		
 	/**
@@ -588,28 +334,7 @@ public class Utility {
 	 * @return The List of Reviews that were found.
 	 */
 	public static List<Reviews> getReviewsByUserID(Integer userID) {
-		List<Reviews> resultList = new ArrayList<Reviews>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Reviews WHERE user_id = '" + userID + "'").list();
-			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
-				Reviews review = (Reviews) iterator.next();
-				resultList.add(review);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Reviews>) getDataList("FROM Reviews WHERE user_id = '" + userID + "'", Reviews.class);
 	}
 	
 	/**
@@ -618,28 +343,7 @@ public class Utility {
 	 * @return The List of Reviews that were found.
 	 */
 	public static List<Reviews> getReviewsByBookID(Integer bookID) {
-		List<Reviews> resultList = new ArrayList<Reviews>();
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			List<?> books = session.createQuery("FROM Reviews WHERE book_id = '" + bookID + "'").list();
-			for (Iterator<?> iterator = books.iterator(); iterator.hasNext();) {
-				Reviews review = (Reviews) iterator.next();
-				resultList.add(review);
-			}
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return resultList;
+		return (List<Reviews>) getDataList("FROM Reviews WHERE book_id = '" + bookID + "'", Reviews.class);
 	}
 	
 	/**
@@ -651,26 +355,29 @@ public class Utility {
 	 * @throws NoResultException If they do not match
 	 * @throws NonUniqueResultException If more than one matches... this should never happen.
 	 */
-	public static User checkLogin(String username, String password) throws NoResultException, NonUniqueResultException {
-		User u = null;
-
-		Session session = getSessionFactory().openSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			u = (User) session.createQuery("FROM User WHERE username = '" + username +
-					"' AND password = '" + encryptSHA1(password) + "'").getSingleResult();
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return u;
+//	public static User checkLogin(String username, String password) throws NoResultException, NonUniqueResultException {
+//		User u = null;
+//
+//		Session session = getSessionFactory().openSession();
+//		Transaction tx = null;
+//
+//		try {
+//			tx = session.beginTransaction();
+//			u = (User) session.createQuery("FROM User WHERE username = '" + username +
+//					"' AND password = '" + encryptSHA1(password) + "'").getSingleResult();
+//			tx.commit();
+//		} catch (HibernateException e) {
+//			if (tx != null)
+//				tx.rollback();
+//			e.printStackTrace();
+//		} finally {
+//			session.close();
+//		}
+//
+//		return u;
+//	}
+	public static User checkLogin(String username, String password) {
+		return (User) getDataObject("FROM User WHERE username = '" + username + "' AND password = '" + encryptSHA1(password) + "'", User.class);
 	}
 	
 	/**
@@ -741,40 +448,40 @@ public class Utility {
     }
 
 
-public static Books createBook(String name, String author, String genre, String description) {
-    Session session = getSessionFactory().openSession();
-    Transaction tx = null;
-    Books output = null;
-    try {
-        tx = session.beginTransaction();
-        output = new Books(name, author, genre, description);
-        session.save(output);
-        tx.commit();
-    } catch (HibernateException e) {
-        if (tx != null) {
-            tx.rollback();
-        }
-        e.printStackTrace();
-    }
-    
-    return output;
-}
-
-public static Books deleteBook(Books book) {
-
-    Session session = getSessionFactory().openSession();
-    Transaction tx = null;
-    try {
-        tx = session.beginTransaction();
-        session.delete(book);
-        tx.commit();
-    } catch (HibernateException e) {
-        if (tx != null) {
-            tx.rollback();
-        }
-        e.printStackTrace();
-    }
-    
-    return book;
-}
+	public static Books createBook(String name, String author, String genre, String description) {
+	    Session session = getSessionFactory().openSession();
+	    Transaction tx = null;
+	    Books output = null;
+	    try {
+	        tx = session.beginTransaction();
+	        output = new Books(name, author, genre, description);
+	        session.save(output);
+	        tx.commit();
+	    } catch (HibernateException e) {
+	        if (tx != null) {
+	            tx.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    
+	    return output;
+	}
+	
+	public static Books deleteBook(Books book) {
+	
+	    Session session = getSessionFactory().openSession();
+	    Transaction tx = null;
+	    try {
+	        tx = session.beginTransaction();
+	        session.delete(book);
+	        tx.commit();
+	    } catch (HibernateException e) {
+	        if (tx != null) {
+	            tx.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    
+	    return book;
+	}
 }
