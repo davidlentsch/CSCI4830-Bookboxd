@@ -32,6 +32,9 @@ public class Lists {
 	@Column(name="list_name")
 	private String list_name;
 	
+	@Column(name="privacy_setting")
+	private Integer privacy_setting;
+	
 	public Lists() {
 		
 	}
@@ -60,10 +63,17 @@ public class Lists {
 		this.list_name = list_name;
 	}
 
+	public Integer getPrivacy_setting() {
+		return privacy_setting;
+	}
+
+	public void setPrivacy_setting(Integer privacy_setting) {
+		this.privacy_setting = privacy_setting;
+	}
+
 	@Override
 	public String toString() {
-		return "Lists [user_id=" + user_id + ", list_id=" + list_id + ", list_name=" + list_name + "]";
+		return "Lists [user_id=" + user_id + ", list_id=" + list_id + ", list_name=" + list_name + ", privacy_setting="
+				+ privacy_setting + "]";
 	}
-	
-	
 }

@@ -190,6 +190,16 @@ public class Utility {
 	public static User getUserByUsername(String username) {
 		return (User) getDataObject("FROM User WHERE username = '" + username + "'", User.class);
 	}
+	
+	/**
+	 * TODO: Returns a list of a user's friends.
+	 * 
+	 * @param user_id The ID of the user
+	 * @return A list of user IDs
+	 */
+	public static List<Integer> getFriendsByUserID(Integer user_id) {
+		return null;
+	}
 
 	/**
 	 * Returns a list of all books from the database.
@@ -247,7 +257,7 @@ public class Utility {
 	 * @return The List of books that were found.
 	 */
 	public static List<Books> getBooksByNameSearch(String search) {
-		return (List<Books>) getDataList("FROM Books WHERE book_name IS LIKE '%" + search + "%'", Books.class);
+		return (List<Books>) getDataList("FROM Books WHERE book_name LIKE '%" + search + "%'", Books.class);
 	}
 	
 	/**
@@ -257,7 +267,7 @@ public class Utility {
 	 * @return The List of books that were found.
 	 */
 	public static List<Books> getBooksByAuthorSearch(String search) {
-		return (List<Books>) getDataList("FROM Books WHERE author IS LIKE '%" + search + "%'", Books.class);
+		return (List<Books>) getDataList("FROM Books WHERE author LIKE '%" + search + "%'", Books.class);
 	}
 		
 	/**
@@ -268,7 +278,7 @@ public class Utility {
 	 * @return The results found.
 	 */
 	public static List<Books> getBooksByAverageRating(Integer min, Integer max) {
-		return (List<Books>) getDataList("FROM Books WHERE average_rating IS BETWEEN " + min + " AND " + max, Books.class);
+		return (List<Books>) getDataList("FROM Books WHERE average_rating BETWEEN " + min + " AND " + max, Books.class);
 	}
 		
 	/**
@@ -306,6 +316,15 @@ public class Utility {
 	 */
 	public static Lists getListByID(Integer list_id) {
 		return (Lists) getDataObject("FROM Lists WHERE list_id = '" + list_id + "'", Lists.class);
+	}
+	
+	/**
+	 * TODO: get all lists from a user that are marked as public
+	 * @param user_id
+	 * @return
+	 */
+	public static List<Lists> getPublicListsByUserID(Integer user_id) {
+		return null;
 	}
 	
 	/**
@@ -352,30 +371,7 @@ public class Utility {
 	 * @param username The username to check
 	 * @param password The password to check
 	 * @return A User object if the username and password matches
-	 * @throws NoResultException If they do not match
-	 * @throws NonUniqueResultException If more than one matches... this should never happen.
 	 */
-//	public static User checkLogin(String username, String password) throws NoResultException, NonUniqueResultException {
-//		User u = null;
-//
-//		Session session = getSessionFactory().openSession();
-//		Transaction tx = null;
-//
-//		try {
-//			tx = session.beginTransaction();
-//			u = (User) session.createQuery("FROM User WHERE username = '" + username +
-//					"' AND password = '" + encryptSHA1(password) + "'").getSingleResult();
-//			tx.commit();
-//		} catch (HibernateException e) {
-//			if (tx != null)
-//				tx.rollback();
-//			e.printStackTrace();
-//		} finally {
-//			session.close();
-//		}
-//
-//		return u;
-//	}
 	public static User checkLogin(String username, String password) {
 		return (User) getDataObject("FROM User WHERE username = '" + username + "' AND password = '" + encryptSHA1(password) + "'", User.class);
 	}
@@ -442,6 +438,39 @@ public class Utility {
 		return listsCreated;
 	}
 	
+	/**
+	 * TODO: create custom list
+	 * @param user_id The user creating the list
+	 * @param name List name
+	 * @param privacy_setting The user set privacy setting
+	 * @return The new list
+	 */
+	public static Lists createCustomList(Integer user_id, String name, Integer privacy_setting) {
+		return null;
+	}
+	
+	/**
+	 * TODO: create Review
+	 * @param user_id
+	 * @param book_id
+	 * @param rating
+	 * @param comments
+	 * @param privacy_setting
+	 * @return the created review
+	 */
+	public static Reviews createReview(Integer user_id, Integer book_id, Double rating, String comments, Integer privacy_setting) {
+		return null;
+	}
+	
+	/**
+	 * TODO: delete Review
+	 * @param review The review to be deleted
+	 */
+	public static void deleteReview(Reviews review) {
+		
+	}
+	
+	
 	public static String encryptSHA1(String input)
     {
 		return DigestUtils.sha1Hex(input);
@@ -466,7 +495,7 @@ public class Utility {
 	    
 	    return output;
 	}
-	
+
 	public static Books deleteBook(Books book) {
 	
 	    Session session = getSessionFactory().openSession();
@@ -481,7 +510,7 @@ public class Utility {
 	        }
 	        e.printStackTrace();
 	    }
-	    
+
 	    return book;
 	}
 }
