@@ -161,6 +161,55 @@ public class Utility {
 	}
 	
 	/**
+	 * A generic method for deleting objects from the database.
+	 * @param <T> Generic type
+	 * @param object The object you would like deleted.
+	 * @return The object that was deleted if successful, otherwise null.
+	 */
+	public static <T> T deleteDataObject(T object) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.delete(object);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+			return null;
+		}
+		
+		return object;
+	}
+	
+	/**
+	 * A generic method for saving objects from the database.
+	 * @param <T> Generic type
+	 * @param object The object you would like to be saved to the DB.
+	 * @return The object that was deleted if successful, otherwise null.
+	 */
+	public static <T> T saveDataObject(T object) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.save(object);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+			return null;
+		}
+		
+		return object;
+	}
+	
+	
+	/**
 	 * Returns a list of all users in the database.
 	 * 
 	 * @return A List containing all Users.
@@ -198,9 +247,10 @@ public class Utility {
 	 * @param user_id The ID of the user
 	 * @return A list of user IDs
 	 */
-	public static List<Integer> getFriendsByUserID(Integer user_id) {
+	public static List<Friends> getFriendsByUserID(Integer user_id) {
 		//ensure that this only get friends if they're confirmed (confirmed column = 1)
-		return null;
+		return (List<Friends>) getDataList("FROM Friends WHERE confirmed = 1 AND (user_id_1 = " + user_id 
+				+ " OR user_id_2 = " + user_id + ")", Friends.class);
 	}
 
 	/**

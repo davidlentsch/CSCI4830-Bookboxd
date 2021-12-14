@@ -101,7 +101,7 @@ public class UtilityTest {
 
 	@Test
 	public void testGetBooksByAuthorSearch() {
-		List<Books> books = Utility.getBooksByNameSearch("J.");
+		List<Books> books = Utility.getBooksByAuthorSearch("J.");
 		assertTrue(books.size() > 0);
 		
 		for (int i = 0; i < books.size(); i++)
@@ -250,6 +250,16 @@ public class UtilityTest {
 		List<Lists> l = Utility.getListsByUserID(u.getUser_id());
 		for (Lists list : l) {
 			assertTrue(list.getUser_id() == u.getUser_id());
+		}
+	}
+	
+	@Test
+	public void testGetFriendsByUserID() {
+		List<Friends> l = Utility.getFriendsByUserID(1);
+		assertTrue(l.size() > 0);
+		
+		for (Friends f : l) {
+			assertTrue(f.getUser_id_1() == 1 || f.getUser_id_2() == 1);
 		}
 	}
 		
