@@ -19,6 +19,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import com.csci4830.datamodel.User;
 import com.csci4830.datamodel.Books;
+import com.csci4830.datamodel.Friends;
 import com.csci4830.datamodel.Lists;
 import com.csci4830.datamodel.Reviews;
 
@@ -150,6 +151,7 @@ public class Utility {
 	 * @return A list of user IDs
 	 */
 	public static List<Integer> getFriendsByUserID(Integer user_id) {
+		//ensure that this only get friends if they're confirmed (confirmed column = 1)
 		return null;
 	}
 
@@ -775,6 +777,7 @@ public class Utility {
 	 * @return the created review
 	 */
 	public static Reviews createReview(Integer user_id, Integer book_id, Double rating, String comments, Integer privacy_setting) {
+		//note that the rating of a book has to be updated for each review created
 		return null;
 	}
 	
@@ -783,7 +786,7 @@ public class Utility {
 	 * @param review The review to be deleted
 	 */
 	public static void deleteReview(Reviews review) {
-		
+		//note that the rating of a book has to be updated for each review deleted
 	}
 	
 	
@@ -828,5 +831,10 @@ public class Utility {
 	    }
     
 	    return book;
+	}
+	
+	//TODO
+	public static Friends deleteFriend(Friends friend) {
+		return friend;
 	}
 }

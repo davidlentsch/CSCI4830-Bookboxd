@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 /**
@@ -17,47 +18,69 @@ import javax.persistence.Table;
  */
 
 @Entity
+@IdClass(FriendsPK.class)
 @Table(name = "friends")
 public class Friends implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "user_id_1")
-	private String user_id_1;
+	private Integer user_id_1;
 
 	@Id
 	@Column(name = "user_id_2")
-	private String user_id_2;
+	private Integer user_id_2;
+	
+	@Column(name = "confirmed")
+	private Integer confirmed;
+	
+	//confirmed is 0 as default to indicate pending request
+	public static final Integer DEFAULT_CONFIRMED = 0;
 
 	public Friends() {
 
 	}
+	
+	public Friends(Integer user_id_1, Integer user_id_2) {
+		this.user_id_1 = user_id_1;
+		this.user_id_2 = user_id_2;
+		this.confirmed = DEFAULT_CONFIRMED;
+	}
 
-	public String getUser_id_1() {
+	public Integer getUser_id_1() {
 		return user_id_1;
 	}
 
-	public void setUser_id_1(String user_id_1) {
+	public void setUser_id_1(Integer user_id_1) {
 		this.user_id_1 = user_id_1;
 	}
 
-	public String getUser_id_2() {
+	public Integer getUser_id_2() {
 		return user_id_2;
 	}
 
-	public void setUser_id_2(String user_id_2) {
+	public void setUser_id_2(Integer user_id_2) {
 		this.user_id_2 = user_id_2;
+	}
+
+	public Integer getConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(Integer confirmed) {
+		this.confirmed = confirmed;
 	}
 
 	@Override
 	public String toString() {
-		return "Friends [user_id_1=" + user_id_1 + ", user_id_2=" + user_id_2 + "]";
+		return "Friends [user_id_1=" + user_id_1 + ", user_id_2=" + user_id_2 + ", confirmed=" + confirmed + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((confirmed == null) ? 0 : confirmed.hashCode());
 		result = prime * result + ((user_id_1 == null) ? 0 : user_id_1.hashCode());
 		result = prime * result + ((user_id_2 == null) ? 0 : user_id_2.hashCode());
 		return result;
@@ -72,6 +95,11 @@ public class Friends implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Friends other = (Friends) obj;
+		if (confirmed == null) {
+			if (other.confirmed != null)
+				return false;
+		} else if (!confirmed.equals(other.confirmed))
+			return false;
 		if (user_id_1 == null) {
 			if (other.user_id_1 != null)
 				return false;
