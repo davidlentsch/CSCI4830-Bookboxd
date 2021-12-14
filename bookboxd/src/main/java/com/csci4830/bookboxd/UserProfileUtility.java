@@ -1,6 +1,10 @@
 package com.csci4830.bookboxd;
 
+import javax.persistence.NoResultException;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -38,7 +42,27 @@ public class UserProfileUtility {
 	 * @return success code
 	 */
 	public static Integer updateAboutMe(Integer user_id, String comments) {
-		return null;
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try
+		{
+			if (comments.length() <= 255)
+			{
+				tx = session.beginTransaction();
+				session.createQuery("UPDATE user SET about_desc = " + comments + "WHERE user_id = " + user_id);
+				tx.commit();
+			}
+		}
+		catch (NoResultException e)
+		{
+			return 0;
+		}
+		finally
+		{
+			session.close();
+		}
+		return 1;
+		
 	}
 	
 	/**
@@ -48,7 +72,23 @@ public class UserProfileUtility {
 	 * @return success code
 	 */
 	public static Integer changeProfilePrivacy(Integer user_id, Integer new_privacy_setting) {
-		return null;
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try
+		{
+			tx = session.beginTransaction();
+			session.createQuery("UPDATE user SET privacy_setting = " + new_privacy_setting + "WHERE user_id = " + user_id);
+			tx.commit();
+		}
+		catch (NoResultException e)
+		{
+			return 0;
+		}
+		finally
+		{
+			session.close();
+		}
+		return 1;
 	}
 	
 	/**
@@ -59,7 +99,23 @@ public class UserProfileUtility {
 	 * @return
 	 */
 	public static Integer changeListPrivacy(Integer user_id, Integer list_id, Integer new_privacy_setting) {
-		return null;
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try
+		{
+			tx = session.beginTransaction();
+			session.createQuery("UPDATE lists SET privacy_setting = " + new_privacy_setting + "WHERE user_id = " + user_id);
+			tx.commit();
+		}
+		catch (NoResultException e)
+		{
+			return 0;
+		}
+		finally
+		{
+			session.close();
+		}
+		return 1;
 	}
 	
 	/**
@@ -69,7 +125,24 @@ public class UserProfileUtility {
 	 * @return The current privacy setting of a user's profile
 	 */
 	public static Integer getProfilePrivacy(Integer user_id, Integer privacy_setting) {
-		return null;
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		Integer privacy = null;
+		try
+		{
+			tx = session.beginTransaction();
+			privacy = (Integer) session.createQuery("FROM user WHERE privacy_setting = " + privacy_setting + "AND user_id = " + user_id).getSingleResult();
+			tx.commit();
+		}
+		catch (NoResultException e)
+		{
+			return null;
+		}
+		finally
+		{
+			session.close();
+		}
+		return privacy;
 	}
 	
 	
