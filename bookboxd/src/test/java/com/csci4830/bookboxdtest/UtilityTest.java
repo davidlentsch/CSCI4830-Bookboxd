@@ -6,8 +6,12 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.junit.Test;
 
+import com.csci4830.bookboxd.ReviewUtility;
 import com.csci4830.bookboxd.Utility;
 import com.csci4830.datamodel.*;
 
@@ -263,4 +267,98 @@ public class UtilityTest {
 		}
 	}
 		
+	@Test
+	public void testCreateCustomList() {
+		Lists l = Utility.createCustomList(1, "my new list", 1);
+		
+		Session session = Utility.getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Lists list = (Lists) session.get(Lists.class, l.getList_id());
+			assertEquals((Integer) 1, list.getUser_id());
+			assertEquals("my new list", list.getList_name());
+			assertEquals((Integer) 1, list.getPrivacy_setting());
+			
+			Utility.deleteCustomList(list);
+			
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Test
+	public void testDeleteCustomList() {
+		Lists l = Utility.createCustomList(1, "my new list", 1);
+		Utility.deleteCustomList(l);
+		
+		Session session = Utility.getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Lists list = (Lists) session.get(Lists.class, l.getList_id());
+			assertNull(list);
+			
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Test
+	public void testCreateBook() {
+		Books b = Utility.createBook("name", "author", "genre", "description");
+		
+		Session session = Utility.getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Books book = (Books) session.get(Books.class, b.getBook_id());
+			assertEquals("name", book.getBook_name());
+			assertEquals("author", book.getAuthor());
+			assertEquals("genre", book.getGenre());
+			assertEquals("description", book.getDescription());
+			
+			Utility.deleteBook(book);
+			
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Test
+	public void testDeleteBook() {
+		Books b = Utility.createBook("name", "author", "genre", "description");
+		Utility.deleteBook(b);
+		
+		Session session = Utility.getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Books book = (Books) session.get(Books.class, b.getBook_id());
+			assertNull(book);
+			
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
 }

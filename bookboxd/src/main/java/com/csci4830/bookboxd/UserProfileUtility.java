@@ -2,6 +2,7 @@ package com.csci4830.bookboxd;
 
 import javax.persistence.NoResultException;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -10,6 +11,9 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import com.csci4830.datamodel.Lists;
+import com.csci4830.datamodel.User;
+
 public class UserProfileUtility {
 	static SessionFactory sessionFactory = null;
 
@@ -17,7 +21,7 @@ public class UserProfileUtility {
 	 * Returns the SessionFactory object for this Hibernate configuration.
 	 * 
 	 * @return The SessionFactory object.
-	 */ 
+	 */
 	public static SessionFactory getSessionFactory() {
 		if (sessionFactory != null) {
 			return sessionFactory;
@@ -33,117 +37,121 @@ public class UserProfileUtility {
 
 		return metadata.getSessionFactoryBuilder().build();
 	}
-	
+
 	/**
-	 * TODO: update the about me section
-	 * @param user_id User whose about me is being updated
-	 * @param comments New about me section
-	 * note that the about me can only be as long as mysql can hold
+	 * update the about me section
+	 * 
+	 * @param user_id  User whose about me is being updated
+	 * @param comments New about me section note that the about me can only be as
+	 *                 long as mysql can hold
 	 * @return success code
 	 */
-	public static Integer updateAboutMe(Integer user_id, String comments) {
+	public static User updateAboutMe(Integer user_id, String comments) {
+		User updatedUser = null;
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
-		try
-		{
-			if (comments.length() <= 255)
-			{
+		try {
+			if (comments.length() <= 255) {
 				tx = session.beginTransaction();
-				session.createQuery("UPDATE user SET about_desc = " + comments + "WHERE user_id = " + user_id);
+				updatedUser = (User) session.get(User.class, user_id);
+				updatedUser.setAbout_desc(comments);
+				
 				tx.commit();
 			}
-		}
-		catch (NoResultException e)
-		{
-			return 0;
-		}
-		finally
-		{
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
 			session.close();
 		}
-		return 1;
-		
+		return updatedUser;
+
 	}
-	
+
 	/**
-	 * TODO: change a user's profile privacy
-	 * @param user_id User making changes
+	 * change a user's profile privacy
+	 * 
+	 * @param user_id             User making changes
 	 * @param new_privacy_setting
-	 * @return success code
+	 * @return updated user
 	 */
-	public static Integer changeProfilePrivacy(Integer user_id, Integer new_privacy_setting) {
+	public static User changeProfilePrivacy(Integer user_id, Integer new_privacy_setting) {
+		User updatedUser = null;
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
-		try
-		{
+		try {
 			tx = session.beginTransaction();
-			session.createQuery("UPDATE user SET privacy_setting = " + new_privacy_setting + "WHERE user_id = " + user_id);
+			updatedUser = (User) session.get(User.class, user_id);
+			updatedUser.setPrivacy_setting(new_privacy_setting);
+
 			tx.commit();
-		}
-		catch (NoResultException e)
-		{
-			return 0;
-		}
-		finally
-		{
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
 			session.close();
 		}
-		return 1;
+		return updatedUser;
 	}
-	
+
 	/**
-	 * TODO: change a list's privacy setting
+	 * change a list's privacy setting
+	 * 
 	 * @param user_id
 	 * @param list_id
 	 * @param new_privacy_setting
 	 * @return
 	 */
-	public static Integer changeListPrivacy(Integer user_id, Integer list_id, Integer new_privacy_setting) {
+	public static Lists changeListPrivacy(Integer user_id, Integer list_id, Integer new_privacy_setting) {
+		Lists updatedList = null;
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
-		try
-		{
+		
+		try {
 			tx = session.beginTransaction();
-			session.createQuery("UPDATE lists SET privacy_setting = " + new_privacy_setting + "WHERE user_id = " + user_id);
+			updatedList = (Lists) session.get(Lists.class, list_id);
+			updatedList.setPrivacy_setting(new_privacy_setting);
+			
 			tx.commit();
-		}
-		catch (NoResultException e)
-		{
-			return 0;
-		}
-		finally
-		{
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
 			session.close();
 		}
-		return 1;
+		return updatedList;
 	}
-	
+
 	/**
-	 * TODO: get the privacy setting of a user's profile
+	 * get the privacy setting of a user's profile
+	 * 
 	 * @param user_id
-	 * @param privacy_setting
 	 * @return The current privacy setting of a user's profile
 	 */
-	public static Integer getProfilePrivacy(Integer user_id, Integer privacy_setting) {
+	public static Integer getProfilePrivacy(Integer user_id) {
+		User user = null;
+		Integer privacy = null;
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
-		Integer privacy = null;
-		try
-		{
+		
+		try {
 			tx = session.beginTransaction();
-			privacy = (Integer) session.createQuery("FROM user WHERE privacy_setting = " + privacy_setting + "AND user_id = " + user_id).getSingleResult();
+			user = (User) session.get(User.class, user_id);
+			privacy = user.getPrivacy_setting();
+			
 			tx.commit();
-		}
-		catch (NoResultException e)
-		{
-			return null;
-		}
-		finally
-		{
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
 			session.close();
 		}
+		
 		return privacy;
 	}
-	
-	
+
 }

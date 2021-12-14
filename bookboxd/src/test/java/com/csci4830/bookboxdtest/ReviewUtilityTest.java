@@ -72,7 +72,12 @@ public class ReviewUtilityTest {
 	}
 	
 	@Test
-	public void testChangeReviewPrivacy() {}
+	public void testChangeReviewPrivacy() {
+		Reviews r = ReviewUtility.createReview(1, 1, 4.2, "good book!", 0);
+		assertEquals((Integer) 0, ReviewUtility.getReviewPrivacy(r.getReview_id()));
+		r = ReviewUtility.changeReviewPrivacy(r.getReview_id(), 1);
+		assertEquals((Integer) 1, ReviewUtility.getReviewPrivacy(r.getReview_id()));
+	}
 	
 	@Test
 	public void testUpdateReview() {

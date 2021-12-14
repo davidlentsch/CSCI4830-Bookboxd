@@ -39,6 +39,12 @@ public class Lists {
 		
 	}
 
+	public Lists(Integer user_id, String list_name, Integer privacy_setting) {
+		this.user_id = user_id;
+		this.list_name = list_name;
+		this.privacy_setting = privacy_setting;
+	}
+
 	public Integer getUser_id() {
 		return user_id;
 	}
