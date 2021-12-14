@@ -451,29 +451,6 @@ public class Utility {
 		return null;
 	}
 	
-	/**
-	 * TODO: create Review
-	 * @param user_id
-	 * @param book_id
-	 * @param rating
-	 * @param comments
-	 * @param privacy_setting
-	 * @return the created review
-	 */
-	public static Reviews createReview(Integer user_id, Integer book_id, Double rating, String comments, Integer privacy_setting) {
-		//note that the rating of a book has to be updated for each review created
-		return null;
-	}
-	
-	/**
-	 * TODO: delete Review
-	 * @param review The review to be deleted
-	 */
-	public static void deleteReview(Reviews review) {
-		//note that the rating of a book has to be updated for each review deleted
-	}
-	
-	
 	public static String encryptSHA1(String input)
     {
 		return DigestUtils.sha1Hex(input);

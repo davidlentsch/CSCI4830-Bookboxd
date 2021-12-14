@@ -140,8 +140,8 @@ public class FriendsUtility {
 		
 		try {
 			tx = session.beginTransaction();
-			Friends friend = (Friends) session.get(Friends.class, new FriendsPK(responding_to, responding_user));
-			friend.setConfirmed(1);
+			result = (Friends) session.get(Friends.class, new FriendsPK(responding_to, responding_user));
+			result.setConfirmed(1);
 			
 			tx.commit();
 		} catch (HibernateException e) {
@@ -170,8 +170,8 @@ public class FriendsUtility {
 		
 		try {
 			tx = session.beginTransaction();
-			Friends friend = (Friends) session.get(Friends.class, new FriendsPK(responding_to, responding_user));
-			session.delete(friend);
+			result = (Friends) session.get(Friends.class, new FriendsPK(responding_to, responding_user));
+			session.delete(result);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
