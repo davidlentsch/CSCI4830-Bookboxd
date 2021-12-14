@@ -25,6 +25,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import com.csci4830.datamodel.User;
 import com.csci4830.datamodel.Books;
 import com.csci4830.datamodel.Friends;
+import com.csci4830.datamodel.List_Books;
 import com.csci4830.datamodel.Lists;
 import com.csci4830.datamodel.Reviews;
 
@@ -339,9 +340,16 @@ public class Utility {
 	 * @return The results found.
 	 */
 	public static List<Books> getBooksByListID(Integer id) {
-		return (List<Books>) getDataList("SELECT b.book_id,b.book_name,b.author,b.genre,b.description,b.average_rating "
-				+ "FROM List_Books l LEFT JOIN Books b ON l.book_id = b.book_id WHERE l.list_id = " + id, Books.class);	}
+		List<List_Books> lb = getDataList("FROM List_Books WHERE list_id = " + id, List_Books.class);
+		List<Books> books = new ArrayList<Books>();
 		
+		for (List_Books l : lb) {
+			books.add((Books) getDataObject("FROM Books WHERE book_id = " + l.getBook_id(), Books.class));
+		}
+		
+		return books;
+	}
+	
 	/**
 	 * Returns a list of all lists in the database.
 	 * 
