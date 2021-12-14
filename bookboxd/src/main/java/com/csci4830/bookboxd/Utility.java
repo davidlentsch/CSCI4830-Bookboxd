@@ -349,8 +349,7 @@ public class Utility {
 		
 		return books;
 	}
-		
-		
+	
 	/**
 	 * Returns a list of all lists in the database.
 	 * 
@@ -386,7 +385,7 @@ public class Utility {
 	 * @return
 	 */
 	public static List<Lists> getPublicListsByUserID(Integer user_id) {
-		return null;
+		return (List<Lists>) getDataList("FROM Lists WHERE privacy_setting = 0 AND user_id = " + user_id, Lists.class);
 	}
 	
 	/**
@@ -478,7 +477,6 @@ public class Utility {
 		Transaction tx = null;
 		List<Lists> listsCreated = new ArrayList<Lists>();
 		
-		User output = null;
 		try {
 			tx = session.beginTransaction();
 			String[] listNames = {"Favorites","To Read","Finished","Reviewed"};

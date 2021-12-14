@@ -6,12 +6,14 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
 import com.csci4830.bookboxd.ReviewUtility;
+import com.csci4830.bookboxd.UserProfileUtility;
 import com.csci4830.bookboxd.Utility;
 import com.csci4830.datamodel.*;
 
@@ -85,11 +87,15 @@ public class UtilityTest {
 		}
 	}
 
-//	Currently, all books have a null genre, so this test is disabled.
-//	@Test
-//	public void testGetBooksByGenre() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testGetBooksByGenre() {
+		List<Books> books = Utility.getBooksByGenre("fantasy");
+		assertTrue(books.size() > 0);
+		
+		for (Books b : books) {
+			assertEquals(b.getGenre(), "fantasy");
+		}
+	}
 
 	@Test
 	public void testGetBooksByNameSearch() {
@@ -130,7 +136,6 @@ public class UtilityTest {
 	@Test
 	public void testGetBooksByListID() {
 		List<Books> books = Utility.getBooksByListID(26);
-		assertTrue(books.size() > 0);
 		
 		for (int i = 0; i < books.size(); i++)
 		{
@@ -237,24 +242,8 @@ public class UtilityTest {
 	public void testCreateUser() {
 		User u = Utility.createUser("TestBob", "Bob, but backwards");
 		assertTrue(u.getUsername().equals("TestBob"));
-		assertTrue(u.getPassword().equals("Bob, but backwards"));
-	}
-	
-	@Test
-	public void testCreatedUserFromDatabase() {
-		User u = Utility.createUser("TestMaya1", "12345");
-		try {
-		User o = Utility.getUserByUserID(u.getUser_id());
-		assertTrue(u.getPassword().equals(o.getPassword()));
-		} catch (NoResultException e) {
-			assertTrue(false);
-		}
-		
-		// Test if the default lists were created
-		List<Lists> l = Utility.getListsByUserID(u.getUser_id());
-		for (Lists list : l) {
-			assertTrue(list.getUser_id() == u.getUser_id());
-		}
+		String encrypted = Utility.encryptSHA1("Bob, but backwards");
+		assertEquals(encrypted, u.getPassword());
 	}
 	
 	@Test
@@ -360,5 +349,20 @@ public class UtilityTest {
 		} finally {
 			session.close();
 		}
+	}
+	
+	@Test
+	public void testGetPublicListsByUserID() {
+		List<Lists> lists = Utility.getListsByUserID(1);
+		for (Lists l: lists) {
+			UserProfileUtility.changeListPrivacy(1, l.getList_id(), 0);
+		}
+		
+		lists = Utility.getPublicListsByUserID(1);
+		for (Lists l: lists) {
+			assertEquals((Integer) 1, l.getUser_id());
+			assertEquals((Integer) 0, l.getPrivacy_setting());
+		}
+		
 	}
 }
