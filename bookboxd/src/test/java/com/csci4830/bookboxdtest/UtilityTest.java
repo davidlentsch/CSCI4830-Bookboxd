@@ -252,5 +252,15 @@ public class UtilityTest {
 			assertTrue(list.getUser_id() == u.getUser_id());
 		}
 	}
+	
+	@Test
+	public void testGetFriendsByUserID() {
+		List<Friends> l = Utility.getFriendsByUserID(1);
+		assertTrue(l.size() > 0);
+		
+		for (Friends f : l) {
+			assertTrue(f.getUser_id_1() == 1 || f.getUser_id_2() == 1);
+		}
+	}
 		
 }

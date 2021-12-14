@@ -247,9 +247,10 @@ public class Utility {
 	 * @param user_id The ID of the user
 	 * @return A list of user IDs
 	 */
-	public static List<Integer> getFriendsByUserID(Integer user_id) {
+	public static List<Friends> getFriendsByUserID(Integer user_id) {
 		//ensure that this only get friends if they're confirmed (confirmed column = 1)
-		return null;
+		return (List<Friends>) getDataList("FROM Friends WHERE confirmed = 1 AND (user_id_1 = " + user_id 
+				+ " OR user_id_2 = " + user_id + ")", Friends.class);
 	}
 
 	/**
