@@ -101,7 +101,7 @@ public class UtilityTest {
 
 	@Test
 	public void testGetBooksByAuthorSearch() {
-		List<Books> books = Utility.getBooksByNameSearch("J.");
+		List<Books> books = Utility.getBooksByAuthorSearch("J.");
 		assertTrue(books.size() > 0);
 		
 		for (int i = 0; i < books.size(); i++)
