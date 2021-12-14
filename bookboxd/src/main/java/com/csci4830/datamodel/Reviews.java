@@ -48,6 +48,15 @@ public class Reviews {
 		
 	}
 
+	public Reviews(Integer user_id, Integer book_id, Double rating, String comments,
+			Integer privacy_setting) {
+		this.user_id = user_id;
+		this.book_id = book_id;
+		this.rating = rating;
+		this.comments = comments;
+		this.privacy_setting = privacy_setting;
+	}
+
 	public Integer getReview_id() {
 		return review_id;
 	}
