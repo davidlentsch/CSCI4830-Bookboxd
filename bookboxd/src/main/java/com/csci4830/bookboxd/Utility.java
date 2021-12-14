@@ -161,6 +161,55 @@ public class Utility {
 	}
 	
 	/**
+	 * A generic method for deleting objects from the database.
+	 * @param <T> Generic type
+	 * @param object The object you would like deleted.
+	 * @return The object that was deleted if successful, otherwise null.
+	 */
+	public static <T> T deleteDataObject(T object) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.delete(object);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+			return null;
+		}
+		
+		return object;
+	}
+	
+	/**
+	 * A generic method for saving objects from the database.
+	 * @param <T> Generic type
+	 * @param object The object you would like to be saved to the DB.
+	 * @return The object that was deleted if successful, otherwise null.
+	 */
+	public static <T> T saveDataObject(T object) {
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.save(object);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+			return null;
+		}
+		
+		return object;
+	}
+	
+	
+	/**
 	 * Returns a list of all users in the database.
 	 * 
 	 * @return A List containing all Users.
