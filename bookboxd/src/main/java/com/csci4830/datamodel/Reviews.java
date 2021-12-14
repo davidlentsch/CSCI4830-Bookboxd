@@ -105,9 +105,4 @@ public class Reviews {
 		this.privacy_setting = privacy_setting;
 	}
 
-	@Override
-	public String toString() {
-		return "Reviews [review_id=" + review_id + ", user_id=" + user_id + ", book_id=" + book_id + ", rating="
-				+ rating + ", comments=" + comments + ", privacy_setting=" + privacy_setting + "]";
-	}
 }

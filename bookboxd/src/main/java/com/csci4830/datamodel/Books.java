@@ -100,10 +100,4 @@ public class Books {
 	public void setAverage_rating(Double average_rating) {
 		this.average_rating = average_rating;
 	}
-
-	@Override
-	public String toString() {
-		return "Books [book_id=" + book_id + ", book_name=" + book_name + ", author=" + author + ", genre=" + genre
-				+ ", description=" + description + ", average_rating=" + average_rating + "]";
-	}
 }

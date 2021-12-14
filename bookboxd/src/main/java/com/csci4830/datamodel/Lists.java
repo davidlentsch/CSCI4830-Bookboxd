@@ -76,10 +76,4 @@ public class Lists {
 	public void setPrivacy_setting(Integer privacy_setting) {
 		this.privacy_setting = privacy_setting;
 	}
-
-	@Override
-	public String toString() {
-		return "Lists [user_id=" + user_id + ", list_id=" + list_id + ", list_name=" + list_name + ", privacy_setting="
-				+ privacy_setting + "]";
-	}
 }
