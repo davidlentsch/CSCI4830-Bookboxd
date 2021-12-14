@@ -12,43 +12,73 @@ import com.csci4830.datamodel.Books;
 
 //TODO
 public class BooksTest {
-
-	@Test
-	public void testGetAuthor() {}
+	Books b = new Books("A Test Book", "Maya", "Fantasy", "A super cool book about some awesome lesbians who get married");
+	Books bEmpty = new Books();
 	
 	@Test
-	public void testGetAverage_rating() {}
+	public void testGetAuthor() {
+		assertEquals("Maya", b.getAuthor());
+	}
 	
 	@Test
-	public void testGetBook_id() {}
+	public void testGetAverage_rating() {
+		assertEquals((Double) 0.0, b.getAverage_rating());
+	}
 	
 	@Test
-	public void testGetBook_name() {}
+	public void testGetBook_id() {
+		b.setBook_id(1);
+		assertEquals((Integer) 1, b.getBook_id());
+	}
 	
 	@Test
-	public void testGetDescription() {}
+	public void testGetBook_name() {
+		assertEquals("A Test Book", b.getBook_name());
+	}
 	
 	@Test
-	public void testGetGenre() {}
+	public void testGetDescription() {
+		assertEquals("A super cool book about some awesome lesbians who get married", b.getDescription());
+	}
 	
 	@Test
-	public void testSetAuthor() {}
+	public void testGetGenre() {
+		assertEquals("Fantasy", b.getGenre());
+	}
 	
 	@Test
-	public void testSetAverage_rating() {}
+	public void testSetAuthor() {
+		bEmpty.setAuthor("Maya");
+		assertEquals("Maya", bEmpty.getAuthor());
+	}
 	
 	@Test
-	public void testSetBook_id() {}
+	public void testSetAverage_rating() {
+		bEmpty.setAverage_rating(5.0);
+		assertTrue(bEmpty.getAverage_rating() == 5.0);
+	}
 	
 	@Test
-	public void testSetBook_name() {}
+	public void testSetBook_id() {
+		bEmpty.setBook_id(2);
+		assertEquals((Integer) 2, bEmpty.getBook_id());
+	}
 	
 	@Test
-	public void testSetDescription() {}
+	public void testSetBook_name() {
+		bEmpty.setBook_name("My Cool Book");
+		assertEquals("My Cool Book", bEmpty.getBook_name());
+	}
 	
 	@Test
-	public void testSetGenre() {}
+	public void testSetDescription() {
+		bEmpty.setDescription("desc");
+		assertEquals("desc", bEmpty.getDescription());
+	}
 	
 	@Test
-	public void testToString() {}
+	public void testSetGenre() {
+		bEmpty.setGenre("Fiction");
+		assertEquals("Fiction", bEmpty.getGenre());
+	}
 }

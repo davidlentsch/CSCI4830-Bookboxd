@@ -50,20 +50,6 @@ public class List_Books implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "List_Books [list_id=" + list_id + ", book_id=" + book_id + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((book_id == null) ? 0 : book_id.hashCode());
-		result = prime * result + ((list_id == null) ? 0 : list_id.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
