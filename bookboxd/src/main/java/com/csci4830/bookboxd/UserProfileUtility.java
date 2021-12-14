@@ -17,7 +17,7 @@ public class UserProfileUtility {
 	 * Returns the SessionFactory object for this Hibernate configuration.
 	 * 
 	 * @return The SessionFactory object.
-	 */
+	 */ 
 	public static SessionFactory getSessionFactory() {
 		if (sessionFactory != null) {
 			return sessionFactory;
