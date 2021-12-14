@@ -313,4 +313,52 @@ public class UtilityTest {
 			session.close();
 		}
 	}
+	
+	@Test
+	public void testCreateBook() {
+		Books b = Utility.createBook("name", "author", "genre", "description");
+		
+		Session session = Utility.getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Books book = (Books) session.get(Books.class, b.getBook_id());
+			assertEquals("name", book.getBook_name());
+			assertEquals("author", book.getAuthor());
+			assertEquals("genre", book.getGenre());
+			assertEquals("description", book.getDescription());
+			
+			Utility.deleteBook(book);
+			
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Test
+	public void testDeleteBook() {
+		Books b = Utility.createBook("name", "author", "genre", "description");
+		Utility.deleteBook(b);
+		
+		Session session = Utility.getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			Books book = (Books) session.get(Books.class, b.getBook_id());
+			assertNull(book);
+			
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
 }
