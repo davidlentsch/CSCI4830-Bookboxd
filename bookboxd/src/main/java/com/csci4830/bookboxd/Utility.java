@@ -200,6 +200,7 @@ public class Utility {
 	 */
 	public static List<Integer> getFriendsByUserID(Integer user_id) {
 		//ensure that this only get friends if they're confirmed (confirmed column = 1)
+		
 		return null;
 	}
 
@@ -441,14 +442,54 @@ public class Utility {
 	}
 	
 	/**
-	 * TODO: create custom list
+	 * create a new custom list
 	 * @param user_id The user creating the list
 	 * @param name List name
 	 * @param privacy_setting The user set privacy setting
 	 * @return The new list
 	 */
 	public static Lists createCustomList(Integer user_id, String name, Integer privacy_setting) {
-		return null;
+		Lists newList = null;
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			newList = new Lists(user_id, name, privacy_setting);
+			session.save(newList);
+			
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return newList;
+	}
+	
+	public static Lists deleteCustomList(Lists lists) {
+		Lists result = null;
+		Session session = getSessionFactory().openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			result = (Lists) session.get(Lists.class,  lists.getList_id());
+			session.delete(result);
+			
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return result;
 	}
 	
 	public static String encryptSHA1(String input)
@@ -492,10 +533,5 @@ public class Utility {
 	    }
 
 	    return book;
-	}
-	
-	//TODO
-	public static Friends deleteFriend(Friends friend) {
-		return friend;
 	}
 }

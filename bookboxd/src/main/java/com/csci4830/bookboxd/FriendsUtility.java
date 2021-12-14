@@ -157,6 +157,7 @@ public class FriendsUtility {
 	
 	/**
 	 * Deny a friend request
+	 * also works to delete a friend
 	 * 
 	 * @param responding_user User_id of the person accepting/denying the friend
 	 *                        request
