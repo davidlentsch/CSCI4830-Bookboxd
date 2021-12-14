@@ -113,6 +113,8 @@ public class Utility {
 				tx.rollback();
 			System.err.printf("ERR: no result found for query: %s\n", sqlQuery);
 			e.printStackTrace();
+			//needs to throw the exception so that servlets can catch it and report the error to the view
+			throw e;
 		} catch (NonUniqueResultException e) {
 			if (tx != null)
 				tx.rollback();
@@ -458,6 +460,7 @@ public class Utility {
 				tx.rollback();
 			}
 			e.printStackTrace();
+			throw e;
 		}
 		
 		if (output != null) {

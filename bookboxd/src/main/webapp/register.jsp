@@ -25,7 +25,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>Bookboxd - Login</title>
+<title>Bookboxd - Register</title>
 
 <!-- Page styles -->
 <link rel="stylesheet"
@@ -68,7 +68,7 @@
 				<!-- Navigation. We hide it in small screens. -->
 				<nav class="mdl-navigation mdl-layout--large-screen-only">
 					<a class="mdl-navigation__link mdl-typography--text-uppercase"
-						href="register.jsp">Register</a>
+						href="login.">Login</a>
 				</nav>
 			</div>
 		</header>
@@ -76,7 +76,7 @@
 			<span class="mdl-layout-title">Bookboxd</span>
 
 			<nav class="mdl-navigation">
-				<a class="mdl-navigation__link" href="register.jsp">Register</a>
+				<a class="mdl-navigation__link" href="login.jsp">Login</a>
 			</nav>
 		</div>
 		<div class="android-content mdl-layout__content">
@@ -84,24 +84,29 @@
 			<div class="android-more-section">
 				<div
 					class="android-section-title mdl-typography--display-1-color-contrast">Bookboxd
-					Login</div>
+					Registration</div>
 				<!-- Simple Textfield -->
-				<form action="Login" method="post">
+				<form action="Register" method="post">
 					<div class="mdl-textfield mdl-js-textfield">
 						<input class="mdl-textfield__input" type="text" name="username">
 						<label class="mdl-textfield__label" for="username">Username</label>
 					</div>
 					<br>
 					<div class="mdl-textfield mdl-js-textfield">
-						<input class="mdl-textfield__input" type="password"
+						<input class="mdl-textfield__input" type="password" id="password"
 							name="password"> <label class="mdl-textfield__label"
 							for="password">Password</label>
 					</div>
 					<br>
-					<br>
+					<div class="mdl-textfield mdl-js-textfield">
+						<input class="mdl-textfield__input" type="password"
+							name="passwordconf"> <label class="mdl-textfield__label"
+							for="passwordconf">Confirm Password</label>
+					</div>
+					<br> <br>
 					<button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-						type="submit">Login</button>
+						type="submit">Register</button>
 				</form>
 			</div>
 			<p>${errorMessage}</p>
