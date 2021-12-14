@@ -72,21 +72,6 @@ public class Friends implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "Friends [user_id_1=" + user_id_1 + ", user_id_2=" + user_id_2 + ", confirmed=" + confirmed + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((confirmed == null) ? 0 : confirmed.hashCode());
-		result = prime * result + ((user_id_1 == null) ? 0 : user_id_1.hashCode());
-		result = prime * result + ((user_id_2 == null) ? 0 : user_id_2.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

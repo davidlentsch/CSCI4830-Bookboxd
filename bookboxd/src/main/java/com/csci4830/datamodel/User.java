@@ -97,12 +97,6 @@ public class User {
 		this.privacy_setting = privacy_setting;
 	}
 
-	@Override
-	public String toString() {
-		return "User [user_id=" + user_id + ", username=" + username + ", password=" + password + ", about_desc="
-				+ about_desc + ", privacy_setting=" + privacy_setting + "]";
-	}
-	
 	
 	private static String encryptSHA1(String input)
     {
