@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <!--
   Material Design Lite
@@ -23,7 +24,7 @@
 	content="A front-end template that helps you build fast, modern mobile web apps.">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>Bookboxd - Search</title>
+<title>Bookboxd - ${userList.list_name} by ${userListOwner.username}</title>
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -70,7 +71,7 @@
 		<header
 			class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">Search</span>
+				<span class="mdl-layout-title">List Viewer</span>
 				<div class="mdl-layout-spacer"></div>
 				<div
 					class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
@@ -111,20 +112,43 @@
 		<main class="mdl-layout__content mdl-color--grey-100">
 		<div class="mdl-grid demo-content">
 			<div class="demo-charts mdl-cell mdl-cell--12-col mdl-grid">
-				<h3>Search</h3>
+				<h3>${userList.list_name} by <a href="ViewProfile?user_id=${userListOwner.user_id}">${userListOwner.username}</a></h3>
+				<br><br>
 			</div>
-            <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-                <form action="Search" method="GET">
-                    <div class="mdl-textfield mdl-js-textfield">
-                        <label class="mdl-textfield__label" for="queryBox">Search query</label>
-                        <input class="mdl-textfield__input" type="text" id="queryBox" name="query">
-                    </div>
-                    <br>
-                    <!-- Colored raised button -->
-                    <br><br>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--raised" type="submit">Search</button>
-                </form>
-            </div>
+			<c:forEach items="${userListBooks}" var="item">
+				<!-- Card begin -->
+				<div
+					class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+					<div class="mdl-card__media">
+						<img src="${item.image_url}" style="width: 100%;">
+					</div>
+					<div class="mdl-card__title">
+						<h4 class="mdl-card__title-text">${item.book_name}</h4>
+					</div>
+					<div class="mdl-card__title">
+						<h5><span class="fa fa-star checked"></span> &nbsp; ${item.average_rating}</h5>
+					</div>
+					<div class="mdl-card__supporting-text">
+						<span class="mdl-typography--subhead">Genre: ${item.genre}</span>
+					</div>
+					<div class="mdl-card__supporting-text mdl-typography--subhead">
+						<span class="mdl-typography--subhead">${item.description}</span>
+					</div>
+					<div class="mdl-card__actions">
+						<ul class="mdl-menu mdl-js-menu mdl-menu--top-left mdl-js-ripple-effect"
+							for="add-book${item.book_id}-to-list">
+							<c:forEach items="${userLists}" var="list">
+								<a class="mdl-menu__item"
+									href="Lists?action=add&list_id=${list.list_id}&user_id=${list.user_id}&book_id=${item.book_id}">${list.list_name}</a>
+							</c:forEach>
+						</ul>
+						<a class="android-link mdl-button mdl-js-button android-link-menu mdl-typography--text-uppercase"
+							id="add-book${item.book_id}-to-list">Add Book To List<i class="material-icons">chevron_right</i></a>
+					</div>
+					<div></div>
+				</div>
+				<!-- Card end -->
+			</c:forEach>
 		</div>
 		</main>
 	</div>
