@@ -100,7 +100,7 @@
 				<a class="mdl-navigation__link" href="dashboard.jsp">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Dashboard</a>
 				<c:choose>
-					<c:when test="${isFriendsWithLoggedInUser}">
+					<c:when test="${isFriendsWithLoggedInUser && userProfile.user_id != user.user_id}">
 						<a class="mdl-navigation__link" href="FriendRequest?action=remove&user_id=${userProfile.user_id}">
 							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_remove</i>Remove Friend</a>
 					</c:when>
@@ -113,6 +113,10 @@
 					<c:when test="${not isFriendsWithLoggedInUser and not friendRequestPending and user.user_id != userProfile.user_id}">
 						<a class="mdl-navigation__link" href="FriendRequest?action=send&user_id=${userProfile.user_id}">
 							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Send Friend Request</a>
+					</c:when>
+					<c:when test="${user.user_id != userProfile.user_id and not isFriendsWithLoggedInUser and not friendRequestPending and not isOutgoingFriendRequest}">
+						<a class="mdl-navigation__link">
+								<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">pending</i>Friend Request Pending</a>
 					</c:when>
 				</c:choose>
 				<c:if test="${user.user_id != userProfile.user_id}">
@@ -171,9 +175,10 @@
 								<p>No friends to show.</p>
 							</c:if>
 						</div>
+						<div class="demo-separator mdl-cell--1-col"></div>
 					<c:if test="${userProfile.user_id == user.user_id}">
 						<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
-							Friend Requests
+							Incoming Friend Requests
 							<c:if test="${not empty incomingFriendRequests}">
 								<ul class="demo-list-icon mdl-list">
 									<c:forEach items="${incomingFriendRequests}" var="item">

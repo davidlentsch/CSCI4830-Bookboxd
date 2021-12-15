@@ -67,7 +67,7 @@ public class ViewProfileServlet extends HttpServlet {
 				
 				for (Friends f : friends) {
 					// check if we are friends with them
-					if (f.getUser_id_1() == currentUser.getUser_id() || f.getUser_id_2() == currentUser.getUser_id()) {
+					if ((f.getUser_id_1() == currentUser.getUser_id() || f.getUser_id_2() == currentUser.getUser_id()) && f.getConfirmed() == 1){
 						isFriendsWithLoggedInUser = true;
 					} 
 
