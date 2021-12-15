@@ -71,10 +71,10 @@ public class FriendsUtility {
 	}
 	
 	/**
-	 * Checks to see if there is an existing friend request
+	 * Returns all incoming pending friend requests.
 	 * 
 	 * @param receiving_user
-	 * @return 0 if there is no friend request pending, 1 if there is
+	 * @return A list of pending friend requests.
 	 */
 	public static List<Friends> getReceivedFriendRequests(Integer receiving_user) {
 		List<Friends> resultList = new ArrayList<Friends>();
