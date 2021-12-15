@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <!--
   Material Design Lite
@@ -98,15 +99,22 @@
 			<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
 				<a class="mdl-navigation__link" href="dashboard.jsp">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Dashboard</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Send Friend Request</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_remove</i>Remove Friend</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">done</i>Accept Friend Request</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">not_interested</i>Decline Friend Request</a>
-	
+				<c:choose>
+					<c:when test="${isFriendsWithLoggedInUser}">
+						<a class="mdl-navigation__link" href="">
+							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_remove</i>Remove Friend</a>
+					</c:when>
+					<c:when test="${friendRequestPending and not isFriendsWithLoggedInUser and userProfile.user_id ne user.user_id}">
+						<a class="mdl-navigation__link" href="">
+							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">done</i>Accept Friend Request</a>
+						<a class="mdl-navigation__link" href="">
+							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">not_interested</i>Decline Friend Request</a>
+					</c:when>
+					<c:when test="${not isFriendsWithLoggedInUser and not friendRequestPending}">
+						<a class="mdl-navigation__link" href="">
+							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Send Friend Request</a>
+					</c:when>
+				</c:choose>
 				<div class="mdl-layout-spacer"></div>
 				<a class="mdl-navigation__link" href="https://github.com/zklars/CSCI4830-Bookboxd">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">info</i><span class="visuallyhidden">GitHub</span></a>
@@ -124,31 +132,37 @@
 			<div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
 				${userProfile.username}'s lists
 				<ul class="demo-list-icon mdl-list">
-					<li class="mdl-list__item">
-						<span class="mdl-list__item-primary-content">
-						<i class="material-icons mdl-list__item-icon">view_list</i>
-						List Name
-				  		</span>
-					</li>
-				</ul>
-			</div>
-			<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
-				<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
-					${userProfile.username}'s friends
-					<ul class="demo-list-icon mdl-list">
+					<c:forEach items="${userLists}" var="item">
 						<li class="mdl-list__item">
 							<span class="mdl-list__item-primary-content">
-							<i class="material-icons mdl-list__item-icon">sentiment_very_satisfied</i>
-							Friend Name
-							  </span>
+							<i class="material-icons mdl-list__item-icon">view_list</i>
+							<a href="ListViewer?list_id=${item.list_id}">${item.list_name}</a>
+					  		</span>
 						</li>
-					</ul>
-				</div>
-				<div class="demo-separator mdl-cell--1-col"></div>
-				<!-- <div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
-					Friend Requests Go Here
-				</div> -->
+					</c:forEach>
+				</ul>
 			</div>
+			<c:if test="${not empty userFriends}">
+				<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
+					<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
+						${userProfile.username}'s friends
+						<ul class="demo-list-icon mdl-list">
+							<c:forEach items="${userFriends}" var="item">
+								<li class="mdl-list__item">
+									<span class="mdl-list__item-primary-content">
+									<i class="material-icons mdl-list__item-icon">sentiment_very_satisfied</i>
+									<a href="ViewProfile?user_id=${item.user_id}">${item.username}</a>
+									</span>
+								</li>
+							</c:forEach>
+						</ul>
+					</div>
+					<div class="demo-separator mdl-cell--1-col"></div>
+					<!-- <div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
+						Friend Requests Go Here
+					</div> -->
+				</div>
+			</c:if>
 		</div>
 		</main>
 	</div>

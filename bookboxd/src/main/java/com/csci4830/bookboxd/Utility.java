@@ -245,7 +245,24 @@ public class Utility {
 	}
 	
 	/**
-	 * TODO: Returns a list of a user's friends.
+	 * Returns a pending Friend Request if it exists.
+	 * 
+	 * @param user1 The first user ID of the User
+	 * @param user2 The second user ID of the User
+	 * @return The Friends object if a pending request was found, null if not found.
+	 */
+	public static Friends getPendingFriendRequest(int user1, int user2) {
+		try {
+			return (Friends) getDataObject("FROM Friends WHERE (user_id_1 = " + user1 +
+					" AND user_id_2 = " + user2 + ") OR (user_id_1 = " + user2 +
+					" AND user_id_2 = " + user1 + ") AND confirmed = 0", Friends.class);			
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * Returns a list of a user's friends.
 	 * 
 	 * @param user_id The ID of the user
 	 * @return A list of user IDs
