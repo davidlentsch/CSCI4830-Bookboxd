@@ -17,13 +17,13 @@ import com.csci4830.datamodel.*;
  * Servlet implementation class Login
  */
 @WebServlet("/Login")
-public class Login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor. 
      */
-    public Login() {
+    public LoginServlet() {
         // TODO Auto-generated constructor stub
     }
 
