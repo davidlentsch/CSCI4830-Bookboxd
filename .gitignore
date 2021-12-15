@@ -1,6 +1,18 @@
-/.metadata/
-/bookboxd/.settings/
-/bookboxd/.classpath
-/bookboxd/.project
-/Servers/
+# Eclipse
+.classpath
+.project
+.settings/
 
+# Maven
+log/
+target/
+
+
+# Eclipse
+bookboxd/.classpath
+bookboxd/.project
+bookboxd/.settings/
+
+# Maven
+bookboxd/log/   
+bookboxd/target/
