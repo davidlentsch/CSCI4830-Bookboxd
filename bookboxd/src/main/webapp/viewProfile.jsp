@@ -73,7 +73,7 @@
 		<header
 			class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">Profile Viewer</span>
+				<span class="mdl-layout-title">Profile</span>
 				<div class="mdl-layout-spacer"></div>
 				<div
 					class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
@@ -101,20 +101,30 @@
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Dashboard</a>
 				<c:choose>
 					<c:when test="${isFriendsWithLoggedInUser}">
-						<a class="mdl-navigation__link" href="">
+						<a class="mdl-navigation__link" href="FriendRequest?action=remove&user_id=${userProfile.user_id}">
 							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_remove</i>Remove Friend</a>
 					</c:when>
-					<c:when test="${friendRequestPending and not isFriendsWithLoggedInUser and userProfile.user_id ne user.user_id}">
-						<a class="mdl-navigation__link" href="">
+					<c:when test="${friendRequestPending and not isFriendsWithLoggedInUser and not isOutgoingFriendRequest and userProfile.user_id ne user.user_id}">
+						<a class="mdl-navigation__link" href="FriendRequest?action=accept&user_id=${userProfile.user_id}">
 							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">done</i>Accept Friend Request</a>
-						<a class="mdl-navigation__link" href="">
+						<a class="mdl-navigation__link" href="FriendRequest?action=deny&user_id=${userProfile.user_id}">
 							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">not_interested</i>Decline Friend Request</a>
 					</c:when>
-					<c:when test="${not isFriendsWithLoggedInUser and not friendRequestPending}">
-						<a class="mdl-navigation__link" href="">
+					<c:when test="${not isFriendsWithLoggedInUser and not friendRequestPending and user.user_id != userProfile.user_id}">
+						<a class="mdl-navigation__link" href="FriendRequest?action=send&user_id=${userProfile.user_id}">
 							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Send Friend Request</a>
 					</c:when>
 				</c:choose>
+				<c:if test="${user.user_id != userProfile.user_id}">
+					<a class="mdl-navigation__link" href="ViewProfile?user_id=${user.user_id}">
+						<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
+				</c:if>
+				<c:if test="${user.user_id == userProfile.user_id}">
+					<a class="mdl-navigation__link" href="">
+						<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">manage_accounts</i>Edit Profile</a>
+				</c:if>
+				<a class="mdl-navigation__link" href="Logout">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">logout</i>Logout</a>
 				<div class="mdl-layout-spacer"></div>
 				<a class="mdl-navigation__link" href="https://github.com/zklars/CSCI4830-Bookboxd">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">info</i><span class="visuallyhidden">GitHub</span></a>
@@ -142,27 +152,46 @@
 					</c:forEach>
 				</ul>
 			</div>
-			<c:if test="${not empty userFriends}">
 				<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
-					<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
-						${userProfile.username}'s friends
-						<ul class="demo-list-icon mdl-list">
-							<c:forEach items="${userFriends}" var="item">
-								<li class="mdl-list__item">
-									<span class="mdl-list__item-primary-content">
-									<i class="material-icons mdl-list__item-icon">sentiment_very_satisfied</i>
-									<a href="ViewProfile?user_id=${item.user_id}">${item.username}</a>
-									</span>
-								</li>
-							</c:forEach>
-						</ul>
-					</div>
-					<div class="demo-separator mdl-cell--1-col"></div>
-					<!-- <div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
-						Friend Requests Go Here
-					</div> -->
+						<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
+							${userProfile.username}'s friends
+							<c:if test="${not empty userFriends}">
+								<ul class="demo-list-icon mdl-list">
+									<c:forEach items="${userFriends}" var="item">
+										<li class="mdl-list__item">
+											<span class="mdl-list__item-primary-content">
+											<i class="material-icons mdl-list__item-icon">sentiment_very_satisfied</i>
+											<a href="ViewProfile?user_id=${item.user_id}">${item.username}</a>
+											</span>
+										</li>
+									</c:forEach>
+								</ul>
+							</c:if>
+							<c:if test="${empty userFriends}">
+								<p>No friends to show.</p>
+							</c:if>
+						</div>
+					<c:if test="${userProfile.user_id == user.user_id}">
+						<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
+							Friend Requests
+							<c:if test="${not empty incomingFriendRequests}">
+								<ul class="demo-list-icon mdl-list">
+									<c:forEach items="${incomingFriendRequests}" var="item">
+										<li class="mdl-list__item">
+											<span class="mdl-list__item-primary-content">
+											<i class="material-icons mdl-list__item-icon">sentiment_very_satisfied</i>
+											<a href="ViewProfile?user_id=${item.user_id}">${item.username}</a>
+											</span>
+										</li>
+									</c:forEach>
+								</ul>
+							</c:if>
+							<c:if test="${empty incomingFriendRequests}">
+								<p>No incoming friend requests to show.</p>
+							</c:if>
+						</div>					
+					</c:if>
 				</div>
-			</c:if>
 		</div>
 		</main>
 	</div>
