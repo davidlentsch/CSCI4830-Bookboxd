@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,6 +63,7 @@ public class ViewProfileServlet extends HttpServlet {
 				List<User> userFriends = new ArrayList<User>();
 				boolean isFriendsWithLoggedInUser = false;
 				boolean friendRequestPending = false;
+				boolean isSentFriendRequest = false;
 				
 				for (Friends f : friends) {
 					// check if we are friends with them
@@ -78,11 +80,33 @@ public class ViewProfileServlet extends HttpServlet {
 					}
 				}
 				
-				if (Utility.getPendingFriendRequest(currentUser.getUser_id(), userProfile.getUser_id()) != null) {
+				/* check if one exists */
+				Friends frq = Utility.getPendingFriendRequest(currentUser.getUser_id(), userProfile.getUser_id());
+				
+				if (frq != null) {
 					friendRequestPending = true;
 				}
 				
+				// Check if our friend request is an outgoing request.
+				// This will be used to disallow accepting our own request
+				try {
+					Integer outgoing = FriendsUtility.getSentFriendRequest(currentUser.getUser_id(), userProfile.getUser_id());
+					
+					if (outgoing == 1) {
+						isSentFriendRequest = true;
+					}
+				} catch (NoResultException nre) {
+					// do nothing
+				}
+				
 				List<Lists> userLists = Utility.getListsByUserID(Integer.valueOf(user_id));
+				List<Friends> friendRequests = FriendsUtility.getReceivedFriendRequests(currentUser.getUser_id());
+				
+				List<User> incomingFriendRequests = new ArrayList<User>();
+				
+				for (Friends f : friendRequests) {
+					incomingFriendRequests.add(Utility.getUserByUserID(f.getUser_id_1()));
+				}
 				
 				// Store the results and then send the user the page
 				request.setAttribute("userProfile", userProfile);
@@ -90,6 +114,8 @@ public class ViewProfileServlet extends HttpServlet {
 				request.setAttribute("userFriends", userFriends);
 				request.setAttribute("isFriendsWithLoggedInUser", isFriendsWithLoggedInUser);
 				request.setAttribute("friendRequestPending", friendRequestPending);
+				request.setAttribute("incomingFriendRequests", incomingFriendRequests);
+				request.setAttribute("isOutgoingFriendRequest", isSentFriendRequest);
 				request.removeAttribute("errorMessage");
 	            String destination = "viewProfile.jsp";
 	            
