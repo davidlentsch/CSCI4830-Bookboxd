@@ -22,7 +22,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>Bookboxd - Login</title>
+    <title>Bookboxd - Search</title>
 
     <!-- Page styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -96,7 +96,7 @@
                 <h3>Search</h3>
                 <h5>Enter your search below:</h5>
                 <!-- Simple Textfield -->
-                <form action="Search" method="POST">
+                <form action="Search" method="GET">
                     <div class="mdl-textfield mdl-js-textfield">
                         <label class="mdl-textfield__label" for="queryBox">Search query</label>
                         <input class="mdl-textfield__input" type="text" id="queryBox" name="query">

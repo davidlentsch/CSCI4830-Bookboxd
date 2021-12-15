@@ -24,7 +24,7 @@ limitations under the License
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-            <title>Bookboxd - Search Results</title>
+            <title>${query} - Search Results - Bookboxd</title>
 
             <!-- Page styles -->
             <link rel="stylesheet"
@@ -63,11 +63,14 @@ limitations under the License
                         <div class="mdl-layout-spacer"></div>
                         <div
                             class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
-                            <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field"><i
-                                    class="material-icons">search</i></label>
+                            <form action="Search" method="GET">
+                            <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+                            <i class="material-icons">search</i></label>
                             <div class="mdl-textfield__expandable-holder">
-                                <input class="mdl-textfield__input" type="text" id="search-field">
+                                <input class="mdl-textfield__input" type="text" id="search-field" name="query">
+                                <input type="submit" style="display: none" />
                             </div>
+                            </form>
                         </div>
                         <!-- Navigation. We hide it in small screens. -->
                         <nav class="mdl-navigation mdl-layout--large-screen-only">
