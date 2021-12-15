@@ -59,8 +59,28 @@
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation. We hide it in small screens. -->
                 <nav class="mdl-navigation mdl-layout--large-screen-only">
-                    <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Register</a>
-                </nav>
+                            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Dashboard</a>
+                            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Books</a>
+                            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">People</a>
+                            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Friends</a>
+                            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Lists</a>
+                            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Profile</a>
+                            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Logout</a>
+                        </nav>
+                    </div>
+                </header>
+                <div class="mdl-layout__drawer">
+                    <span class="mdl-layout-title">Bookboxd</span>
+
+                    <nav class="mdl-navigation">
+                        <a class="mdl-navigation__link" href="">Dashboard</a> 
+                        <a class="mdl-navigation__link" href="">Books</a> 
+                        <a class="mdl-navigation__link" href="">People</a> 
+                        <a class="mdl-navigation__link" href="">Friends</a> 
+                        <a class="mdl-navigation__link" href="">Lists</a> 
+                        <a class="mdl-navigation__link" href="">Profile</a>
+                        <a class="mdl-navigation__link" href="">Logout</a>
+                    </nav>
             </div>
         </header>
         <div class="mdl-layout__drawer">
@@ -72,8 +92,7 @@
         </div>
         <div class="android-content mdl-layout__content">
             <a name="top"></a>
-            <div class="android-more-section">
-                <div class="android-section-title mdl-typography--display-1-color-contrast">Search</div>
+            <div class="android-more-section mdl-typography--text-center">
                 <h3>Search</h3>
                 <h5>Enter your search below:</h5>
                 <!-- Simple Textfield -->
