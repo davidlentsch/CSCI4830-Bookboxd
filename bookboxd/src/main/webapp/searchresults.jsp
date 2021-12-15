@@ -104,7 +104,7 @@ limitations under the License
                                 <div
                                     class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
                                     <div class="mdl-card__media">
-                                        <img src="https://i.redd.it/04fx5170hjz71.jpg">
+                                        <img src="${item.image_url}">
                                     </div>
                                     <div class="mdl-card__title">
                                         <h4 class="mdl-card__title-text">${item.book_name}</h4>
