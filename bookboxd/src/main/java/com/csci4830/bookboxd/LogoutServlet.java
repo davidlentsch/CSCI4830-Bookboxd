@@ -1,26 +1,26 @@
 package com.csci4830.bookboxd;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.csci4830.datamodel.*;
-import com.csci4830.bookboxd.Utility;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class UserProfile
+ * Servlet implementation class Logout
  */
-@WebServlet("/UserProfile")
-public class UserProfile extends HttpServlet {
+@WebServlet("/Logout")
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserProfile() {
+    public LogoutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,31 +29,26 @@ public class UserProfile extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// Determine if there is an existing session
+		HttpSession session = request.getSession(false);
 		
-		if (request.getSession().getAttribute("user") != null) {
-			response.sendRedirect("UserProfile.jsp");
-        } else {
-			response.sendRedirect("login.jsp");
+        if (session != null) {
+        	// Remove the user attribute to logout.
+            session.removeAttribute("user");
+            session.setAttribute("errorMessage", "You have logged out successfully.<br><br>");
+             
+            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+            dispatcher.forward(request, response);
+            
+            session.removeAttribute("errorMessage");
         }
-		
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
-		
-		//String username = request.getParameter("username");
-		
-		
-		
-		//response.getWriter().append("Username: ").append(request.getParameter("username"));
-		//response.getWriter().append("Lists: ").append(request.getContextPath());
-		//response.getWriter().append("Friends: ").append(request.getContextPath());
+		doGet(request, response);
 	}
 
 }
