@@ -81,7 +81,7 @@
 		</div>
 		<div class="android-content mdl-layout__content">
 			<a name="top"></a>
-			<div class="android-more-section">
+			<div class="android-more-section mdl-typography--text-center">
 				<div
 					class="android-section-title mdl-typography--display-1-color-contrast">Bookboxd
 					Login</div>
@@ -99,12 +99,13 @@
 					</div>
 					<br>
 					<br>
+					<p>${errorMessage}</p>
+					<br>
 					<button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
 						type="submit">Login</button>
 				</form>
 			</div>
-			<p>${errorMessage}</p>
 		</div>
 	</div>
 	<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>

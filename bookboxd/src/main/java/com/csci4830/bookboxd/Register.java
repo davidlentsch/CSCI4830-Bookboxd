@@ -54,7 +54,7 @@ public class Register extends HttpServlet {
             session.setAttribute("user", user);
             request.removeAttribute("errorMessage");
             
-            String destination = "dashboard.html";
+            String destination = "dashboard.jsp";
             
             // Forward request
 			RequestDispatcher dispatcher = request.getRequestDispatcher(destination);

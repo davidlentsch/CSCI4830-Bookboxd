@@ -53,7 +53,7 @@ public class Login extends HttpServlet {
 			HttpSession session = request.getSession();
             session.setAttribute("user", user);
             request.removeAttribute("errorMessage");
-            String destination = "dashboard.html";
+            String destination = "dashboard.jsp";
             
             // Forward request
 			RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
