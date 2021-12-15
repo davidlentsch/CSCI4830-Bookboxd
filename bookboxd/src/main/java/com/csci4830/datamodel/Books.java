@@ -1,5 +1,7 @@
 package com.csci4830.datamodel;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -100,4 +102,25 @@ public class Books {
 	public void setAverage_rating(Double average_rating) {
 		this.average_rating = average_rating;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(author, average_rating, book_id, book_name, description, genre);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Books other = (Books) obj;
+		return Objects.equals(author, other.author) && Objects.equals(average_rating, other.average_rating)
+				&& Objects.equals(book_id, other.book_id) && Objects.equals(book_name, other.book_name)
+				&& Objects.equals(description, other.description) && Objects.equals(genre, other.genre);
+	}
+	
+	
 }
