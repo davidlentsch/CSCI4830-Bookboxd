@@ -316,6 +316,16 @@ public class Utility {
 	}
 	
 	/**
+	 * Returns a List of User that match the title search query. Uses the LIKE
+	 * SQL operator.
+	 * @param search The search query for the book.
+	 * @return The List of books that were found.
+	 */
+	public static List<User> getUsersByNameSearch(String search) {
+		return (List<User>) getDataList("FROM User WHERE username LIKE '%" + search + "%'", User.class);
+	}
+	
+	/**
 	 * Returns a List of Books that match the author search query. Uses the LIKE
 	 * SQL operator.
 	 * @param search The search query for the book.

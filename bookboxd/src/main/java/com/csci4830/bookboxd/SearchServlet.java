@@ -74,11 +74,17 @@ public class SearchServlet extends HttpServlet {
 					if (!deduped.contains(b)) {
 						deduped.add(b);
 					}
-			 	} 
+			 	}
+				
+				// Next search for users
+				List<User> users = Utility.getUsersByNameSearch(query);
+				
+				// TODO: Filter out users with privacy level
 				
 				// Store the results and then send the user the page
 				request.setAttribute("query", query);
 				request.setAttribute("searchresults", deduped);
+				request.setAttribute("searchresultsUsers", users);
 				request.setAttribute("userLists", userLists);
 				request.removeAttribute("errorMessage");
 	            String destination = "searchresults.jsp";
