@@ -23,7 +23,7 @@
 	content="A front-end template that helps you build fast, modern mobile web apps.">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>Bookboxd - User Profile</title>
+<title>Bookboxd - Edit Profile</title>
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -67,19 +67,13 @@
 </style>
 </head>
 <body>
-	<div
-		class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-		<header
-			class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+	<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+		<header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">Profile Dashboard</span>
+				<span class="mdl-layout-title">Edit Profile</span>
 				<div class="mdl-layout-spacer"></div>
-				<div
-					class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-					<form action="Search" method="GET">
-					<label class="mdl-button mdl-js-button mdl-button--icon"
-						for="searchBox"> <i class="material-icons">search</i>
-					</label>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+				<form>
 					<div class="mdl-textfield__expandable-holder">
 						<input class="mdl-textfield__input" type="text" id="searchBox" name="query">
 						<label class="mdl-textfield__label" for="searchBox">Enter your query...</label>
@@ -96,10 +90,9 @@
 				</div>
 			</header>
 			<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
+				<!-- TODO: may want to add warning that this won't save any choices -->
 				<a class="mdl-navigation__link" href="dashboard.jsp">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Dashboard</a>
-				<a class="mdl-navigation__link" href="editProfile.jsp">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">manage_accounts</i>Edit Profile</a>
 				<div class="mdl-layout-spacer"></div>
 				<a class="mdl-navigation__link" href="https://github.com/zklars/CSCI4830-Bookboxd">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">info</i><span class="visuallyhidden">GitHub</span></a>
@@ -107,20 +100,34 @@
 		</div>
 		<main class="mdl-layout__content mdl-color--grey-100">
 		<div class="mdl-grid demo-content">
-			<div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-				About Me Goes Here
-			</div>
-			<div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
-				Lists Go Here; best solution may be to split this into boxes, one for 2 - 3 default lists, then one that goes to all other lists
-			</div>
-			<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
-				<div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
-					Friends List Goes Here
-				</div>
-				<div class="demo-separator mdl-cell--1-col"></div>
-				<div class="demo-options mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
-					Friend Requests Go Here
-				</div>
+			<div class="edit-profile mdl-color--white mdl-shadow--2dp mdl-cell--5-col" style="padding: 16px;">
+				<form action="EditProfileServlet" method="post">
+					About Me:
+					<div class="mdl-textfield mdl-js-textfield">
+    					<textarea class="mdl-textfield__input" type="text" rows= "3" name="comments" maxlength="255"></textarea>
+   						<label class="mdl-textfield__label" for="sample5">255 Character Max</label>
+  					</div>
+					<br><br>
+					<!-- TODO: make it select the option that the user has picked out already -->
+					Profile Privacy Setting:
+					<br>
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="public">
+						<input type="radio" id="public" class="mdl-radio__button" name="userPrivacy" value="public">
+						<span class="mdl-radio__label">Public</span>
+					</label>
+					&nbsp;&nbsp;
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="private">
+					  	<input type="radio" id="private" class="mdl-radio__button" name="userPrivacy" value="private">
+					  	<span class="mdl-radio__label">Private</span>
+					</label>
+					&nbsp;&nbsp;
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="friends">
+					  	<input type="radio" id="friends" class="mdl-radio__button" name="userPrivacy" value="friends">
+					  	<span class="mdl-radio__label">Friends Only</span>
+					</label>
+					<br><br>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Save Changes</button>
+				</form>
 			</div>
 		</div>
 		</main>

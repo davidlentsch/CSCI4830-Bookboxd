@@ -64,17 +64,13 @@
 				<!-- Title -->
 				<span class="mdl-layout-title">Bookboxd</span>
 				<!-- Add spacer, to align navigation to the right -->
-				<div class="mdl-layout-spacer"></div>
-				<!-- Navigation. We hide it in small screens. -->
-				<nav class="mdl-navigation mdl-layout--large-screen-only">
-					<a class="mdl-navigation__link mdl-typography--text-uppercase"
-						href="login.">Login</a>
-				</nav>
 			</div>
 		</header>
 		<div class="mdl-layout__drawer">
 			<span class="mdl-layout-title">Bookboxd</span>
-
+			<nav class="mdl-navigation">
+				<a class="mdl-navigation__link" href="index.html">Home</a>
+			</nav>
 			<nav class="mdl-navigation">
 				<a class="mdl-navigation__link" href="login.jsp">Login</a>
 			</nav>
