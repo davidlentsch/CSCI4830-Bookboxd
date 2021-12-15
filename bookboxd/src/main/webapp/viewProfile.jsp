@@ -124,7 +124,7 @@
 						<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
 				</c:if>
 				<c:if test="${user.user_id == userProfile.user_id}">
-					<a class="mdl-navigation__link" href="">
+					<a class="mdl-navigation__link" href="editProfile.jsp">
 						<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">manage_accounts</i>Edit Profile</a>
 				</c:if>
 				<a class="mdl-navigation__link" href="Logout">
