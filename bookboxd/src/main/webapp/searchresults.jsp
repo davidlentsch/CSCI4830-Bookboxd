@@ -120,7 +120,7 @@
 				<div
 					class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
 					<div class="mdl-card__media">
-						<img src="${item.image_url}">
+						<img src="${item.image_url}" style="width: 100%;">
 					</div>
 					<div class="mdl-card__title">
 						<h4 class="mdl-card__title-text">${item.book_name}</h4>
