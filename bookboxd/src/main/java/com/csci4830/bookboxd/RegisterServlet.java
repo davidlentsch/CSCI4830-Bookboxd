@@ -20,13 +20,13 @@ import com.csci4830.datamodel.User;
  * Servlet implementation class Register
  */
 @WebServlet("/Register")
-public class Register extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Register() {
+    public RegisterServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

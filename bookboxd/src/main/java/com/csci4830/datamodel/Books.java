@@ -42,6 +42,9 @@ public class Books {
 
 	@Column(name = "average_rating")
 	private Double average_rating;
+	
+	@Column(name = "image_url")
+	private String image_url;
 
 	public static final Double DEFAULT_AVERAGE = 0.0;
 	public Books() {
@@ -102,10 +105,27 @@ public class Books {
 	public void setAverage_rating(Double average_rating) {
 		this.average_rating = average_rating;
 	}
+	
+	public String getImage_url() {
+		if (image_url != null) {
+			if (!image_url.equals("")) {
+				return image_url;
+			}
+			else {
+				return "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Iceland_Dettifoss_1972-4.jpg/348px-Iceland_Dettifoss_1972-4.jpg";
+			}
+		} else {
+			return "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Iceland_Dettifoss_1972-4.jpg/348px-Iceland_Dettifoss_1972-4.jpg";
+		}
+	}
+
+	public void setImage_url(String image_url) {
+		this.image_url = image_url;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(author, average_rating, book_id, book_name, description, genre);
+		return Objects.hash(author, average_rating, book_id, book_name, description, genre, image_url);
 	}
 
 	@Override
@@ -119,8 +139,8 @@ public class Books {
 		Books other = (Books) obj;
 		return Objects.equals(author, other.author) && Objects.equals(average_rating, other.average_rating)
 				&& Objects.equals(book_id, other.book_id) && Objects.equals(book_name, other.book_name)
-				&& Objects.equals(description, other.description) && Objects.equals(genre, other.genre);
+				&& Objects.equals(description, other.description) && Objects.equals(genre, other.genre)
+				&& Objects.equals(image_url, other.image_url);
 	}
-	
 	
 }
