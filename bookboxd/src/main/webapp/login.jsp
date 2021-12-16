@@ -99,6 +99,8 @@
 					<button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
 						type="submit">Login</button>
+					<br><br>
+					No account? No problem. Register <a href="register.jsp">here</a>.
 				</form>
 			</div>
 		</div>

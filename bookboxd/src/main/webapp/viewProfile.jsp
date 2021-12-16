@@ -162,7 +162,7 @@
 					</c:forEach>
 				</ul>
 				<c:if test="${user.user_id == userProfile.user_id}">
-				<a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href="/ListOverview">Manage Lists</a>
+				<a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href="ListOverview">Manage Lists</a>
 				</c:if>
 			</div>
 				<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">

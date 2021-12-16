@@ -105,6 +105,8 @@
 					<button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
 						type="submit">Register</button>
+					<br><br>
+					Already have an account? Login <a href="login.jsp">here</a>.
 				</form>
 			</div>
 		</div>
