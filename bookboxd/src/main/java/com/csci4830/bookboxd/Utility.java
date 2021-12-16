@@ -516,7 +516,7 @@ public class Utility {
 	 * @param user A newly created User object
 	 * @return A List of the Lists that were created.
 	 */
-	private static List<Lists> createDefaultUserLists(User user) {
+	public static List<Lists> createDefaultUserLists(User user) {
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
 		List<Lists> listsCreated = new ArrayList<Lists>();
@@ -645,5 +645,27 @@ public class Utility {
 	    }
 
 	    return book;
+	}
+	
+	public static Double getAverageReview(Integer book_id) {
+		Double avg = 0.0;
+		Session session = getSessionFactory().openSession();
+	    Transaction tx = null;
+	    
+	    try {
+	        tx = session.beginTransaction();
+	        avg = (Double) session.createQuery("select avg(rating) from Reviews where book_id = " + book_id + " group by book_id").getSingleResult();
+	        tx.commit();
+	    } catch (HibernateException e) {
+	        if (tx != null) {
+	            tx.rollback();
+	        }
+	        e.printStackTrace();
+	    } finally {
+	    	session.close();
+			session.getSessionFactory().close();
+	    }
+
+	    return avg;
 	}
 }
