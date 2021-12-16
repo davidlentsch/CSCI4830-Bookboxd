@@ -49,12 +49,13 @@ public class RegisterServlet extends HttpServlet {
 			//insert new user
 			User user = Utility.createUser(username, password);
 			
+			
 			// Log the user in
 			HttpSession session = request.getSession();
             session.setAttribute("user", user);
             request.removeAttribute("errorMessage");
             
-            String destination = "dashboard.jsp";
+            String destination = "ViewProfile?user_id=" + user.getUser_id();
             
             // Forward request
 			RequestDispatcher dispatcher = request.getRequestDispatcher(destination);

@@ -24,7 +24,7 @@
 	content="A front-end template that helps you build fast, modern mobile web apps.">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>Bookboxd - Edit Profile</title>
+<title>Bookboxd - Add Book</title>
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -71,7 +71,7 @@
 	<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
 		<header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">Edit Profile</span>
+				<span class="mdl-layout-title">Add New Book</span>
 				<div class="mdl-layout-spacer"></div>
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
 				<form>
@@ -102,55 +102,34 @@
 		<main class="mdl-layout__content mdl-color--grey-100">
 		<div class="mdl-grid demo-content">
 			<div class="edit-profile mdl-color--white mdl-shadow--2dp mdl-cell--5-col" style="padding: 16px;">
-				<form action="EditProfileServlet" method="post">
-					<p>About Me:</p>
+				<form action="BookServlet" method="post">
 					<div class="mdl-textfield mdl-js-textfield">
-    					<textarea class="mdl-textfield__input" type="text" rows= "4" name="comments" maxlength="255">${user.about_desc}</textarea>
-   						<label class="mdl-textfield__label" for="sample5">255 Character Max</label>
+						<input class="mdl-textfield__input" type="text" id="url" name="url">
+					    <label class="mdl-textfield__label" for="url">Image URL</label>
+					</div>
+					<br><br>
+					<div class="mdl-textfield mdl-js-textfield">
+						<input class="mdl-textfield__input" type="text" id="title" name="title">
+					    <label class="mdl-textfield__label" for="title">Title</label>
+					</div>
+					<br><br>
+					<div class="mdl-textfield mdl-js-textfield">
+						<input class="mdl-textfield__input" type="text" id="author" name="author">
+					    <label class="mdl-textfield__label" for="author">Author</label>
+					</div>
+					<br><br>
+					<div class="mdl-textfield mdl-js-textfield">
+						<input class="mdl-textfield__input" type="text" id="genre" name="genre">
+					    <label class="mdl-textfield__label" for="genre">Genre</label>
+					</div>
+					<br><br>
+					<div class="mdl-textfield mdl-js-textfield">
+    					<textarea class="mdl-textfield__input" type="text" rows= "4" name="description" maxlength="255"></textarea>
+   						<label class="mdl-textfield__label" for="sample5">Description (255 Character Max)</label>
   					</div>
-					<br><br>
-					<!-- TODO: make it select the option that the user has picked out already -->
-					Profile Privacy Setting:
-					<br><br>
-					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="public">
-						<c:choose>
-							<c:when test="${user.privacy_setting == 0}">
-								<input type="radio" id="public" class="mdl-radio__button" name="userPrivacy" value="public" checked>							
-							</c:when>
-							<c:otherwise>
-								<input type="radio" id="public" class="mdl-radio__button" name="userPrivacy" value="public">
-							</c:otherwise>
-						</c:choose>
-						<span class="mdl-radio__label">Public</span>
-					</label>
-					&nbsp;&nbsp;
-					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="private">
-						<c:choose>
-							<c:when test="${user.privacy_setting == 1}">
-								<input type="radio" id="private" class="mdl-radio__button" name="userPrivacy" value="private" checked>						
-							</c:when>
-							<c:otherwise>
-								<input type="radio" id="private" class="mdl-radio__button" name="userPrivacy" value="private">
-							</c:otherwise>
-						</c:choose>
-					  	<span class="mdl-radio__label">Private</span>
-					</label>
-					&nbsp;&nbsp;
-					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="friends">
-						<c:choose>
-							<c:when test="${user.privacy_setting == 2}">
-								<input type="radio" id="friends" class="mdl-radio__button" name="userPrivacy" value="friends" checked>						
-							</c:when>
-							<c:otherwise>
-								<input type="radio" id="friends" class="mdl-radio__button" name="userPrivacy" value="friends">
-							</c:otherwise>
-						</c:choose>
-					  	<span class="mdl-radio__label">Friends Only</span>
-					</label>
-					<br><br>
-					<a class="mdl-button mdl-js-button mdl-button--raised" href="dashboard.jsp">Cancel</a>
+  					<a class="mdl-button mdl-js-button mdl-button--raised" href="dashboard.jsp">Cancel</a>
   					&nbsp;&nbsp;
-					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Save Changes</button>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Add Book</button>
 				</form>
 			</div>
 		</div>

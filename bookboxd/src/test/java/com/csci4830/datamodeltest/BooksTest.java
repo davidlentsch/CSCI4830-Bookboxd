@@ -12,7 +12,7 @@ import com.csci4830.datamodel.Books;
 
 //TODO
 public class BooksTest {
-	Books b = new Books("A Test Book", "Maya", "Fantasy", "A super cool book about some awesome lesbians who get married");
+	Books b = new Books("https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Iceland_Dettifoss_1972-4.jpg/348px-Iceland_Dettifoss_1972-4.jpg", "A Test Book", "Maya", "Fantasy", "A super cool book about some awesome lesbians who get married");
 	Books bEmpty = new Books();
 	
 	@Test

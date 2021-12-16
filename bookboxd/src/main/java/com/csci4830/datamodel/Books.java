@@ -50,7 +50,8 @@ public class Books {
 	public Books() {
 	}
 
-	public Books(String name, String author, String genre, String description) {
+	public Books(String url, String name, String author, String genre, String description) {
+		this.image_url = url;
 		this.book_name = name;
 		this.author = author;
 		this.genre = genre;

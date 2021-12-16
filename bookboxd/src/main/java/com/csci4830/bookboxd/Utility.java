@@ -604,13 +604,13 @@ public class Utility {
     }
 
 
-	public static Books createBook(String name, String author, String genre, String description) {
+	public static Books createBook(String url, String name, String author, String genre, String description) {
 	    Session session = getSessionFactory().openSession();
 	    Transaction tx = null;
 	    Books output = null;
 	    try {
 	        tx = session.beginTransaction();
-	        output = new Books(name, author, genre, description);
+	        output = new Books(url, name, author, genre, description);
 	        session.save(output);
 	        tx.commit();
 	    } catch (HibernateException e) {
