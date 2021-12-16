@@ -98,6 +98,8 @@
 			<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
 				<a class="mdl-navigation__link" href="ViewProfile?user_id=${user.user_id}">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
+				<a class="mdl-navigation__link" href="FriendRequests">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Friend Requests</a>
 				<a class="mdl-navigation__link" href="Logout">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">logout</i>Logout</a>
 				<div class="mdl-layout-spacer"></div>
