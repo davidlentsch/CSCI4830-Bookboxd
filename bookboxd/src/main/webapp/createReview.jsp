@@ -91,8 +91,8 @@
 			</header>
 			<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
 				<!-- TODO: may want to add warning that this won't save any choices -->
-				<a class="mdl-navigation__link" href="dashboard.jsp">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Dashboard</a>
+				<a class="mdl-navigation__link" href="ViewProfile?user_id=${user.user_id}">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
 				<div class="mdl-layout-spacer"></div>
 				<a class="mdl-navigation__link" href="https://github.com/zklars/CSCI4830-Bookboxd">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">info</i><span class="visuallyhidden">GitHub</span></a>
@@ -130,6 +130,8 @@
 					  	<span class="mdl-radio__label">Friends Only</span>
 					</label>
 					<br><br>
+					<a class="mdl-button mdl-js-button mdl-button--raised" href="ViewProfile?user_id=${user.user_id}">Cancel</a>
+  					&nbsp;&nbsp;
 					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Save Changes</button>
 				</form>
 			</div>
