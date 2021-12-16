@@ -100,7 +100,7 @@
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
 				<a class="mdl-navigation__link" href="FriendsList?user_id=${user.user_id}">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Friends</a>
-				<a class="mdl-navigation__link" href="">
+				<a class="mdl-navigation__link" href="FriendRequests">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Friend Requests</a>
 				<c:if test="${userListOwner.user_id == user.user_id}">
 					<c:if test="${isNotDefaultList}">
@@ -110,6 +110,8 @@
 							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Delete List</a>
 					</c:if>
 				</c:if>
+				<a class="mdl-navigation__link" href="Search?query=">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">book</i>Browse Books</a>
 				<a class="mdl-navigation__link" href="Logout">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">logout</i>Logout</a>
 				<div class="mdl-layout-spacer"></div>

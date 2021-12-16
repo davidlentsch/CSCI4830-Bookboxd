@@ -127,6 +127,8 @@
 					<a class="mdl-navigation__link" href="editProfile.jsp">
 						<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">manage_accounts</i>Edit Profile</a>
 				</c:if>
+				<a class="mdl-navigation__link" href="Search?query=">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">book</i>Browse Books</a>
 				<a class="mdl-navigation__link" href="Logout">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">logout</i>Logout</a>
 				<div class="mdl-layout-spacer"></div>
