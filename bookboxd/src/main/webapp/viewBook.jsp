@@ -158,7 +158,7 @@
 			<div class="demo-charts mdl-cell--12-col mdl-grid mdl-navigation">
 				<h3>Reviews</h3>
 				<div style="padding-left: 40px;">
-					<a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="createList.jsp">Create Review<i class="material-icons">chevron_right</i></a>
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="CreateReviewServlet?book_id=${book.book_id}">Create Review<i class="material-icons">chevron_right</i></a>
 				</div>
 			</div>
 			<div class="mdl-cell--12-col mdl-grid mdl-navigation">

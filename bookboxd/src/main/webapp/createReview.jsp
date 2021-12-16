@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <!--
   Material Design Lite
@@ -100,11 +101,15 @@
 		</div>
 		<main class="mdl-layout__content mdl-color--grey-100">
 		<div class="mdl-grid demo-content">
+			<div class="demo-charts mdl-cell--12-col mdl-grid mdl-navigation">
+				<h3>Create Review for <a href="Book?book_id=${book.book_id}">${book.book_name}</a></h3>
+			</div>
 			<div class="create-review mdl-color--white mdl-shadow--2dp mdl-cell--5-col" style="padding: 16px;">
 				<form action="CreateReviewServlet" method="post">
+					<input type="hidden" id="book_id" name="book_id" value="${book.book_id}">
 					Create Review:
 					<p>
-						<input type="range" value="3" min="1" max="5" oninput="this.nextElementSibling.value = this.value">
+						<input type="range" value="3" min="1" max="5" oninput="this.nextElementSibling.value = this.value" name="rating">
 						<output>3</output>
 					</p>
 					<div class="mdl-textfield mdl-js-textfield">
@@ -130,9 +135,9 @@
 					  	<span class="mdl-radio__label">Friends Only</span>
 					</label>
 					<br><br>
-					<a class="mdl-button mdl-js-button mdl-button--raised" href="ViewProfile?user_id=${user.user_id}">Cancel</a>
+					<a class="mdl-button mdl-js-button mdl-button--raised" href="Book?book_id=${book.book_id}">Cancel</a>
   					&nbsp;&nbsp;
-					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Save Changes</button>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Create Review</button>
 				</form>
 			</div>
 		</div>
