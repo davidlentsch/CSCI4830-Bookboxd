@@ -60,6 +60,11 @@ public class EditReviewServlet extends HttpServlet {
 		
 		Reviews r = (Reviews) request.getSession().getAttribute("reviews");
 		
+		
+		if (r.getRating() != useThisRating)
+		{
+			r.setRating(useThisRating);
+		}
 		if (!r.getComments().equals(newReview))
 		{
 			r.setComments(newReview);

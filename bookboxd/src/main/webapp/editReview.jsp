@@ -103,8 +103,9 @@
 			<div class="edit-review mdl-color--white mdl-shadow--2dp mdl-cell--5-col" style="padding: 16px;">
 				<form action="EditReviewServlet" method="post">
 					Edit Review:
-					<p style="width:300px">
-						<input class="mdl-slider mdl-js-slider" type="range" min="0" max="5" value="3" name = "rating" tabindex="0">
+					<p>
+						<input type="range" value="3" min="1" max="5" oninput="this.nextElementSibling.value = this.value">
+						<output>3</output>
 					</p>
 					<div class="mdl-textfield mdl-js-textfield">
     					<textarea class="mdl-textfield__input" type="text" rows= "3" name="review" maxlength="255"></textarea>
