@@ -165,8 +165,7 @@
 			</div>
 				<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
 						<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
-							<a href="FriendsList?user_id=${userProfile.user_id}">
-							${userProfile.username}'s friends</a>
+							<a href="FriendsList?user_id=${userProfile.user_id}">${userProfile.username}'s friends</a>
 							<c:if test="${not empty userFriends}">
 								<ul class="demo-list-icon mdl-list">
 									<c:forEach items="${userFriends}" var="item">
@@ -186,8 +185,7 @@
 						<div class="demo-separator mdl-cell--1-col"></div>
 					<c:if test="${userProfile.user_id == user.user_id}">
 						<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
-							<a href="FriendRequests">
-							Incoming Friend Requests</a>
+							<a href="FriendRequests">Incoming Friend Requests</a>
 							<c:if test="${not empty incomingFriendRequests}">
 								<ul class="demo-list-icon mdl-list">
 									<c:forEach items="${incomingFriendRequests}" var="item">

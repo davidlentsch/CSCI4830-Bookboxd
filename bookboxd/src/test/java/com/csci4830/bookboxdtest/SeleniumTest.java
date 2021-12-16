@@ -8,7 +8,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -101,10 +103,69 @@ public class SeleniumTest {
 		Thread.sleep(WAIT);
 		driver.findElement(By.xpath("//*[text()='Login'][@type='submit']")).click();
 	}
+	@Test
+	public void testCSummonFriend() throws InterruptedException {
+		driver.get("http://localhost:8080/bookboxd/index.html");
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//a[@href='login.jsp'][@data-upgraded=',MaterialButton,MaterialRipple']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.name("username")).sendKeys(USERNAME);
+		driver.findElement(By.name("password")).sendKeys(PASSWORD);
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//*[text()='Login'][@type='submit']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//form[@action='Search']")).click();
+		Thread.sleep(WAIT);
+		WebElement toEnter = driver.findElement(By.id("searchBox"));
+		toEnter.sendKeys("Selenium");
+		Thread.sleep(WAIT);
+		toEnter.sendKeys(Keys.RETURN);
+		Thread.sleep(WAIT*2);
+		driver.findElement(By.linkText("Selenium")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//i[@class='material-icons']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//*[text()=\"Send Friend Request\"]")).click();
+	}
+	
+	@Test
+	public void testDAcceptFriend() throws InterruptedException {
+		driver.get("http://localhost:8080/bookboxd/index.html");
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//a[@href='login.jsp'][@data-upgraded=',MaterialButton,MaterialRipple']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.name("username")).sendKeys(FAKE_USERNAME);
+		driver.findElement(By.name("password")).sendKeys(FAKE_PASSWORD);
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//*[text()='Login'][@type='submit']")).click();
+		
+		driver.findElement(By.xpath("//a[@href='FriendRequests']")).click();
+		
+		//Add quick decline later
+		
+		driver.findElement(By.linkText("Selenium2")).click();
+		Thread.sleep(WAIT);
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//i[@class='material-icons']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//*[text()=\"Accept Friend Request\"]")).click();
 
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//i[@class='material-icons']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//a[text()=\"Profile\"]")).click();
+		driver.findElement(By.xpath("//a[text()=\"Selenium's friends\"]")).click();
+	}
+	
+	
+	@Test
+	public void testEDestroyFriend() throws InterruptedException {
+		
+	}
+	
 	@After
 	public void close() throws InterruptedException {
 		Thread.sleep(2000);
-		driver.quit();
+		//driver.quit();
 	}
 }
