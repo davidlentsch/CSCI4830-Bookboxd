@@ -158,7 +158,8 @@
 			</div>
 				<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
 						<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
-							${userProfile.username}'s friends
+							<a href="FriendsList?user_id=${userProfile.user_id}">
+							${userProfile.username}'s friends</a>
 							<c:if test="${not empty userFriends}">
 								<ul class="demo-list-icon mdl-list">
 									<c:forEach items="${userFriends}" var="item">
