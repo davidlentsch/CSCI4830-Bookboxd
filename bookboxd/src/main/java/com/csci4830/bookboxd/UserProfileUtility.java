@@ -64,6 +64,7 @@ public class UserProfileUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		return updatedUser;
 
@@ -92,6 +93,7 @@ public class UserProfileUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		return updatedUser;
 	}
@@ -121,6 +123,7 @@ public class UserProfileUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		return updatedList;
 	}
@@ -149,6 +152,7 @@ public class UserProfileUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return privacy;

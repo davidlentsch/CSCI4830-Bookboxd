@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <!--
   Material Design Lite
@@ -23,7 +24,7 @@
 	content="A front-end template that helps you build fast, modern mobile web apps.">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>Bookboxd - Dashboard</title>
+<title>Bookboxd - Friend's List</title>
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -47,12 +48,10 @@
     <link rel="canonical" href="http://www.example.com/">
     -->
 
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet"
-	href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="dashboard.css">
 <style>
 #view-source {
@@ -72,7 +71,7 @@
 		<header
 			class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">Dashboard</span>
+				<span class="mdl-layout-title">Search Results</span>
 				<div class="mdl-layout-spacer"></div>
 				<div
 					class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
@@ -99,10 +98,6 @@
 			<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
 				<a class="mdl-navigation__link" href="ViewProfile?user_id=${user.user_id}">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Friends</a>
-				<a class="mdl-navigation__link" href="">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Friend Requests</a>
 				<a class="mdl-navigation__link" href="Logout">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">logout</i>Logout</a>
 				<div class="mdl-layout-spacer"></div>
@@ -114,21 +109,23 @@
 		</div>
 		<main class="mdl-layout__content mdl-color--grey-100">
 		<div class="mdl-grid demo-content">
-			<div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-				hello! find more on material layout &nbsp;<a href="https://getmdl.io/components/index.html#layout-section"> here</a>
+			
+			<div class="demo-charts mdl-cell mdl-cell--12-col mdl-grid">
+				<h3>${friendListUser.username}'s Friends</h3>
+				<br><br>
 			</div>
-			<div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
-				this is here! note that the grid boxes can change by changing the class.
-			</div>
-			<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
-				<div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
-					note how this column has two divs inside another, with a separator between.
-				</div>
-				<div class="demo-separator mdl-cell--1-col"></div>
-				<div class="demo-options mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
-					here is the other div.
-				</div>
-			</div>
+			<c:forEach items="${userFriends}" var="item">
+				<!-- Person entry begin -->
+			<ul class="mdl-cell mdl-cell--12-col mdl-grid mdl-list">
+				<li class="mdl-list__item mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+				<span class="mdl-list__item-primary-content">
+					<a class="material-icons mdl-list__item-icon" href="viewProfile.jsp?user_id=${item.user_id}">person</a>
+					<a href="ViewProfile?user_id=${item.user_id}">${item.username}</a>
+				</span>
+				</li>
+			</ul>
+				<!-- Person entry end -->
+			</c:forEach>
 		</div>
 		</main>
 	</div>

@@ -96,12 +96,14 @@
 				</div>
 			</header>
 			<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-				<a class="mdl-navigation__link" href="UserProfile.jsp">
+				<a class="mdl-navigation__link" href="ViewProfile?user_id=${user.user_id}">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
-				<a class="mdl-navigation__link" href="">
+				<a class="mdl-navigation__link" href="FriendsList?user_id=${user.user_id}">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Friends</a>
 				<a class="mdl-navigation__link" href="">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Friend Requests</a>
+				<a class="mdl-navigation__link" href="Logout">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">logout</i>Logout</a>
 				<div class="mdl-layout-spacer"></div>
 				<a class="mdl-navigation__link"
 					href="https://github.com/zklars/CSCI4830-Bookboxd"><i
@@ -158,8 +160,8 @@
 			<ul class="mdl-cell mdl-cell--12-col mdl-grid mdl-list">
 				<li class="mdl-list__item mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
 				<span class="mdl-list__item-primary-content">
-					<a class="material-icons mdl-list__item-icon" href="UserProfile.jsp?user_id=${item.user_id}">person</a>
-					<a href="UserProfile.jsp?user_id=${item.user_id}">${item.username}</a>
+					<a class="material-icons mdl-list__item-icon" href="ViewProfile?user_id=${item.user_id}">person</a>
+					<a href="ViewProfile?user_id=${item.user_id}">${item.username}</a>
 				</span>
 				</li>
 			</ul>

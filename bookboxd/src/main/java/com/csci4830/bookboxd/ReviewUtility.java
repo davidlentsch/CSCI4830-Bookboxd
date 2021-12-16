@@ -62,6 +62,7 @@ public class ReviewUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return newReview;
@@ -88,6 +89,7 @@ public class ReviewUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return result;
@@ -116,6 +118,7 @@ public class ReviewUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return updatedReview;
@@ -144,6 +147,7 @@ public class ReviewUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return privacy_setting;
@@ -174,6 +178,7 @@ public class ReviewUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return updatedReview;

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <!--
   Material Design Lite
@@ -102,27 +103,48 @@
 		<div class="mdl-grid demo-content">
 			<div class="edit-profile mdl-color--white mdl-shadow--2dp mdl-cell--5-col" style="padding: 16px;">
 				<form action="EditProfileServlet" method="post">
-					About Me:
+					<p>About Me:</p>
 					<div class="mdl-textfield mdl-js-textfield">
-    					<textarea class="mdl-textfield__input" type="text" rows= "3" name="comments" maxlength="255"></textarea>
+    					<textarea class="mdl-textfield__input" type="text" rows= "4" name="comments" maxlength="255">${user.about_desc}</textarea>
    						<label class="mdl-textfield__label" for="sample5">255 Character Max</label>
   					</div>
 					<br><br>
 					<!-- TODO: make it select the option that the user has picked out already -->
 					Profile Privacy Setting:
-					<br>
+					<br><br>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="public">
-						<input type="radio" id="public" class="mdl-radio__button" name="userPrivacy" value="public">
+						<c:choose>
+							<c:when test="${user.privacy_setting == 0}">
+								<input type="radio" id="public" class="mdl-radio__button" name="userPrivacy" value="public" checked>							
+							</c:when>
+							<c:otherwise>
+								<input type="radio" id="public" class="mdl-radio__button" name="userPrivacy" value="public">
+							</c:otherwise>
+						</c:choose>
 						<span class="mdl-radio__label">Public</span>
 					</label>
 					&nbsp;&nbsp;
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="private">
-					  	<input type="radio" id="private" class="mdl-radio__button" name="userPrivacy" value="private">
+						<c:choose>
+							<c:when test="${user.privacy_setting == 1}">
+								<input type="radio" id="private" class="mdl-radio__button" name="userPrivacy" value="private" checked>						
+							</c:when>
+							<c:otherwise>
+								<input type="radio" id="private" class="mdl-radio__button" name="userPrivacy" value="private">
+							</c:otherwise>
+						</c:choose>
 					  	<span class="mdl-radio__label">Private</span>
 					</label>
 					&nbsp;&nbsp;
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="friends">
-					  	<input type="radio" id="friends" class="mdl-radio__button" name="userPrivacy" value="friends">
+						<c:choose>
+							<c:when test="${user.privacy_setting == 2}">
+								<input type="radio" id="friends" class="mdl-radio__button" name="userPrivacy" value="friends" checked>						
+							</c:when>
+							<c:otherwise>
+								<input type="radio" id="friends" class="mdl-radio__button" name="userPrivacy" value="friends">
+							</c:otherwise>
+						</c:choose>
 					  	<span class="mdl-radio__label">Friends Only</span>
 					</label>
 					<br><br>
