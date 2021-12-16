@@ -23,7 +23,7 @@
 	content="A front-end template that helps you build fast, modern mobile web apps.">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>Bookboxd - Edit Review</title>
+<title>Bookboxd - Create Review</title>
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -70,7 +70,7 @@
 	<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
 		<header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">Edit Review</span>
+				<span class="mdl-layout-title">Create Review</span>
 				<div class="mdl-layout-spacer"></div>
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
 				<form>
@@ -91,8 +91,8 @@
 			</header>
 			<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
 				<!-- TODO: may want to add warning that this won't save any choices -->
-				<a class="mdl-navigation__link" href="ViewProfile?user_id=${user.user_id}">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
+				<a class="mdl-navigation__link" href="dashboard.jsp">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Dashboard</a>
 				<div class="mdl-layout-spacer"></div>
 				<a class="mdl-navigation__link" href="https://github.com/zklars/CSCI4830-Bookboxd">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">info</i><span class="visuallyhidden">GitHub</span></a>
@@ -100,9 +100,9 @@
 		</div>
 		<main class="mdl-layout__content mdl-color--grey-100">
 		<div class="mdl-grid demo-content">
-			<div class="edit-review mdl-color--white mdl-shadow--2dp mdl-cell--5-col" style="padding: 16px;">
-				<form action="EditReviewServlet" method="post">
-					Edit Review:
+			<div class="create-review mdl-color--white mdl-shadow--2dp mdl-cell--5-col" style="padding: 16px;">
+				<form action="CreateReviewServlet" method="post">
+					Create Review:
 					<p>
 						<input type="range" value="3" min="1" max="5" oninput="this.nextElementSibling.value = this.value">
 						<output>3</output>
@@ -130,8 +130,6 @@
 					  	<span class="mdl-radio__label">Friends Only</span>
 					</label>
 					<br><br>
-					<a class="mdl-button mdl-js-button mdl-button--raised" href="dashboard.jsp">Cancel</a>
-  					&nbsp;&nbsp;
 					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Save Changes</button>
 				</form>
 			</div>

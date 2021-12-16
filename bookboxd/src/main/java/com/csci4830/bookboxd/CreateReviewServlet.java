@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.csci4830.datamodel.Reviews;
 
 /**
- * Servlet implementation class EditReviewServlet
+ * Servlet implementation class CreateReviewServlet
  */
-@WebServlet("/EditReviewServlet")
-public class EditReviewServlet extends HttpServlet {
+@WebServlet("/CreateReviewServlet")
+public class CreateReviewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditReviewServlet() {
+    public CreateReviewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,6 +39,9 @@ public class EditReviewServlet extends HttpServlet {
 		String newReview = request.getParameter("review");
 		String newPrivacySetting = request.getParameter("reviewPrivacy");
 		String newRating = request.getParameter("rating");
+		
+		Integer book_id = (Integer) request.getSession().getAttribute("book_id");
+		Integer user_id = (Integer) request.getSession().getAttribute("user_id");
 		
 		Double useThisRating = Double.valueOf(newRating);
 		
@@ -61,20 +64,10 @@ public class EditReviewServlet extends HttpServlet {
 		Reviews r = (Reviews) request.getSession().getAttribute("reviews");
 		
 		
-		if (r.getRating() != useThisRating)
-		{
-			r.setRating(useThisRating);
-		}
-		if (!r.getComments().equals(newReview))
-		{
-			r.setComments(newReview);
-			ReviewUtility.updateReview(r.getReview_id(), useThisRating, newReview);
-		}
-		if (r.getPrivacy_setting() != newPrivacy) {
-			r.setPrivacy_setting(newPrivacy);
-			ReviewUtility.changeReviewPrivacy(r.getUser_id(), newPrivacy);
-		}
-		
+		r.setRating(useThisRating);
+		r.setComments(newReview);
+		r.setPrivacy_setting(newPrivacy);
+		ReviewUtility.createReview(user_id, book_id, useThisRating, newReview, newPrivacy);
 		
 	}
 
