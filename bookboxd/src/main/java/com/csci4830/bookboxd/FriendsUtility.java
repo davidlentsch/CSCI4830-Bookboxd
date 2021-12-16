@@ -65,6 +65,7 @@ public class FriendsUtility {
 			return 0;
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 
 		return 1;
@@ -93,6 +94,7 @@ public class FriendsUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 
 		return resultList;
@@ -120,6 +122,7 @@ public class FriendsUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return newRequest;
@@ -150,6 +153,7 @@ public class FriendsUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 
 		return result;
@@ -180,6 +184,7 @@ public class FriendsUtility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return result;
