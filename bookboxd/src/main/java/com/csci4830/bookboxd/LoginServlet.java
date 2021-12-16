@@ -44,8 +44,8 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String username = request.getParameter("username").replaceAll("'", "");
+		String password = request.getParameter("password").replaceAll("'", "");
 				
 		try {
 			User user = Utility.checkLogin(username, password);
@@ -59,7 +59,7 @@ public class LoginServlet extends HttpServlet {
             // Forward request
 			RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
             dispatcher.forward(request, response);			
-		} catch (NoResultException e) {
+		} catch (NoResultException | IllegalArgumentException e) {
 			// Failed to login, set message
 			String destination = "login.jsp";
 			String message = "The username or password is incorrect.<br><br>";

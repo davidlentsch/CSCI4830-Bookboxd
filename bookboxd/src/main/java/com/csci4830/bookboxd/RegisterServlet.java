@@ -44,7 +44,35 @@ public class RegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-				
+		String passwordconf = request.getParameter("passwordconf");
+		if (!password.equals(passwordconf)) {
+
+			// Passwords don't match, set message
+			String destination = "register.jsp";
+			String message = "Your passwords don't match.";
+			request.setAttribute("errorMessage", message);
+			
+			// Forward request
+			RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+            dispatcher.forward(request, response);
+            //I don't remember if I need to return and I am not taking chances
+            return;
+		}
+
+		if (password.contains("'")||username.contains("'")) {
+
+			// Sql injection or dumbness
+			String destination = "register.jsp";
+			String message = "Bad username or password.";
+			request.setAttribute("errorMessage", message);
+			
+			// Forward request
+			RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+            dispatcher.forward(request, response);
+            //I don't remember if I need to return and I am not taking chances
+            return;
+		}
+		
 		try {
 			//insert new user
 			User user = Utility.createUser(username, password);

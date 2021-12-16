@@ -516,7 +516,7 @@ public class Utility {
 	 * @param user A newly created User object
 	 * @return A List of the Lists that were created.
 	 */
-	private static List<Lists> createDefaultUserLists(User user) {
+	public static List<Lists> createDefaultUserLists(User user) {
 		Session session = getSessionFactory().openSession();
 		Transaction tx = null;
 		List<Lists> listsCreated = new ArrayList<Lists>();
