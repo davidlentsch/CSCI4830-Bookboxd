@@ -46,7 +46,7 @@ public class ViewProfileServlet extends HttpServlet {
 							
 				// Catch empty query
 				if (user_id == null) {
-					response.sendRedirect("UserProfile.jsp");
+					response.sendRedirect("viewProfile.jsp");
 				}
 				
 				response.setContentType("text/html");
@@ -56,7 +56,7 @@ public class ViewProfileServlet extends HttpServlet {
 				
 				// Catch if user doesn't exist
 				if (userProfile == null) {
-					response.sendRedirect("UserProfile.jsp");
+					response.sendRedirect("viewProfile.jsp");
 				}
 				
 				List<Friends> friends = Utility.getFriendsByUserID(Integer.valueOf(user_id));
