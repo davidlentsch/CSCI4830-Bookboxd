@@ -135,6 +135,8 @@
 			</nav>
 		</div>
 		<main class="mdl-layout__content mdl-color--grey-100">
+		<c:choose>
+		<c:when test="${userProfile.privacy_setting == 0 or (user.user_id == userProfile.user_id) or (userProfile.privacy_setting == 2 and isFriendsWithLoggedInUser)}">
 		<div class="mdl-grid demo-content">
 			<div class="demo-charts mdl-cell mdl-cell--12-col mdl-grid">
 				<h3>${userProfile.username}'s profile</h3>
@@ -199,6 +201,14 @@
 					</c:if>
 				</div>
 		</div>
+		</c:when>
+		<c:when test="${userProfile.privacy_setting == 2 and not isFriendsWithLoggedInUser}">
+			This account is only available for friends to view.
+		</c:when>
+		<c:when test="${userProfile.privacy_setting == 1 and user.user_id != userProfile.user_id}">
+			This account is private.
+		</c:when>
+		</c:choose>
 		</main>
 	</div>
 	<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
