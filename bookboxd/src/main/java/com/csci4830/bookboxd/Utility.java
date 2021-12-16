@@ -82,8 +82,11 @@ public class Utility {
 			if (tx != null)
 				tx.rollback();
 			e.printStackTrace();
+		} finally {
+			session.close();	
+			session.getSessionFactory().close();
 		}
-		
+				
 		return resultList;
 	}
 	
@@ -158,6 +161,7 @@ public class Utility {
 		}
 		finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 
 		return result;
@@ -182,8 +186,11 @@ public class Utility {
 			}
 			e.printStackTrace();
 			return null;
+		} finally {			
+			session.close();
+			session.getSessionFactory().close();
 		}
-		
+			
 		return object;
 	}
 	
@@ -206,8 +213,11 @@ public class Utility {
 			}
 			e.printStackTrace();
 			return null;
+		} finally {
+			session.close();	
+			session.getSessionFactory().close();
 		}
-		
+				
 		return object;
 	}
 	
@@ -488,11 +498,15 @@ public class Utility {
 			}
 			e.printStackTrace();
 			throw e;
+		} finally {			
+			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		if (output != null) {
 			createDefaultUserLists(output);
 		}
+		
 		
 		return output;
 	}
@@ -523,6 +537,9 @@ public class Utility {
 				tx.rollback();
 			}
 			e.printStackTrace();
+		} finally {			
+			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return listsCreated;
@@ -552,6 +569,7 @@ public class Utility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return newList;
@@ -574,6 +592,7 @@ public class Utility {
 			e.printStackTrace();
 		} finally {
 			session.close();
+			session.getSessionFactory().close();
 		}
 		
 		return result;
@@ -599,6 +618,9 @@ public class Utility {
 	            tx.rollback();
 	        }
 	        e.printStackTrace();
+	    } finally {
+	    	session.close();
+			session.getSessionFactory().close();
 	    }
 	    
 	    return output;
@@ -617,6 +639,9 @@ public class Utility {
 	            tx.rollback();
 	        }
 	        e.printStackTrace();
+	    } finally {
+	    	session.close();
+			session.getSessionFactory().close();
 	    }
 
 	    return book;
