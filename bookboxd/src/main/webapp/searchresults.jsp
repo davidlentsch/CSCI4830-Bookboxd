@@ -125,7 +125,7 @@
 						<img src="${item.image_url}" style="width: 100%;">
 					</div>
 					<div class="mdl-card__title">
-						<h4 class="mdl-card__title-text">${item.book_name}</h4>
+						<h4 class="mdl-card__title-text"><a href="Book?book_id=${item.book_id}"> ${item.book_name}</a></h4>
 					</div>
 					<div class="mdl-card__title">
 						<h5><span class="fa fa-star checked"></span> &nbsp; ${item.average_rating}</h5>
