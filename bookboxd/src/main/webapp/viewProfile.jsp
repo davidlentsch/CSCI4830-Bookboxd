@@ -135,6 +135,8 @@
 			</nav>
 		</div>
 		<main class="mdl-layout__content mdl-color--grey-100">
+		<c:choose>
+		<c:when test="${userProfile.privacy_setting == 0 or (user.user_id == userProfile.user_id) or (userProfile.privacy_setting == 2 and isFriendsWithLoggedInUser)}">
 		<div class="mdl-grid demo-content">
 			<div class="demo-charts mdl-cell mdl-cell--12-col mdl-grid">
 				<h3>${userProfile.username}'s profile</h3>
@@ -147,19 +149,23 @@
 				${userProfile.username}'s lists
 				<ul class="demo-list-icon mdl-list">
 					<c:forEach items="${userLists}" var="item">
+					<c:if test="${user.user_id == userProfile.user_id or item.privacy_setting == 0 or (item.privacy_setting == 2 and isFriendsWithLoggedInUser)}">
 						<li class="mdl-list__item">
 							<span class="mdl-list__item-primary-content">
 							<i class="material-icons mdl-list__item-icon">view_list</i>
 							<a href="ListViewer?list_id=${item.list_id}">${item.list_name}</a>
 					  		</span>
 						</li>
+					</c:if>
 					</c:forEach>
 				</ul>
+				<c:if test="${user.user_id == userProfile.user_id}">
+				<a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href="/ListOverview">Manage Lists</a>
+				</c:if>
 			</div>
 				<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
 						<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
-							<a href="FriendsList?user_id=${userProfile.user_id}">
-							${userProfile.username}'s friends</a>
+							<a href="FriendsList?user_id=${userProfile.user_id}">${userProfile.username}'s friends</a>
 							<c:if test="${not empty userFriends}">
 								<ul class="demo-list-icon mdl-list">
 									<c:forEach items="${userFriends}" var="item">
@@ -179,7 +185,7 @@
 						<div class="demo-separator mdl-cell--1-col"></div>
 					<c:if test="${userProfile.user_id == user.user_id}">
 						<div class="demo-graphs mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop">
-							Incoming Friend Requests
+							<a href="FriendRequests">Incoming Friend Requests</a>
 							<c:if test="${not empty incomingFriendRequests}">
 								<ul class="demo-list-icon mdl-list">
 									<c:forEach items="${incomingFriendRequests}" var="item">
@@ -199,6 +205,14 @@
 					</c:if>
 				</div>
 		</div>
+		</c:when>
+		<c:when test="${userProfile.privacy_setting == 2 and not isFriendsWithLoggedInUser}">
+			This account is only available for friends to view.
+		</c:when>
+		<c:when test="${userProfile.privacy_setting == 1 and user.user_id != userProfile.user_id}">
+			This account is private.
+		</c:when>
+		</c:choose>
 		</main>
 	</div>
 	<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>

@@ -525,9 +525,7 @@ public class Utility {
 			tx = session.beginTransaction();
 			String[] listNames = {"Favorites","To Read","Finished","Reviewed"};
 			for (String string : listNames) {
-				Lists l = new Lists();
-				l.setList_name(string);
-				l.setUser_id(user.getUser_id());
+				Lists l = new Lists(user.getUser_id(), string, 0);
 				session.save(l);
 				listsCreated.add(l);
 			}

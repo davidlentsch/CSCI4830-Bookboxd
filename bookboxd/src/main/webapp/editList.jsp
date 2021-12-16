@@ -149,9 +149,9 @@
 					</label>
 					<br><br><br>
 					<div>
-						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="submit">Edit List</button>
-						&nbsp;&nbsp;
 						<a class="mdl-button mdl-js-button mdl-button--raised" href="ListOverview">Cancel</a>
+						&nbsp;&nbsp;
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="submit">Edit List</button>
 					</div>
 				</form>
 			</div>
