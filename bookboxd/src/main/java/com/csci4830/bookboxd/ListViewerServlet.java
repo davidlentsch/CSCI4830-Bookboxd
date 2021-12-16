@@ -51,13 +51,26 @@ public class ListViewerServlet extends HttpServlet {
 				
 				// Perform the search
 				List<Books> userListBooks = Utility.getBooksByListID(id);
+				List<Lists> currentUserLists = Utility.getListsByUserID(((User) request.getSession().getAttribute("user")).getUser_id());
 				Lists userList = Utility.getListByID(id);
 				User userListOwner = Utility.getUserByUserID(userList.getUser_id());
+				boolean isNotDefaultList = true;
+				
+				// Check if it's a default list
+				if (userList.getList_name().equals("Favorites") || 
+						userList.getList_name().equals("To Read") ||
+						userList.getList_name().equals("Finished") ||
+						userList.getList_name().equals("Reviewed")) {
+					isNotDefaultList = false;
+				}
+				
 				
 				// Store the results and then send the user the page
 				request.setAttribute("userListBooks", userListBooks);
 				request.setAttribute("userList", userList);
 				request.setAttribute("userListOwner", userListOwner);
+				request.setAttribute("currentUserLists", currentUserLists);
+				request.setAttribute("isNotDefaultList", isNotDefaultList);
 				request.removeAttribute("errorMessage");
 	            String destination = "viewList.jsp";
 	            

@@ -17,13 +17,13 @@ import com.csci4830.datamodel.User;
  * Servlet implementation class ListsServlet
  */
 @WebServlet(name = "Lists", urlPatterns = { "/Lists" })
-public class ListsServlet extends HttpServlet {
+public class ListsAPIServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListsServlet() {
+    public ListsAPIServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,7 +45,7 @@ public class ListsServlet extends HttpServlet {
 			
 			// make sure we got the params we need
 			if (action == null) {
-				response.sendRedirect("ViewProfile?user_id=" + ((User) request.getSession().getAttribute("user")).getUser_id());
+				response.sendRedirect("ListOverview");
 			}
 			
 			switch (action) {
@@ -54,7 +54,7 @@ public class ListsServlet extends HttpServlet {
 				
 				// make sure we got the params we need
 				if (list_id == null || book_id == null) {
-					response.sendRedirect("ViewProfile?user_id=" + ((User) request.getSession().getAttribute("user")).getUser_id());
+					response.sendRedirect("ListOverview");
 				}
 				
 				
@@ -66,7 +66,7 @@ public class ListsServlet extends HttpServlet {
 					
 					// Check to see if this list doesn't belongs to the user
 					if (l.getUser_id() != currentUser.getUser_id()) {
-						response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+						response.sendRedirect("ListOverview");
 					}
 					
 					// Check to see if the book already exists on the list
@@ -79,14 +79,14 @@ public class ListsServlet extends HttpServlet {
 					}
 					
 					if (!alreadyOnList) {
-						ListsUtility.addBookToList(Integer.valueOf("list_id"), Integer.valueOf(book_id));
+						ListsUtility.addBookToList(Integer.valueOf(list_id), Integer.valueOf(book_id));
 					}
 					
 					response.sendRedirect("ListViewer?list_id=" + Integer.valueOf(list_id));
 				} catch (Exception e) {
 					// do nothing
 					e.printStackTrace();
-					response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+					response.sendRedirect("ListOverview");
 				}
 				break;
 			case "remove":
@@ -94,7 +94,7 @@ public class ListsServlet extends HttpServlet {
 				
 				// make sure we got the params we need
 				if (list_id == null || book_id == null) {
-					response.sendRedirect("ViewProfile?user_id=" + ((User) request.getSession().getAttribute("user")).getUser_id());
+					response.sendRedirect("ListOverview");
 				}
 				
 				boolean removeIsOnList = false;
@@ -104,7 +104,7 @@ public class ListsServlet extends HttpServlet {
 					
 					// Check to see if this list doesn't belongs to the user
 					if (l.getUser_id() != currentUser.getUser_id()) {
-						response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+						response.sendRedirect("ListOverview");
 					}
 					
 					// Check to see if the book already exists on the list
@@ -116,15 +116,15 @@ public class ListsServlet extends HttpServlet {
 						}
 					}
 					
-					if (!removeIsOnList) {
-						ListsUtility.removeBookFromList(ListsUtility.getListBooksDataObject(Integer.valueOf(list_id), Integer.valueOf(user_id)));
+					if (removeIsOnList) {
+						ListsUtility.removeBookFromList(ListsUtility.getListBooksDataObject(Integer.valueOf(list_id), Integer.valueOf(book_id)));
 					}
 					
 					response.sendRedirect("ListViewer?list_id=" + Integer.valueOf(list_id));
 				} catch (Exception e) {
 					// do nothing
 					e.printStackTrace();
-					response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+					response.sendRedirect("ListOverview");
 				}
 				break;
 			case "editList":
@@ -132,7 +132,7 @@ public class ListsServlet extends HttpServlet {
 
 				// make sure we got the params we need
 				if (list_id == null || list_name == null || privacy_level == null) {
-					response.sendRedirect("ViewProfile?user_id=" + ((User) request.getSession().getAttribute("user")).getUser_id());
+					response.sendRedirect("ListOverview");
 				}
 				
 				
@@ -145,12 +145,12 @@ public class ListsServlet extends HttpServlet {
 							l.getList_name().equals("To Read") ||
 							l.getList_name().equals("Finished") ||
 							l.getList_name().equals("Reviewed")) {
-						response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+						response.sendRedirect("ListOverview");
 					}
 					
 					// Check to see if this list doesn't belongs to the user
 					if (l.getUser_id() != currentUser.getUser_id()) {
-						response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+						response.sendRedirect("ListOverview");
 					}
 					
 					ListsUtility.updateList(Integer.valueOf(list_id), list_name, Integer.valueOf(privacy_level));
@@ -158,7 +158,7 @@ public class ListsServlet extends HttpServlet {
 				} catch (Exception e) {
 					// do nothing
 					e.printStackTrace();
-					response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+					response.sendRedirect("ListOverview");
 				}
 				break;
 			case "addList":
@@ -166,7 +166,7 @@ public class ListsServlet extends HttpServlet {
 				
 				// make sure we got the params we need
 				if (list_name == null || privacy_level == null) {
-					response.sendRedirect("ViewProfile?user_id=" + ((User) request.getSession().getAttribute("user")).getUser_id());
+					response.sendRedirect("ListOverview");
 				}
 				
 				try {
@@ -175,7 +175,7 @@ public class ListsServlet extends HttpServlet {
 							list_name.equals("To Read") ||
 							list_name.equals("Finished") ||
 							list_name.equals("Reviewed")) {
-						response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+						response.sendRedirect("ListOverview");
 					}
 					
 					// First check if the list already exists
@@ -183,7 +183,7 @@ public class ListsServlet extends HttpServlet {
 					
 					for (Lists l : lists) {
 						if (l.equals(list_name)) {
-							response.sendRedirect("ListViewer?list_id=" + l.getList_id());
+							response.sendRedirect("ListOverview");
 						}
 					}
 					
@@ -205,32 +205,30 @@ public class ListsServlet extends HttpServlet {
 					// do nothing
 					e.printStackTrace();
 				}
-				response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+				response.sendRedirect("ListOverview");
 				break;
 			case "deleteList":
 				// Delete List action
 
 				// make sure we got the params we need
 				if (list_id == null) {
-					response.sendRedirect("ViewProfile?user_id=" + ((User) request.getSession().getAttribute("user")).getUser_id());
+					response.sendRedirect("ListOverview");
 				}
 				
 				try {
+					Lists listToDelete = Utility.getListByID(Integer.valueOf(list_id));
+					
 					// Check if the user wants to make a default list name
-					if (list_name.equals("Favorites") || 
-							list_name.equals("To Read") ||
-							list_name.equals("Finished") ||
-							list_name.equals("Reviewed")) {
-						response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+					if (listToDelete.getList_name().equals("Favorites") || 
+							listToDelete.getList_name().equals("To Read") ||
+							listToDelete.getList_name().equals("Finished") ||
+							listToDelete.getList_name().equals("Reviewed")) {
+						response.sendRedirect("ListOverview");
 					}
 					
 					// First check if the list already exists
-					List<Lists> lists = Utility.getListsByUserID(currentUser.getUser_id());
-					
-					for (Lists l : lists) {
-						if (l.equals(list_name)) {
-							response.sendRedirect("ListViewer?list_id=" + l.getList_id());
-						}
+					if (listToDelete.getUser_id() != currentUser.getUser_id()) {
+						response.sendRedirect("ListOverview");
 					}
 					
 					// Delete the list
@@ -239,10 +237,10 @@ public class ListsServlet extends HttpServlet {
 					// do nothing
 					e.printStackTrace();
 				}
-				response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+				response.sendRedirect("ListOverview");
 				break;
 			default:
-				response.sendRedirect("ViewProfile?user_id=" + Integer.valueOf(user_id));
+				response.sendRedirect("ListOverview");
 			}			
         }
 	}
