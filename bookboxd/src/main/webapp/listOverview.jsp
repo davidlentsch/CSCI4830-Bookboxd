@@ -24,7 +24,7 @@
 	content="A front-end template that helps you build fast, modern mobile web apps.">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>Bookboxd - ${userList.list_name} by ${userListOwner.username}</title>
+<title>Bookboxd - List Manager</title>
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -71,7 +71,7 @@
 		<header
 			class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
 			<div class="mdl-layout__header-row">
-				<span class="mdl-layout-title">List Viewer</span>
+				<span class="mdl-layout-title">List Manager</span>
 				<div class="mdl-layout-spacer"></div>
 				<div
 					class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
@@ -102,14 +102,6 @@
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Friends</a>
 				<a class="mdl-navigation__link" href="">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Friend Requests</a>
-				<c:if test="${userListOwner.user_id == user.user_id}">
-					<c:if test="${isNotDefaultList}">
-						<a class="mdl-navigation__link" href="ListEditor?list_id=${userList.list_id}">
-							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Edit List</a>
-						<a class="mdl-navigation__link" href="Lists?action=deleteList&list_id=${userList.list_id}">
-							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Delete List</a>
-					</c:if>
-				</c:if>
 				<a class="mdl-navigation__link" href="Logout">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">logout</i>Logout</a>
 				<div class="mdl-layout-spacer"></div>
@@ -121,46 +113,37 @@
 		</div>
 		<main class="mdl-layout__content mdl-color--grey-100">
 		<div class="mdl-grid demo-content">
-			<div class="demo-charts mdl-cell mdl-cell--12-col mdl-grid">
-				<h3>${userList.list_name} by <a href="ViewProfile?user_id=${userListOwner.user_id}">${userListOwner.username}</a></h3>
-				<br><br>
+			<div class="demo-charts mdl-cell--12-col mdl-grid mdl-navigation">
+				<h3>List Manager</h3>
+				<div class="mdl-cell--9-col" style="text-align: right;">
+					<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" href="createList.jsp">Create List</a>
+				</div>
 			</div>
-			<c:forEach items="${userListBooks}" var="item">
-				<!-- Card begin -->
+			<c:forEach items="${userLists}" var="item">
+			<!-- Card begin -->
 				<div
 					class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
-					<div class="mdl-card__media">
-						<img src="${item.image_url}" style="width: 100%;">
-					</div>
 					<div class="mdl-card__title">
-						<h4 class="mdl-card__title-text">${item.book_name}</h4>
+                        <i class="material-icons mdl-list__item-icon">list</i>&nbsp;&nbsp;
+						<h4 class="mdl-card__title-text"><a href="ListViewer?list_id=${item.list_id}">${item.list_name}</a></h4>
 					</div>
-					<div class="mdl-card__title">
-						<h5><span class="fa fa-star checked"></span> &nbsp; ${item.average_rating}</h5>
-					</div>
-					<div class="mdl-card__supporting-text">
-						<span class="mdl-typography--subhead">Genre: ${item.genre}</span>
-					</div>
-					<div class="mdl-card__supporting-text mdl-typography--subhead">
-						<span class="mdl-typography--subhead">${item.description}</span>
-					</div>
-					<div class="mdl-card__actions">
-						<ul class="mdl-menu mdl-js-menu mdl-menu--top-left mdl-js-ripple-effect"
-							for="add-book${item.book_id}-to-list">
-							<c:if test="${userListOwner.user_id == user.user_id}">
-								<a class="mdl-menu__item mdl-menu__item--full-bleed-divider" href="Lists?action=remove&list_id=${userList.list_id}&book_id=${item.book_id}">Remove from List</a>						
-							</c:if>
-							<c:forEach items="${currentUserLists}" var="list">
-								<a class="mdl-menu__item"
-									href="Lists?action=add&list_id=${list.list_id}&user_id=${list.user_id}&book_id=${item.book_id}">${list.list_name}</a>
-							</c:forEach>
-						</ul>
-						<a class="android-link mdl-button mdl-js-button android-link-menu mdl-typography--text-uppercase"
-							id="add-book${item.book_id}-to-list">Actions<i class="material-icons">chevron_right</i></a>
-					</div>
+                    <div style="height: 70px;"></div>
+					<c:if test="${item.list_name != 'Favorites' and item.list_name != 'To Read' and item.list_name != 'Finished' and item.list_name != 'Reviewed'}">
+						<div class="mdl-card__actions">
+							<ul class="mdl-menu mdl-js-menu mdl-menu--top-left mdl-js-ripple-effect"
+								for="add-book${item.list_id}-to-list">
+									<a class="mdl-menu__item"
+										href="ListEditor?list_id=${item.list_id}">Edit</a>
+	                                <a class="mdl-menu__item"
+										href="Lists?action=deleteList&list_id=${item.list_id}">Delete</a>
+							</ul>
+							<a class="android-link mdl-button mdl-js-button android-link-menu mdl-typography--text-uppercase"
+								id="add-book${item.list_id}-to-list">Actions<i class="material-icons">chevron_right</i></a>
+						</div>
+                    </c:if>
 					<div></div>
 				</div>
-				<!-- Card end -->
+			<!-- Card end -->
 			</c:forEach>
 		</div>
 		</main>
