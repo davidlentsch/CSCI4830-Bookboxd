@@ -31,9 +31,10 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
+		
 		if (request.getSession().getAttribute("user") != null) {
-			response.sendRedirect("dashboard.jsp");
+			User currentUser = (User) request.getSession().getAttribute("user");
+			response.sendRedirect("ViewProfile?user_id=" + currentUser.getUser_id());
         } else {
 			response.sendRedirect("login.jsp");
         }
@@ -53,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
             session.setAttribute("user", user);
             request.removeAttribute("errorMessage");
-            String destination = "dashboard.jsp";
+            String destination = "ViewProfile?user_id=" + user.getUser_id();
             
             // Forward request
 			RequestDispatcher dispatcher = request.getRequestDispatcher(destination);

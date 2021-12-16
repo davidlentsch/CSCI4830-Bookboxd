@@ -305,7 +305,7 @@ public class UtilityTest {
 	
 	@Test
 	public void testCreateBook() {
-		Books b = Utility.createBook("name", "author", "genre", "description");
+		Books b = Utility.createBook("https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Iceland_Dettifoss_1972-4.jpg/348px-Iceland_Dettifoss_1972-4.jpg", "name", "author", "genre", "description");
 		
 		Session session = Utility.getSessionFactory().openSession();
 		Transaction tx = null;
@@ -313,6 +313,7 @@ public class UtilityTest {
 		try {
 			tx = session.beginTransaction();
 			Books book = (Books) session.get(Books.class, b.getBook_id());
+			assertEquals("https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Iceland_Dettifoss_1972-4.jpg/348px-Iceland_Dettifoss_1972-4.jpg", book.getImage_url());
 			assertEquals("name", book.getBook_name());
 			assertEquals("author", book.getAuthor());
 			assertEquals("genre", book.getGenre());
@@ -331,7 +332,7 @@ public class UtilityTest {
 	
 	@Test
 	public void testDeleteBook() {
-		Books b = Utility.createBook("name", "author", "genre", "description");
+		Books b = Utility.createBook("https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Iceland_Dettifoss_1972-4.jpg/348px-Iceland_Dettifoss_1972-4.jpg", "name", "author", "genre", "description");
 		Utility.deleteBook(b);
 		
 		Session session = Utility.getSessionFactory().openSession();
