@@ -1,16 +1,12 @@
 package com.csci4830.bookboxdtest;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,7 +14,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-@TestMethodOrder(OrderAnnotation.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {
 	private WebDriver driver;
 	private final String USERNAME = "Selenium2";
@@ -36,22 +32,19 @@ public class SeleniumTest {
 		//System.setProperty("webdriver.chrome.driver", fileName);
 		WebDriverManager.chromedriver().browserVersion("96.0.4664.110").setup();
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("start-maximized"); 
+		//options.addArguments("start-maximized"); 
 		options.addArguments("enable-automation"); 
 		options.addArguments("--no-sandbox"); 
 		options.addArguments("--disable-infobars");
 		options.addArguments("--disable-dev-shm-usage");
 		options.addArguments("--disable-browser-side-navigation"); 
 		options.addArguments("--disable-gpu"); 
-		driver = new ChromeDriver(options); 
-		
-		driver = new ChromeDriver();
+		driver = new ChromeDriver(options);
 		driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
 	}
 
 	@Test
-	@Order(1)
-	public void testCreate() throws InterruptedException {
+	public void testACreate() throws InterruptedException {
 		driver.get("http://localhost:8080/bookboxd/index.html");
 		Thread.sleep(WAIT);
 		driver.findElement(By.xpath("//a[@href='register.jsp'][@data-upgraded=',MaterialButton,MaterialRipple']")).click();
@@ -88,8 +81,7 @@ public class SeleniumTest {
 	
 	
 	@Test
-	@Order(2)
-	public void testLogin() throws InterruptedException {
+	public void testBLogin() throws InterruptedException {
 		//driver.get("http://google.com");
 		driver.get("http://localhost:8080/bookboxd/index.html");
 		Thread.sleep(WAIT);

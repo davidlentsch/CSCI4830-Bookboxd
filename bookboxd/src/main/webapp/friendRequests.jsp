@@ -24,7 +24,7 @@
 	content="A front-end template that helps you build fast, modern mobile web apps.">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<title>Bookboxd - ${query} - Search Results</title>
+<title>Bookboxd - Friend Requests</title>
 
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -100,8 +100,6 @@
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
 				<a class="mdl-navigation__link" href="FriendsList?user_id=${user.user_id}">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Friends</a>
-				<a class="mdl-navigation__link" href="FriendRequests">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Friend Requests</a>
 				<a class="mdl-navigation__link" href="Logout">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">logout</i>Logout</a>
 				<div class="mdl-layout-spacer"></div>
@@ -113,55 +111,22 @@
 		</div>
 		<main class="mdl-layout__content mdl-color--grey-100">
 		<div class="mdl-grid demo-content">
+			
 			<div class="demo-charts mdl-cell mdl-cell--12-col mdl-grid">
-				<h3>Book Search</h3>
+				<h3>${user.username}'s Friend Requets</h3>
 				<br><br>
 			</div>
-			<c:forEach items="${searchresults}" var="item">
-				<!-- Card begin -->
-				<div
-					class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
-					<div class="mdl-card__media">
-						<img src="${item.image_url}" style="width: 100%;">
-					</div>
-					<div class="mdl-card__title">
-						<h4 class="mdl-card__title-text">${item.book_name}</h4>
-					</div>
-					<div class="mdl-card__title">
-						<h5><span class="fa fa-star checked"></span> &nbsp; ${item.average_rating}</h5>
-					</div>
-					<div class="mdl-card__supporting-text">
-						<span class="mdl-typography--subhead">Genre: ${item.genre}</span>
-					</div>
-					<div class="mdl-card__supporting-text mdl-typography--subhead">
-						<span class="mdl-typography--subhead">${item.description}</span>
-					</div>
-					<div class="mdl-card__actions">
-						<ul class="mdl-menu mdl-js-menu mdl-menu--top-left mdl-js-ripple-effect"
-							for="add-book${item.book_id}-to-list">
-							<c:forEach items="${userLists}" var="list">
-								<a class="mdl-menu__item"
-									href="Lists?action=add&list_id=${list.list_id}&user_id=${list.user_id}&book_id=${item.book_id}">${list.list_name}</a>
-							</c:forEach>
-						</ul>
-						<a class="android-link mdl-button mdl-js-button android-link-menu mdl-typography--text-uppercase"
-							id="add-book${item.book_id}-to-list">Add Book To List<i class="material-icons">chevron_right</i></a>
-					</div>
-					<div></div>
-				</div>
-				<!-- Card end -->
-			</c:forEach>
-			<div class="demo-charts mdl-cell mdl-cell--12-col mdl-grid">
-				<h3>User Search</h3>
-				<br><br>
-			</div>
-			<c:forEach items="${searchresultsUsers}" var="item">
+			<c:forEach items="${friendRequests}" var="item">
 				<!-- Person entry begin -->
 			<ul class="mdl-cell mdl-cell--12-col mdl-grid mdl-list">
 				<li class="mdl-list__item mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
 				<span class="mdl-list__item-primary-content">
-					<a class="material-icons mdl-list__item-icon" href="ViewProfile?user_id=${item.user_id}">person</a>
+					<a class="material-icons mdl-list__item-icon" href="viewProfile.jsp?user_id=${item.user_id}">person</a>
 					<a href="ViewProfile?user_id=${item.user_id}">${item.username}</a>
+					<a class="mdl-navigation__link" href="FriendRequests?action=accept&user_id=${item.user_id}">
+						<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">done</i></a>
+					<a class="mdl-navigation__link" href="FriendRequests?action=deny&user_id=${item.user_id}">
+						<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">not_interested</i></a>
 				</span>
 				</li>
 			</ul>
