@@ -1,5 +1,7 @@
 package com.csci4830.bookboxd;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +13,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import com.csci4830.datamodel.Friends;
 import com.csci4830.datamodel.FriendsPK;
+import com.csci4830.datamodel.Lists;
 import com.csci4830.datamodel.Reviews;
 
 public class ReviewUtility {
@@ -54,6 +57,16 @@ public class ReviewUtility {
 			tx = session.beginTransaction();
 			newReview = new Reviews(user_id, book_id, rating, comments, privacy_setting);
 			session.save(newReview);
+			
+			Integer listId = null;
+			List<Lists> userLists = Utility.getListsByUserID(user_id);
+			for (Lists l: userLists) {
+				if (l.getList_name().equals("Reviewed")) {
+					listId = l.getList_id();
+				}
+			}
+			
+			ListsUtility.addBookToList(listId, book_id);
 			
 			tx.commit();
 		} catch (HibernateException e) {

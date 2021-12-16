@@ -151,6 +151,15 @@
 				</div>
 				<!-- Card end -->
 			</c:forEach>
+			<div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--3dp">
+					<div class="mdl-card__title">
+						<h4 class="mdl-card__title-text">Don't see what you're looking for?</h4>
+					</div>
+					<div class="mdl-card__actions">
+						<a class="android-link mdl-button mdl-button--raised mdl-button--colored mdl-js-button android-link-menu mdl-typography--text-uppercase"
+							href="addBook.jsp">Add a Book to Bookboxd<i class="material-icons">plus</i></a>
+					</div>
+			</div>
 			<div class="demo-charts mdl-cell mdl-cell--12-col mdl-grid">
 				<h3>User Search</h3>
 				<br><br>
