@@ -76,6 +76,8 @@ public class BookViewServlet extends HttpServlet {
 							r.getPrivacy_setting(), 
 							Utility.getUserByUserID(r.getUser_id()));
 					
+					temp.setReview_id(r.getReview_id());
+					
 					addReview = false;
 					
 					if (r.getPrivacy_setting() == 0) {

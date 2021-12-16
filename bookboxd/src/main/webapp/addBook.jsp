@@ -129,7 +129,7 @@
   					</div>
   					<p>${errorMessage}</p>
   					<br>
-  					<a class="mdl-button mdl-js-button mdl-button--raised" href="ViewProfile?user_id=${user.user_id}">Cancel</a>
+  					<a class="mdl-button mdl-js-button mdl-button--raised" href="Search?query=">Cancel</a>
   					&nbsp;&nbsp;
 					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Add Book</button>
 				</form>
