@@ -366,4 +366,10 @@ public class UtilityTest {
 		}
 		
 	}
+	
+	@Test
+	public void testGetAverageReview() {
+		Double avg = Utility.getAverageReview(4);
+		assertEquals((Double) 3.5, avg);
+	}
 }

@@ -97,8 +97,8 @@
 				</div>
 			</header>
 			<nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-				<a class="mdl-navigation__link" href="dashboard.jsp">
-					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Dashboard</a>
+				<a class="mdl-navigation__link" href="ViewProfile?user_id=${user.user_id}">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
 				<c:choose>
 					<c:when test="${isFriendsWithLoggedInUser && userProfile.user_id != user.user_id}">
 						<a class="mdl-navigation__link" href="FriendRequest?action=remove&user_id=${userProfile.user_id}">

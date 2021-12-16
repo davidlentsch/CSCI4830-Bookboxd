@@ -127,7 +127,9 @@
     					<textarea class="mdl-textfield__input" type="text" rows= "4" name="description" maxlength="255"></textarea>
    						<label class="mdl-textfield__label" for="sample5">Description (255 Character Max)</label>
   					</div>
-  					<a class="mdl-button mdl-js-button mdl-button--raised" href="dashboard.jsp">Cancel</a>
+  					<p>${errorMessage}</p>
+  					<br>
+  					<a class="mdl-button mdl-js-button mdl-button--raised" href="ViewProfile?user_id=${user.user_id}">Cancel</a>
   					&nbsp;&nbsp;
 					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Add Book</button>
 				</form>

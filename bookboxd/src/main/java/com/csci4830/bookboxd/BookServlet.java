@@ -42,24 +42,41 @@ public class BookServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		String url = request.getParameter("url");
+		String url = request.getParameter("url"); //can be null
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
+		String genre = request.getParameter("genre"); //can be null
+		String description = request.getParameter("description"); //can be null
 		
 		
 		
 		if (request.getSession().getAttribute("user") != null) {
 			try {
-				//TODO: logic
-				
-				User currentUser = (User) request.getSession().getAttribute("user");
-	            String destination = "ViewProfile?user_id=" + currentUser.getUser_id();
-	            
-	            // Forward request
-				RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
-	            dispatcher.forward(request, response);
+				if ((title != null && !title.isBlank() && !title.isEmpty()) && (author != null && !author.isBlank() && !author.isEmpty())) {
+					//insert book
+					Utility.createBook(url, title, author, genre, description);
+					
+					User currentUser = (User) request.getSession().getAttribute("user");
+		            String destination = "ViewProfile?user_id=" + currentUser.getUser_id();
+		            
+		            // Forward request
+					RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+		            dispatcher.forward(request, response);
+				} else if (title == null || title.isBlank() || title.isEmpty()) {
+					String destination = "addBook.jsp";
+					String message = "Please add the title of the book.";
+					request.setAttribute("errorMessage", message);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+		            dispatcher.forward(request, response);
+				}  else if (author == null || author.isBlank() || author.isEmpty()) {
+					String destination = "addBook.jsp";
+					String message = "Please add the author of the book.";
+					request.setAttribute("errorMessage", message);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+		            dispatcher.forward(request, response);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

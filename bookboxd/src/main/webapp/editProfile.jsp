@@ -148,7 +148,7 @@
 					  	<span class="mdl-radio__label">Friends Only</span>
 					</label>
 					<br><br>
-					<a class="mdl-button mdl-js-button mdl-button--raised" href="dashboard.jsp">Cancel</a>
+					<a class="mdl-button mdl-js-button mdl-button--raised" href="ViewProfile?user_id=${user.user_id}">Cancel</a>
   					&nbsp;&nbsp;
 					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Save Changes</button>
 				</form>
