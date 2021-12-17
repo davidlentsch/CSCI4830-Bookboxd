@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.persistence.NoResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -69,10 +70,21 @@ public class SearchServlet extends HttpServlet {
 				
 				// Deduplicate the results
 				deduped.addAll(nameSearch);
-				
+				for (Books b : nameSearch) {
+					try {
+						b.setAverage_rating(Math.ceil((Utility.getAverageReview(b.getBook_id()))*10)/10.0);		
+					} catch (NoResultException nre) {
+						b.setAverage_rating(0.0);
+					}
+				}
 				for (Books b : authorSearch) {
 					if (!deduped.contains(b)) {
 						deduped.add(b);
+						try {
+							b.setAverage_rating(Math.ceil((Utility.getAverageReview(b.getBook_id()))*10)/10.0);
+						} catch (NoResultException nre) {
+							b.setAverage_rating(0.0);
+						}
 					}
 			 	}
 				
