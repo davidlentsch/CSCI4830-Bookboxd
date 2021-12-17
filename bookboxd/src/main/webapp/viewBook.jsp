@@ -104,8 +104,10 @@
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
 				<a class="mdl-navigation__link" href="friendsList.jsp">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Friends</a>
-				<a class="mdl-navigation__link" href="">
+				<a class="mdl-navigation__link" href="FriendRequests">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Friend Requests</a>
+				<a class="mdl-navigation__link" href="Search?query=">
+					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">book</i>Browse Books</a>
 				<a class="mdl-navigation__link" href="Logout">
 					<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">logout</i>Logout</a>
 				<div class="mdl-layout-spacer"></div>

@@ -105,9 +105,9 @@
 				<c:if test="${userListOwner.user_id == user.user_id}">
 					<c:if test="${isNotDefaultList}">
 						<a class="mdl-navigation__link" href="ListEditor?list_id=${userList.list_id}">
-							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Edit List</a>
+							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">edit</i>Edit List</a>
 						<a class="mdl-navigation__link" href="Lists?action=deleteList&list_id=${userList.list_id}">
-							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Delete List</a>
+							<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>Delete List</a>
 					</c:if>
 				</c:if>
 				<a class="mdl-navigation__link" href="Search?query=">
