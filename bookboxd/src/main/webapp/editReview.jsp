@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <!--
   Material Design Lite
@@ -100,37 +101,61 @@
 		</div>
 		<main class="mdl-layout__content mdl-color--grey-100">
 		<div class="mdl-grid demo-content">
+			<div class="demo-charts mdl-cell--12-col mdl-grid mdl-navigation">
+				<h3>Editing Review for <a href="Book?book_id=${book.book_id}">${book.book_name}</a></h3>
+			</div>
 			<div class="edit-review mdl-color--white mdl-shadow--2dp mdl-cell--5-col" style="padding: 16px;">
 				<form action="EditReviewServlet" method="post">
-					Edit Review:
+					<input type="hidden" id="review_id" name="review_id" value="${review.review_id}">
+					Rating:
 					<p>
-						<input type="range" value="3" min="1" max="5" oninput="this.nextElementSibling.value = this.value">
-						<output>3</output>
+						<input type="range" value="${review.rating}" min="1" max="5" oninput="this.nextElementSibling.value = this.value" name="rating">
+						<output>${review.rating}</output>
 					</p>
 					<div class="mdl-textfield mdl-js-textfield">
-    					<textarea class="mdl-textfield__input" type="text" rows= "3" name="review" maxlength="255"></textarea>
+    					<textarea class="mdl-textfield__input" type="text" rows= "3" name="review" maxlength="255">${review.comments}</textarea>
    						<label class="mdl-textfield__label" for="sample5">255 Character Max</label>
   					</div>
 					<br><br>
-					<!-- TODO: make it select the option that the user has picked out already -->
 					Review Privacy Setting:
 					<br>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="public">
-						<input type="radio" id="public" class="mdl-radio__button" name="reviewPrivacy" value="public">
+						<c:choose>
+							<c:when test="${review.privacy_setting == 0}">
+								<input type="radio" id="public" class="mdl-radio__button" name="reviewPrivacy" value="public" checked>
+							</c:when>
+							<c:otherwise>
+								<input type="radio" id="public" class="mdl-radio__button" name="reviewPrivacy" value="public">
+							</c:otherwise>
+						</c:choose>
 						<span class="mdl-radio__label">Public</span>
 					</label>
 					&nbsp;&nbsp;
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="private">
-					  	<input type="radio" id="private" class="mdl-radio__button" name="reviewPrivacy" value="private">
+						<c:choose>
+							<c:when test="${review.privacy_setting == 1}">
+								<input type="radio" id="private" class="mdl-radio__button" name="reviewPrivacy" value="private" checked>
+							</c:when>
+							<c:otherwise>
+								<input type="radio" id="private" class="mdl-radio__button" name="reviewPrivacy" value="private">
+							</c:otherwise>
+						</c:choose>
 					  	<span class="mdl-radio__label">Private</span>
 					</label>
 					&nbsp;&nbsp;
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="friends">
-					  	<input type="radio" id="friends" class="mdl-radio__button" name="reviewPrivacy" value="friends">
-					  	<span class="mdl-radio__label">Friends Only</span>
+						<c:choose>
+							<c:when test="${review.privacy_setting == 2}">
+								<input type="radio" id="friends" class="mdl-radio__button" name="reviewPrivacy" value="friends" checked>
+							</c:when>
+							<c:otherwise>
+								<input type="radio" id="friends" class="mdl-radio__button" name="reviewPrivacy" value="friends">
+							</c:otherwise>
+						</c:choose>
+						<span class="mdl-radio__label">Friends Only</span>
 					</label>
 					<br><br>
-					<a class="mdl-button mdl-js-button mdl-button--raised" href="ViewProfile?user_id=${user.user_id}">Cancel</a>
+					<a class="mdl-button mdl-js-button mdl-button--raised" href="Book?book_id=${book.book_id}">Cancel</a>
   					&nbsp;&nbsp;
 					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">Save Changes</button>
 				</form>

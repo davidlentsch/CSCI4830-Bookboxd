@@ -176,9 +176,9 @@
 						<div class="mdl-card__actions">
 							<ul class="mdl-menu mdl-js-menu mdl-menu--top-left mdl-js-ripple-effect" for="review${review.review_id}">
 									<a class="mdl-menu__item"
-										href="Lists?action=add&list_id=${list.list_id}&user_id=${list.user_id}&book_id=${item.book_id}">Edit</a>
+										href="EditReviewServlet?review_id=${review.review_id}&book_id=${book.book_id}">Edit</a>
 									<a class="mdl-menu__item"
-										href="Lists?action=add&list_id=${list.list_id}&user_id=${list.user_id}&book_id=${item.book_id}">Delete</a>
+										href="DeleteReviewServlet?review_id=${review.review_id}">Delete</a>
 							</ul>
 							<a class="android-link mdl-button mdl-js-button android-link-menu mdl-typography--text-uppercase"
 								id="review${review.review_id}">Actions<i class="material-icons">chevron_right</i></a>

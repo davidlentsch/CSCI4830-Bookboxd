@@ -46,8 +46,7 @@ public class DeleteReviewServlet extends HttpServlet {
 	            String destination = "ViewProfile?user_id=" + currentUser.getUser_id();
 	            
 	            // Forward request
-				RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
-	            dispatcher.forward(request, response);
+				response.sendRedirect(destination);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

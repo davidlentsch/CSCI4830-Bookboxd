@@ -65,8 +65,11 @@ public class ReviewUtility {
 					listId = l.getList_id();
 				}
 			}
-			
-			ListsUtility.addBookToList(listId, book_id);
+			try {
+				ListsUtility.addBookToList(listId, book_id);
+			} catch (Exception e) {
+				// do nothing, it's already on the list
+			}
 			
 			tx.commit();
 		} catch (HibernateException e) {
