@@ -14,6 +14,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import com.csci4830.bookboxd.Utility;
+import com.csci4830.datamodel.User;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -32,6 +35,7 @@ public class SeleniumTest {
 		
 		//If running this make sure the chrome driver is in the directory. Current version driver is 96
 		//System.setProperty("webdriver.chrome.driver", fileName);
+		//
 		WebDriverManager.chromedriver().browserVersion("96.0.4664.110").setup();
 		ChromeOptions options = new ChromeOptions();
 		//options.addArguments("start-maximized"); 
@@ -60,7 +64,7 @@ public class SeleniumTest {
 		driver.findElement(By.xpath("//*[text()='Register'][@type='submit']")).click();
 		//Sad sleep
 		Thread.sleep(WAIT*2);
-		driver.findElement(By.name("username")).sendKeys("Selenium");
+		driver.findElement(By.name("username")).sendKeys(FAKE_USERNAME);
 		Thread.sleep(WAIT);
 		driver.findElement(By.name("password")).sendKeys(PASSWORD);
 		Thread.sleep(WAIT);
@@ -103,8 +107,34 @@ public class SeleniumTest {
 		Thread.sleep(WAIT);
 		driver.findElement(By.xpath("//*[text()='Login'][@type='submit']")).click();
 	}
+	
 	@Test
-	public void testCSummonFriend() throws InterruptedException {
+	public void testCAccountSettings() throws InterruptedException {
+		driver.get("http://localhost:8080/bookboxd/index.html");
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//a[@href='login.jsp'][@data-upgraded=',MaterialButton,MaterialRipple']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.name("username")).sendKeys(USERNAME);
+		driver.findElement(By.name("password")).sendKeys(PASSWORD);
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//*[text()='Login'][@type='submit']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//i[@class='material-icons']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//*[text()=\"Edit Profile\"]")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.name("comments")).sendKeys("Im a robot,");
+		Thread.sleep(WAIT);
+		driver.findElement(By.name("comments")).sendKeys(" Yarr");
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//*[text()=\"Private\"]")).click();
+		Thread.sleep(WAIT*2);
+		driver.findElement(By.xpath("//*[text()='Save Changes'][@type='submit']")).click();
+	}
+	
+	
+	@Test
+	public void testDSummonFriend() throws InterruptedException {
 		driver.get("http://localhost:8080/bookboxd/index.html");
 		Thread.sleep(WAIT);
 		driver.findElement(By.xpath("//a[@href='login.jsp'][@data-upgraded=',MaterialButton,MaterialRipple']")).click();
@@ -117,11 +147,11 @@ public class SeleniumTest {
 		driver.findElement(By.xpath("//form[@action='Search']")).click();
 		Thread.sleep(WAIT);
 		WebElement toEnter = driver.findElement(By.id("searchBox"));
-		toEnter.sendKeys("Selenium");
+		toEnter.sendKeys(FAKE_USERNAME);
 		Thread.sleep(WAIT);
 		toEnter.sendKeys(Keys.RETURN);
 		Thread.sleep(WAIT*2);
-		driver.findElement(By.linkText("Selenium")).click();
+		driver.findElement(By.linkText(FAKE_USERNAME)).click();
 		Thread.sleep(WAIT);
 		driver.findElement(By.xpath("//i[@class='material-icons']")).click();
 		Thread.sleep(WAIT);
@@ -129,7 +159,7 @@ public class SeleniumTest {
 	}
 	
 	@Test
-	public void testDAcceptFriend() throws InterruptedException {
+	public void testEAcceptFriend() throws InterruptedException {
 		driver.get("http://localhost:8080/bookboxd/index.html");
 		Thread.sleep(WAIT);
 		driver.findElement(By.xpath("//a[@href='login.jsp'][@data-upgraded=',MaterialButton,MaterialRipple']")).click();
@@ -143,7 +173,7 @@ public class SeleniumTest {
 		
 		//Add quick decline later
 		
-		driver.findElement(By.linkText("Selenium2")).click();
+		driver.findElement(By.linkText(USERNAME)).click();
 		Thread.sleep(WAIT);
 		Thread.sleep(WAIT);
 		driver.findElement(By.xpath("//i[@class='material-icons']")).click();
@@ -154,18 +184,39 @@ public class SeleniumTest {
 		driver.findElement(By.xpath("//i[@class='material-icons']")).click();
 		Thread.sleep(WAIT);
 		driver.findElement(By.xpath("//a[text()=\"Profile\"]")).click();
-		driver.findElement(By.xpath("//a[text()=\"Selenium's friends\"]")).click();
+		driver.findElement(By.xpath("//a[text()=\"" + FAKE_USERNAME +"'s friends\"]")).click();
 	}
 	
 	
 	@Test
-	public void testEDestroyFriend() throws InterruptedException {
-		
+	public void testFDestroyFriend() throws InterruptedException {
+		driver.get("http://localhost:8080/bookboxd/index.html");
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//a[@href='login.jsp'][@data-upgraded=',MaterialButton,MaterialRipple']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.name("username")).sendKeys(USERNAME);
+		driver.findElement(By.name("password")).sendKeys(PASSWORD);
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//*[text()='Login'][@type='submit']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//a[text()=\""+USERNAME+"'s friends\"]")).click();
+		Thread.sleep(WAIT*2);
+		driver.findElement(By.linkText(FAKE_USERNAME)).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//i[@class='material-icons']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//*[text()=\"Remove Friend\"]")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//i[@class='material-icons']")).click();
+		Thread.sleep(WAIT);
+		driver.findElement(By.xpath("//a[text()=\"Profile\"]")).click();
+		driver.findElement(By.xpath("//a[text()=\"" + USERNAME +"'s friends\"]")).click();
 	}
 	
 	@After
 	public void close() throws InterruptedException {
-		Thread.sleep(2000);
-		//driver.quit();
+		Thread.sleep(1500);
+		//Utility.deleteDataObject(Utility.getUserByUsername(USERNAME));
+		driver.quit();
 	}
 }
