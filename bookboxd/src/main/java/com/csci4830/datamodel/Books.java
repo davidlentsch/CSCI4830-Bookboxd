@@ -138,7 +138,7 @@ public class Books {
 		if (getClass() != obj.getClass())
 			return false;
 		Books other = (Books) obj;
-		return Objects.equals(author, other.author) && Objects.equals(average_rating, other.average_rating)
+		return Objects.equals(author, other.author)
 				&& Objects.equals(book_id, other.book_id) && Objects.equals(book_name, other.book_name)
 				&& Objects.equals(description, other.description) && Objects.equals(genre, other.genre)
 				&& Objects.equals(image_url, other.image_url);
