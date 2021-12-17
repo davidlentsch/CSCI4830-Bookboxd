@@ -119,10 +119,6 @@
 								<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">pending</i>Friend Request Pending</a>
 					</c:when>
 				</c:choose>
-				<c:if test="${user.user_id != userProfile.user_id}">
-					<a class="mdl-navigation__link" href="ViewProfile?user_id=${user.user_id}">
-						<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">account_circle</i>Profile</a>
-				</c:if>
 				<c:if test="${user.user_id == userProfile.user_id}">
 					<a class="mdl-navigation__link" href="editProfile.jsp">
 						<i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">manage_accounts</i>Edit Profile</a>
