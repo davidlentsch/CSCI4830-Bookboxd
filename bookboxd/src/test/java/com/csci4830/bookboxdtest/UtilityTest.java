@@ -20,18 +20,6 @@ import com.csci4830.datamodel.*;
 public class UtilityTest {
 
 	@Test
-	public void testGetUsers() {
-		List<User> users = Utility.getUsers();
-		assertTrue(users.size() > 0);
-		
-		for (int i = 0; i < users.size(); i++)
-		{
-			assertTrue(!users.get(i).getUsername().isEmpty());
-			assertTrue(users.get(i).getUser_id() > 0);
-		}
-	}
-
-	@Test
 	public void testGetUserByUserID() {
 		User u = Utility.getUserByUserID(1);
 		assertTrue(u.getUsername().equals("ichiban"));
@@ -84,16 +72,6 @@ public class UtilityTest {
 		{
 			Books b = books.get(i);
 			assertTrue(b.getAuthor().equals("Harper Lee"));
-		}
-	}
-
-	@Test
-	public void testGetBooksByGenre() {
-		List<Books> books = Utility.getBooksByGenre("fantasy");
-		assertTrue(books.size() > 0);
-		
-		for (Books b : books) {
-			assertEquals(b.getGenre(), "fantasy");
 		}
 	}
 
